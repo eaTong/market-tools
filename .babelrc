@@ -1,0 +1,36 @@
+{
+  "presets": [
+    "next/babel",
+    "latest",
+    "stage-0"
+  ],
+  "plugins": [
+    "transform-decorators-legacy",
+    [
+      "module-resolver",
+      {
+        "root": [
+          "."
+        ],
+        "alias": {
+          "styles": "./styles",
+          "~util": "./util",
+          "~components": "./components",
+          "~server": "./server"
+        },
+        "cwd": "babelrc"
+      }
+    ],
+    [
+      "wrap-in-js",
+      {
+        "extensions": [
+          "css$",
+          "less$",
+          "scss$",
+          "sass$"
+        ]
+      }
+    ]
+  ]
+}
