@@ -4,13 +4,9 @@ dist
 
 # dependencies
 node_modules
-yarn.lock
 
 # webstorm config
 .idea
 
 # logs
 *.log
-static/upload
-static/blog.xml
-dev

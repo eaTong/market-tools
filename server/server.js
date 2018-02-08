@@ -2,14 +2,11 @@
  * Created by eatong on 18-2-8.
  */
 const path = require('path');
-const next = require('next');
-const {useStaticRendering} = require('mobx-react');
 const Koa = require('koa');
 const koaBody = require('koa-body');
 const koaConnect = require('koa-connect');
 const compression = require('compression');
 const cookie = require('koa-cookie').default;
-const staticCache = require('koa-static-cache');
 const serve = require('koa-static');
 const session = require('koa-generic-session');
 const MysqlStore = require('koa-mysql-session');
@@ -18,10 +15,6 @@ const {mysql} = require('./config');
 
 const port = parseInt(process.env.PORT, 10) || 8001;
 const dev = process.env.NODE_ENV !== 'production';
-const keys = ['key for eaTong'];
-
-
-useStaticRendering(true);
 
 const app = new Koa();
 //use compression
@@ -32,10 +25,8 @@ app.use(serve('assets'), {
   maxAge: 365 * 24 * 60 * 60,
   gzip: true
 });
-app.use(staticCache(path.join(__dirname, 'static'), {
-  maxAge: 365 * 24 * 60 * 60
-}));
 
+app.keys = ['key for eaTong'];
 app.use(session({
   store: new MysqlStore(mysql),
   rolling: true,
@@ -55,6 +46,10 @@ router.get('/admin*', async (ctx, next) => {
   } else {
     await next();
   }
+});
+
+router.get('*', async (ctx, next) => {
+  ctx.body = 'test....';
 });
 
 app.use(ctx => {
