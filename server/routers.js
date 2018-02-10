@@ -3,17 +3,23 @@
  */
 
 const Router = require('koa-router');
-const {checkArguments , checkLogin} = require('./framework/middleWare');
+const {checkArguments, checkLogin} = require('./framework/middleWare');
 const {ArgMissError, LogicError} = require('./framework/errors');
 
+const userApi = require('./apis/userApi');
 
 const router = new Router();
 //define data structure for all API
 router.post('/api/*', checkLogin);
+router.get('/api/*', checkLogin);
+
+router.post('/api/user/add', userApi.addUser);
+router.post('/api/user/get', userApi.getUsers);
+router.get('/api/user/get', userApi.getUsers);
 
 router.post('/api/*', async ctx => {
-    ctx.status = 404;
-    ctx.body = 'api not found';
+  ctx.status = 404;
+  ctx.body = 'api not found';
 });
 
 module.exports = router;

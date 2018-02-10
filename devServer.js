@@ -16,7 +16,7 @@ app.use(devMiddleware(compiler, {
 }));
 
 
-const SERVER_PATH = 'http://139.129.33.188:8001'; //beta
+const SERVER_PATH = 'http://127.0.0.1:8001'; //beta
 
 app.use('/api', proxy(url.parse(SERVER_PATH + '/api')));
 

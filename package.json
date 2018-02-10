@@ -9,6 +9,7 @@
   "author": "eaTong",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
     "compression": "^1.7.1",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",

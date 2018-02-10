@@ -39,6 +39,17 @@ app.use(koaBody({multipart: true}));
 //all routes just all API
 app.use(router.routes());
 
+app.use(async (ctx, next) => {
+  console.log(123123);
+  try {
+
+    const result = await next();
+  } catch (e) {
+    console.log(e);
+  }
+  console.log(result);
+});
+
 // /admin pages need to check login
 router.get('/admin*', async (ctx, next) => {
   if (!ctx.session.loginUser) {
@@ -48,15 +59,6 @@ router.get('/admin*', async (ctx, next) => {
   }
 });
 
-router.get('*', async (ctx, next) => {
-  ctx.body = 'test....';
-});
-
-app.use(ctx => {
-  ctx.respond = false;
-  ctx.res.statusCode = 200; // because koa defaults to 404
-  handler(ctx.req, ctx.res)
-});
 
 app.listen(port, (err) => {
   if (err) throw err;
