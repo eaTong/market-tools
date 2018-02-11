@@ -44,6 +44,7 @@ class UserPage extends Component {
       if (success) {
         message.success('添加用户成功');
         await this.getUsers();
+        this.toggleUserModal();
       }
 
     } else {
@@ -51,13 +52,13 @@ class UserPage extends Component {
       if (success) {
         message.success('添加用户成功');
         await this.getUsers();
+        this.toggleUserModal();
       }
-
     }
-
   }
 
   async deleteUser() {
+    console.log(this.state.selectedUsers.map(user => user.id));
     const {success} = await deleteUser({ids: this.state.selectedUsers.map(user => user.id)});
     if (success) {
       message.success('删除用户成功');

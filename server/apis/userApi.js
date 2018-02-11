@@ -15,7 +15,8 @@ class UserApi extends BaseApi {
   }
 
   static async deleteUsers(ctx) {
-    return await UserService.deleteUsers(ctx.request.body);
+    console.log(ctx.request.body.ids);
+    return await UserService.deleteUsers(ctx.request.body.ids);
   }
 
   static async getUsers(ctx) {
