@@ -9,6 +9,15 @@ class UserApi extends BaseApi {
   static async addUser(ctx) {
     return await UserService.addUser(ctx.request.body);
   }
+
+  static async updateUsers(ctx) {
+    return await UserService.updateUsers(ctx.request.body);
+  }
+
+  static async deleteUsers(ctx) {
+    return await UserService.deleteUsers(ctx.request.body);
+  }
+
   static async getUsers(ctx) {
     return await UserService.getUsers(ctx.request.body);
   }

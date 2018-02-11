@@ -15,7 +15,8 @@ router.get('/api/*', checkLogin);
 
 router.post('/api/user/add', userApi.addUser);
 router.post('/api/user/get', userApi.getUsers);
-router.get('/api/user/get', userApi.getUsers);
+router.post('/api/user/update', userApi.updateUsers);
+router.post('/api/user/delete', userApi.deleteUsers);
 
 router.post('/api/*', async ctx => {
   ctx.status = 404;

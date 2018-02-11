@@ -14,15 +14,15 @@ export default async function ajax(config) {
   try {
     result = await axios.post(url, data, {headers: headers});
     if (!result.data.success) {
-      notification.error({content: result.data.message})
+      notification.error({message: result.data.message})
     }
     cancelLoading();
     return result.data;
   } catch (ex) {
-    console.log(ex);
-    notification.error({content: ex.message});
+    console.log(ex.response.data.message || ex.message);
+    notification.error({message: ex.response.data.message || ex.message});
     cancelLoading();
-    return {success: false, data: {}, message: ex.message}
+    return {success: false, data: {}, message: ex.response.data.message}
   }
 };
 

@@ -1,2 +1,29 @@
 @import '~antd/lib/style/themes/default';
 @import "~antd/dist/antd.less";
+
+#root {
+  height: 100%;
+  .main-body {
+    height: 100%;
+  }
+}
+
+.ant-layout {
+  height: 100%;
+}
+
+.base-layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .header {
+    height: 45px;
+    line-height: 45px;
+    display: flex;
+    background-color: #fff;
+    padding: 0 15px;
+    .label {
+      flex: 1;
+    }
+  }
+}

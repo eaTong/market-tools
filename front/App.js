@@ -6,11 +6,10 @@ import {BrowserRouter as Router, Route, Link,} from 'react-router-dom';
 import {LocaleProvider} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import PropTypes from 'prop-types';
-// import 'antd/dist/antd.less'
+import AdminLayout from './components/AdminLayout';
 import './app.less';
 
 import HomePage from './pages/HomePage';
-import AdminPage from './pages/admin/AdminPage';
 import UserPage from './pages/user/UserPage';
 
 class App extends React.Component {
@@ -21,8 +20,13 @@ class App extends React.Component {
         <Router>
           <div className="main-body">
             <Route exact path="/" component={HomePage}/>
-            <Route path="/admin" component={AdminPage}/>
-            <Route path="/admin/user" component={UserPage}/>
+            <Route path="/admin" component={(props) => (
+              <AdminLayout {...props}>
+                <Route path="/admin/user" component={UserPage}/>
+                <Route path="/admin/input" component={() => (<div>input....</div>)}/>
+              </AdminLayout>
+            )}>
+            </Route>
           </div>
         </Router>
       </LocaleProvider>

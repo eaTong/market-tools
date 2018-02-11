@@ -2,7 +2,7 @@
  * Created by eatong on 17-12-28.
  */
 
-const {ArgMissError} = require('./errors');
+const {ArgMissError, LogicError} = require('./errors');
 
 module.exports.checkArguments = (args) => {
   return async (ctx, next) => {
