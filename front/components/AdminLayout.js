@@ -17,7 +17,8 @@ const AdminLayout = props => {
             props.history.push(key);
           }}
         >
-          <Menu.Item key="/admin/channel"> <Icon type="share-alt" /><span>渠道管理</span></Menu.Item>
+          <Menu.Item key="/admin/record"> <Icon type="download"/><span>数据录入</span></Menu.Item>
+          <Menu.Item key="/admin/channel"> <Icon type="share-alt"/><span>渠道管理</span></Menu.Item>
           <Menu.Item key="/admin/user"> <Icon type="user"/><span>用户管理</span></Menu.Item>
         </Menu>
       </Sider>

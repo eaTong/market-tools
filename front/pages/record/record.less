@@ -1,0 +1,29 @@
+@import '~antd/lib/style/themes/default';
+
+.record-modal {
+  .ant-modal-body {
+    padding: 0;
+
+    .record-modal-list {
+      display: flex;
+      flex-wrap: wrap;
+      .record-modal-item {
+        flex: 1;
+        border: 1px solid @border-color-base;
+        border-radius: 4px;
+        margin: 10px;
+        padding: 0 10px;
+        min-width: 200px;
+
+        .ant-form-item {
+          margin-bottom: 5px;
+          .ant-form-item-label {
+            height: 20px;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+  }
+
+}

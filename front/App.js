@@ -12,6 +12,7 @@ import './app.less';
 import HomePage from './pages/HomePage';
 import UserPage from './pages/user/UserPage';
 import ChannelPage from './pages/channels/ChannelPage';
+import RecordPage from './pages/record/RecordPage';
 
 class App extends React.Component {
 
@@ -25,6 +26,7 @@ class App extends React.Component {
               <AdminLayout {...props}>
                 <Route path="/admin/user" component={UserPage}/>
                 <Route path="/admin/channel" component={ChannelPage}/>
+                <Route path="/admin/record" component={RecordPage}/>
               </AdminLayout>
             )}>
             </Route>
