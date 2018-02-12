@@ -39,17 +39,6 @@ app.use(koaBody({multipart: true}));
 //all routes just all API
 app.use(router.routes());
 
-app.use(async (ctx, next) => {
-  console.log(123123);
-  try {
-
-    const result = await next();
-  } catch (e) {
-    console.log(e);
-  }
-  console.log(result);
-});
-
 // /admin pages need to check login
 router.get('/admin*', async (ctx, next) => {
   if (!ctx.session.loginUser) {

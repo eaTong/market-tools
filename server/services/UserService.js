@@ -25,7 +25,7 @@ class UserService extends BaseService {
   }
 
   static async getUsers() {
-    return await User.findAll();
+    return await User.findAll({where:{enable:true}});
   }
 }
 

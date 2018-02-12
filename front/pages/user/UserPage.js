@@ -10,7 +10,6 @@ const ButtonGroup = Button.Group;
 const columns = [
   {title: '姓名', dataIndex: 'name', key: 'name'},
   {title: '账号', dataIndex: 'account', key: 'account'},
-  {title: '是否启用', dataIndex: 'enable', key: 'enable', render: val => val ? '启用' : '禁用'},
 ];
 
 class UserPage extends Component {

@@ -37,6 +37,7 @@ module.exports.checkLogin = async (ctx, next) => {
     const data = await next();
     ctx.body = {success: true, data, message: ''};
   } catch (ex) {
+    console.log(ex);
     if (ex instanceof ArgMissError) {
       ctx.status = 400;
       ctx.body = {success: false, data: {}, message: ex.message};
