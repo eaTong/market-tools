@@ -10,5 +10,4 @@ const Channel = sequelize.define('channel', {
   enable: Sequelize.BOOLEAN,
 });
 
-
 module.exports = Channel;

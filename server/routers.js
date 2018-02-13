@@ -8,6 +8,7 @@ const {ArgMissError, LogicError} = require('./framework/errors');
 
 const userApi = require('./apis/userApi');
 const channelApi = require('./apis/channelApi');
+const recordApi = require('./apis/recordApi');
 
 const router = new Router();
 //define data structure for all API
@@ -23,6 +24,10 @@ router.post('/api/channel/add', channelApi.addChannel);
 router.post('/api/channel/get', channelApi.getChannels);
 router.post('/api/channel/update', channelApi.updateChannels);
 router.post('/api/channel/delete', channelApi.deleteChannels);
+
+router.post('/api/record/get', recordApi.getRecords);
+router.post('/api/record/update', recordApi.updateRecords);
+router.post('/api/record/delete', recordApi.deleteRecords);
 
 router.post('/api/*', async ctx => {
   ctx.status = 404;
