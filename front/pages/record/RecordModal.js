@@ -14,8 +14,17 @@ class RecordModal extends Component {
   }
 
   componentDidMount() {
-    if (this.props.operateType === 'edit') {
-      this.props.form.setFieldsValue(this.props.formData);
+    if (this.props.formData) {
+      // this.props.form.setFieldsValue(this.props.formData);
+      const initialValue = {};
+      for (let record of this.props.formData) {
+        initialValue[`clue${record.channel_id}`] = record.clue;
+        initialValue[`yzz${record.channel_id}`] = record.yzz;
+        initialValue[`zztx${record.channel_id}`] = record.zztx;
+        initialValue[`consume${record.channel_id}`] = record.consume;
+      }
+      this.props.form.setFieldsValue(initialValue);
+
     }
   }
 
@@ -106,7 +115,7 @@ RecordModal.propTypes = {
   operateType: PropTypes.string,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
-  formData: PropTypes.object
+  formData: PropTypes.array
 };
 RecordModal = Form.create()(RecordModal);
 export default RecordModal;

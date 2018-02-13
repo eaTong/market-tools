@@ -28,7 +28,7 @@ const DateCell = props => {
     )
 
   } else {
-    return (<div className="date-cell no-data">未录入</div>)
+    return (<div className="date-cell no-data" onDoubleClick={props.onDoubleClick}>未录入</div>)
   }
 };
 DateCell.propsType = {};

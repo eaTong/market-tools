@@ -2,7 +2,7 @@
  * Created by eatong on 18-2-12.
  */
 import React, {Component} from 'react';
-import {Calendar} from 'antd';
+import {Calendar, message} from 'antd';
 import DateCell from "./DateCell";
 import RecordModal from "./RecordModal";
 import {getChannel} from '../channels/channelAction';
@@ -47,36 +47,43 @@ class RecordPage extends Component {
   async onSaveRecord(values) {
     // const data = {date: this.state.now.format('YYYY-MM-DD'), records};
     const now = this.state.now.format('YYYY-MM-DD');
-    const data = {};
+    const formData = {};
     for (let key in values) {
       const id = key.match(/\d/)[0];
-      data[id] = data[id] || {};
-      data[id][key.replace(/\d/, '')] = values[key];
+      formData[id] = formData[id] || {};
+      formData[id][key.replace(/\d/, '')] = values[key];
     }
     const records = [];
-    for (let key in data) {
-      records.push({...data[key], channel_id: key});
+    for (let key in formData) {
+      records.push({...formData[key], channel_id: key});
     }
-    await updateRecord({records, date: now});
+    const {success, data} = await updateRecord({records, date: now});
+    if (success) {
+      message.success('数据录入成功！');
+      this.toggleRecordModal();
+      await this.getRecords();
+    }
   }
 
   render() {
-    const {showRecordModal, channels, calendarRecords} = this.state;
-    console.log(calendarRecords);
+    const {showRecordModal, channels, calendarRecords, now} = this.state;
     return (
       <div className="base-layout record-page">
         <Calendar
           className="content"
-          dateCellRender={now => (
-            <DateCell now={now}
-                      onDoubleClick={() => this.toggleRecordModal(now)}
-                      data={calendarRecords[now.format('YYYY-MM-DD')]}/>
+          dateCellRender={val => (
+            <DateCell
+              now={val}
+              onDoubleClick={() => this.toggleRecordModal(val)}
+              data={calendarRecords[val.format('YYYY-MM-DD')]}/>
           )}
         />
         {showRecordModal && (
-          <RecordModal onCancel={() => this.toggleRecordModal()}
-                       channels={channels}
-                       onOk={(data) => this.onSaveRecord(data)}/>)}
+          <RecordModal
+            formData={now.format ? calendarRecords[now.format('YYYY-MM-DD')] : undefined}
+            onCancel={() => this.toggleRecordModal()}
+            channels={channels}
+            onOk={(data) => this.onSaveRecord(data)}/>)}
       </div>
     );
   }
