@@ -2,11 +2,12 @@
  * Created by eatong on 18-2-10.
  */
 const md5 = require('crypto-js/md5');
-const {Op} = require('sequelize');
-
+const sequelize = require('sequelize');
 const BaseService = require('../framework/BaseService');
 const Record = require('../models/RecordModel');
 const Channel = require('../models/ChannelModel');
+
+const {Op} = sequelize;
 
 class RecordService extends BaseService {
 
@@ -35,7 +36,18 @@ class RecordService extends BaseService {
 
       return await Record.findAll({where: {date: {[Op.between]: [startDate, endDate]}}, include: {model: Channel}});
     } else {
-      return [];
+      // return [];
+      return await Record.findAll({
+        group: ['month'],
+        attributes: [
+          'month',
+          [sequelize.fn('sum', sequelize.col('clue')), 'clue'],
+          [sequelize.fn('sum', sequelize.col('yzz')), 'yzz'],
+          [sequelize.fn('sum', sequelize.col('zztx')), 'zztx'],
+          [sequelize.fn('sum', sequelize.col('consume')), 'consume'],
+        ],
+        where: {date: {[Op.between]: [startDate, endDate]}}
+      });
     }
 
   }
@@ -64,4 +76,4 @@ module.exports = RecordService;
   console.log(result);
 })();*/
 
-// RecordService.getRecords({startDate: '2018-02-01', endDate: '2018-02-28'});
+RecordService.getRecords({startDate: '2018-01-01', endDate: '2018-12-31', calendarType: 'year'});

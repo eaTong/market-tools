@@ -9,6 +9,7 @@ import RecordModal from "./RecordModal";
 import {getChannel} from '../channels/channelAction';
 import {updateRecord, getRecords} from './recordAction';
 import './record.less';
+import MonthCell from "./MonthCell";
 
 class RecordPage extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class RecordPage extends Component {
       selectedDate: null,
       calendarType: 'month',
       nowDate: {},
-      calendarRecords: {}
+      calendarRecords: {},
+      monthSum: {}
     };
   }
 
@@ -34,6 +36,7 @@ class RecordPage extends Component {
   }
 
   onPanelChange(nowDate, calendarType) {
+    console.log(nowDate.format('YYYY-MM-DD'));
     this.setState({nowDate, calendarType}, () => this.getRecords())
   }
 
@@ -43,12 +46,21 @@ class RecordPage extends Component {
     const calendarType = this.state.calendarType;
     const {success, data} = await getRecords({startDate, endDate, calendarType});
     if (success) {
-      const calendarRecords = {};
-      for (let record of data) {
-        calendarRecords[record.date] = calendarRecords[record.date] ? calendarRecords[record.date] : [];
-        calendarRecords[record.date].push(record);
+      if (calendarType === 'month') {
+        const calendarRecords = {};
+        for (let record of data) {
+          calendarRecords[record.date] = calendarRecords[record.date] ? calendarRecords[record.date] : [];
+          calendarRecords[record.date].push(record);
+        }
+        this.setState({calendarRecords});
+      } else {
+        const monthSum = {};
+        for (let monthly of data) {
+          // monthSum[record.month] = monthSum[record.month] ? monthSum[record.month] : [];
+          monthSum[monthly.month] = monthly;
+        }
+        this.setState({monthSum});
       }
-      this.setState({calendarRecords});
     }
   }
 
@@ -77,19 +89,23 @@ class RecordPage extends Component {
   }
 
   render() {
-    const {showRecordModal, channels, calendarRecords, selectedDate, nowDate} = this.state;
+    const {showRecordModal, channels, calendarRecords, selectedDate, nowDate, monthSum} = this.state;
     return (
       <div className="base-layout record-page">
         <Calendar
           disabledDate={currentDate => nowDate.get('month') !== currentDate.get('month')}
           className="content"
           mode="month"
+          value={nowDate}
           onPanelChange={this.onPanelChange.bind(this)}
           dateCellRender={val => (
             <DateCell
               now={val}
               onDoubleClick={() => this.toggleRecordModal(val)}
               data={calendarRecords[val.format('YYYY-MM-DD')]}/>
+          )}
+          monthCellRender={val => (
+            <MonthCell data={monthSum[val.get('month') + 1]}/>
           )}
         />
         {showRecordModal && (
