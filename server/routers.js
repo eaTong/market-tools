@@ -28,6 +28,7 @@ router.post('/api/channel/delete', channelApi.deleteChannels);
 router.post('/api/record/get', recordApi.getRecords);
 router.post('/api/record/update', recordApi.updateRecords);
 router.post('/api/record/delete', recordApi.deleteRecords);
+router.post('/api/record/monthly', recordApi.getMonthlyReport);
 
 router.post('/api/*', async ctx => {
   ctx.status = 404;

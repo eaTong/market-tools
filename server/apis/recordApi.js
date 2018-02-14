@@ -22,6 +22,9 @@ class RecordApi extends BaseApi {
   static async getRecords(ctx) {
     return await RecordService.getRecords(ctx.request.body);
   }
+  static async getMonthlyReport(ctx) {
+    return await RecordService.getMonthlyReport(ctx.request.body);
+  }
 }
 
 module.exports = RecordApi;

@@ -13,6 +13,7 @@ import HomePage from './pages/HomePage';
 import UserPage from './pages/user/UserPage';
 import ChannelPage from './pages/channels/ChannelPage';
 import RecordPage from './pages/record/RecordPage';
+import DashboardPage from './pages/dashboard/DashboardPage';
 
 class App extends React.Component {
 
@@ -27,6 +28,7 @@ class App extends React.Component {
                 <Route path="/admin/user" component={UserPage}/>
                 <Route path="/admin/channel" component={ChannelPage}/>
                 <Route path="/admin/record" component={RecordPage}/>
+                <Route path="/admin/dashboard" component={DashboardPage}/>
               </AdminLayout>
             )}>
             </Route>

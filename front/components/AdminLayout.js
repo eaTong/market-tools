@@ -9,7 +9,7 @@ const {Header, Content, Sider} = Layout;
 const AdminLayout = props => {
   return (
     <Layout className="layout">
-      <Sider breakpoint="md">
+      <Sider breakpoint="lg">
         <Menu
           theme="dark"
           selectedKeys={[window.location.pathname]}
@@ -18,6 +18,7 @@ const AdminLayout = props => {
           }}
         >
           <Menu.Item key="/admin/record"> <Icon type="download"/><span>数据录入</span></Menu.Item>
+          <Menu.Item key="/admin/dashboard"> <Icon type="dashboard"/><span>统计图表</span></Menu.Item>
           <Menu.Item key="/admin/channel"> <Icon type="share-alt"/><span>渠道管理</span></Menu.Item>
           <Menu.Item key="/admin/user"> <Icon type="user"/><span>用户管理</span></Menu.Item>
         </Menu>

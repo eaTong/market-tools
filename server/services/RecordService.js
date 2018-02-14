@@ -33,7 +33,6 @@ class RecordService extends BaseService {
 
   static async getRecords({startDate, endDate, calendarType}) {
     if (calendarType === 'month') {
-
       return await Record.findAll({where: {date: {[Op.between]: [startDate, endDate]}}, include: {model: Channel}});
     } else {
       // return [];
@@ -49,7 +48,21 @@ class RecordService extends BaseService {
         where: {date: {[Op.between]: [startDate, endDate]}}
       });
     }
+  }
 
+  static async getMonthlyReport({startDate, endDate}) {
+    return await Record.findAll({
+      group: ['day'],
+      attributes: [
+        'day',
+        [sequelize.fn('sum', sequelize.col('clue')), 'clue'],
+        [sequelize.fn('sum', sequelize.col('yzz')), 'yzz'],
+        [sequelize.fn('sum', sequelize.col('zztx')), 'zztx'],
+        [sequelize.fn('sum', sequelize.col('consume')), 'consume'],
+      ],
+      where: {date: {[Op.between]: [startDate, endDate]}},
+
+    });
   }
 }
 
