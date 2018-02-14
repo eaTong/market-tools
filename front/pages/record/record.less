@@ -1,6 +1,20 @@
 @import '~antd/lib/style/themes/default';
 
 .record-page {
+  .ant-fullcalendar-date {
+    padding: 0;
+    position: relative;
+    .ant-fullcalendar-value {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+    .ant-fullcalendar-content {
+      width: 100%;
+      height: 100%;
+      padding: 20px 5px 0 5px;
+    }
+  }
   .date-cell {
     font-size: 10px;
     display: flex;
@@ -9,6 +23,7 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    user-select: none;
     &.no-data {
       align-items: center;
     }

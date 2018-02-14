@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 import {Calendar, message} from 'antd';
+import moment from 'moment';
 import DateCell from "./DateCell";
 import RecordModal from "./RecordModal";
 import {getChannel} from '../channels/channelAction';
@@ -15,21 +16,32 @@ class RecordPage extends Component {
     this.state = {
       showRecordModal: false,
       channels: [],
-      now: {},
+      selectedDate: null,
+      calendarType: 'month',
+      nowDate: {},
       calendarRecords: {}
     };
+  }
+
+  componentWillMount() {
+    this.state.nowDate = moment();
   }
 
   async componentDidMount() {
     const {success, data} = await getChannel();
     success && this.setState({channels: data});
-    // const recordResult = await getRecords();
     await this.getRecords();
   }
 
+  onPanelChange(nowDate, calendarType) {
+    this.setState({nowDate, calendarType}, () => this.getRecords())
+  }
+
   async getRecords() {
-    const {success, data} = await getRecords();
-    // success && this.setState({records: data});
+    const startDate = this.state.nowDate.startOf(this.state.calendarType).format('YYYY-MM-DD');
+    const endDate = this.state.nowDate.endOf(this.state.calendarType).format('YYYY-MM-DD');
+    const calendarType = this.state.calendarType;
+    const {success, data} = await getRecords({startDate, endDate, calendarType});
     if (success) {
       const calendarRecords = {};
       for (let record of data) {
@@ -40,13 +52,12 @@ class RecordPage extends Component {
     }
   }
 
-  toggleRecordModal(now) {
-    this.setState({now, showRecordModal: !this.state.showRecordModal});
+  toggleRecordModal(selectedDate) {
+    this.setState({selectedDate, showRecordModal: !this.state.showRecordModal});
   }
 
   async onSaveRecord(values) {
-    // const data = {date: this.state.now.format('YYYY-MM-DD'), records};
-    const now = this.state.now.format('YYYY-MM-DD');
+    const date = this.state.selectedDate.format('YYYY-MM-DD');
     const formData = {};
     for (let key in values) {
       const id = key.match(/\d/)[0];
@@ -57,7 +68,7 @@ class RecordPage extends Component {
     for (let key in formData) {
       records.push({...formData[key], channel_id: key});
     }
-    const {success, data} = await updateRecord({records, date: now});
+    const {success} = await updateRecord({records, date});
     if (success) {
       message.success('数据录入成功！');
       this.toggleRecordModal();
@@ -66,11 +77,14 @@ class RecordPage extends Component {
   }
 
   render() {
-    const {showRecordModal, channels, calendarRecords, now} = this.state;
+    const {showRecordModal, channels, calendarRecords, selectedDate, nowDate} = this.state;
     return (
       <div className="base-layout record-page">
         <Calendar
+          disabledDate={currentDate => nowDate.get('month') !== currentDate.get('month')}
           className="content"
+          mode="month"
+          onPanelChange={this.onPanelChange.bind(this)}
           dateCellRender={val => (
             <DateCell
               now={val}
@@ -80,7 +94,7 @@ class RecordPage extends Component {
         />
         {showRecordModal && (
           <RecordModal
-            formData={now.format ? calendarRecords[now.format('YYYY-MM-DD')] : undefined}
+            formData={selectedDate ? calendarRecords[selectedDate.format('YYYY-MM-DD')] : undefined}
             onCancel={() => this.toggleRecordModal()}
             channels={channels}
             onOk={(data) => this.onSaveRecord(data)}/>)}

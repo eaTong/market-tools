@@ -17,10 +17,11 @@ class RecordService extends BaseService {
   }
 
   static async updateRecords(data) {
+    const date = data.date.split('-');
     await Record.destroy({where: {date: {[Op.eq]: data.date}}});
     const records = [];
     for (let record of data.records) {
-      records.push({...record, date: data.date});
+      records.push({...record, date: data.date, year: date[0], month: date[1], day: date[2]});
     }
     return await Record.bulkCreate(records);
   }
@@ -29,8 +30,14 @@ class RecordService extends BaseService {
     return await Record.update({enable: false}, {where: {id: {[Op.in]: ids}}});
   }
 
-  static async getRecords() {
-    return await Record.findAll({include: {model: Channel}});
+  static async getRecords({startDate, endDate, calendarType}) {
+    if (calendarType === 'month') {
+
+      return await Record.findAll({where: {date: {[Op.between]: [startDate, endDate]}}, include: {model: Channel}});
+    } else {
+      return [];
+    }
+
   }
 }
 
@@ -53,6 +60,8 @@ module.exports = RecordService;
   };
   // const records = await RecordService.updateRecords(data);
   // console.log(records.toString())
-  await RecordService.getRecords();
+  const result = await RecordService.getRecords({startDate: '2018-02-01', endDate: '2018-02-28'});
+  console.log(result);
 })();*/
 
+// RecordService.getRecords({startDate: '2018-02-01', endDate: '2018-02-28'});

@@ -13,10 +13,13 @@ const Record = sequelize.define('record', {
   zztx: Sequelize.INTEGER,
   yzz: Sequelize.INTEGER,
   consume: Sequelize.INTEGER,
-  contract: Sequelize.INTEGER
+  contract: Sequelize.INTEGER,
+  year: Sequelize.INTEGER,
+  month: Sequelize.INTEGER,
+  day: Sequelize.INTEGER,
 });
 
 Channel.hasMany(Record, {foreignKey: 'channel_id'});
-Record.belongsTo(Channel,{foreignKey:'channel_id'});
+Record.belongsTo(Channel, {foreignKey: 'channel_id'});
 module.exports = Record;
 
