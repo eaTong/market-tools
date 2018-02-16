@@ -1,6 +1,7 @@
 /**
  * Created by eatong on 18-2-10.
  */
+const {LogicError} = require("../framework/errors");
 const UserService = require('../services/UserService');
 const BaseApi = require('../framework/BaseApi');
 
@@ -15,12 +16,21 @@ class UserApi extends BaseApi {
   }
 
   static async deleteUsers(ctx) {
-    console.log(ctx.request.body.ids);
     return await UserService.deleteUsers(ctx.request.body.ids);
   }
 
   static async getUsers(ctx) {
     return await UserService.getUsers(ctx.request.body);
+  }
+
+  static async login(ctx) {
+    const user = await UserService.login(ctx.request.body);
+    if (!user) {
+      throw new LogicError('用户名或密码错误！');
+    } else {
+      ctx.session.loginUser = user;
+      return {login: true};
+    }
   }
 }
 

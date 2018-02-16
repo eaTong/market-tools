@@ -8,7 +8,8 @@ const koaConnect = require('koa-connect');
 const compression = require('compression');
 const cookie = require('koa-cookie').default;
 const serve = require('koa-static');
-const session = require('koa-generic-session');
+// const session = require('koa-generic-session');
+const session = require('koa-session-minimal');
 const MysqlStore = require('koa-mysql-session');
 const router = require('./routers');
 const {mysql} = require('./config');
@@ -26,7 +27,7 @@ app.use(serve('assets'), {
   gzip: true
 });
 
-app.keys = ['key for eaTong'];
+app.keys = ['key-for-eaTong'];
 app.use(session({
   store: new MysqlStore(mysql),
   rolling: true,

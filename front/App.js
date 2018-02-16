@@ -10,6 +10,7 @@ import AdminLayout from './components/AdminLayout';
 import './app.less';
 
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/login/LoginPage';
 import UserPage from './pages/user/UserPage';
 import ChannelPage from './pages/channels/ChannelPage';
 import RecordPage from './pages/record/RecordPage';
@@ -23,6 +24,7 @@ class App extends React.Component {
         <Router>
           <div className="main-body">
             <Route exact path="/" component={HomePage}/>
+            <Route exact path="/login" component={LoginPage}/>
             <Route path="/admin" component={(props) => (
               <AdminLayout {...props}>
                 <Route path="/admin/user" component={UserPage}/>

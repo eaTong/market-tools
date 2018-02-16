@@ -25,7 +25,13 @@ class UserService extends BaseService {
   }
 
   static async getUsers() {
-    return await User.findAll({where:{enable:true}});
+    return await User.findAll({where: {enable: true}});
+  }
+
+  static async login({account, password}) {
+    return await User.findOne({where: {account, enable: true, password: md5(password).toString()}});
+    // console.log(user.toJSON());
+    // return await User.findAll({where:{enable:true}});
   }
 }
 
@@ -35,6 +41,8 @@ module.exports = UserService;
 // UserService.addUser({name: 'eaTong', account: '15284412582', password: 'eatong123'})
 // UserService.updateUsers({name: 'eaTong', account: '18288757143', id: 5})
 // UserService.deleteUsers([21]);
+
+UserService.login({account: '123', password: '123'});
 
 /*
 (async () => {

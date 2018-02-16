@@ -19,6 +19,7 @@ router.post('/api/user/add', userApi.addUser);
 router.post('/api/user/get', userApi.getUsers);
 router.post('/api/user/update', userApi.updateUsers);
 router.post('/api/user/delete', userApi.deleteUsers);
+router.post('/api/user/login', userApi.login);
 
 router.post('/api/channel/add', channelApi.addChannel);
 router.post('/api/channel/get', channelApi.getChannels);
