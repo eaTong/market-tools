@@ -3,32 +3,50 @@
  */
 import React, {Component} from 'react';
 import ReactEcharts from 'echarts-for-react';
+import moment from 'moment';
 import {getMonthlyRecord, getChannel} from './dashboardAction';
+import {Button, DatePicker, Checkbox, Popover} from 'antd';
+
+const MonthPicker = DatePicker.MonthPicker;
+// const Option = Select.Option;
+const CheckboxGroup = Checkbox.Group;
 
 class DashboardPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       monthlyRecord: [],
-      channels: []
+      channels: [],
+      checkedChannels: [],
+      startDate: '',
+      endDate: ''
     };
+  }
+
+  componentWillMount() {
+    this.state.startDate = moment().startOf('month').format('YYYY-MM-DD');
+    this.state.endDate = moment().endOf('month').format('YYYY-MM-DD');
   }
 
   async componentDidMount() {
     const {success, data} = await getChannel();
-    success && this.setState({channels: data});
+    success && this.setState({channels: data, checkedChannels: data});
     await this.getMonthlyRecord();
   }
 
   async getMonthlyRecord() {
 
-    const startDate = '2018-02-01', endDate = '2018-02-28';
-    const {success, data} = await getMonthlyRecord({startDate, endDate});
+    const {startDate, endDate, checkedChannels} = this.state;
+    const {success, data} = await getMonthlyRecord({
+      startDate,
+      endDate,
+      channels: checkedChannels.map(channel => channel.id)
+    });
     success && this.setState({monthlyRecord: data})
   }
 
   getOption() {
-    const {channels, monthlyRecord} = this.state;
+    const {monthlyRecord} = this.state;
     const seriesData = {
       days: [],
       clue: [],
@@ -45,7 +63,7 @@ class DashboardPage extends Component {
     }
     return {
       title: {
-        text: '折线图堆叠'
+        text: `月度统计数据`
       },
       tooltip: {
         trigger: 'axis'
@@ -82,10 +100,43 @@ class DashboardPage extends Component {
     };
   }
 
+  getChannelLabel() {
+    const {channels, checkedChannels} = this.state;
+    if (checkedChannels.length === 0) {
+      return '请选择'
+    } else if (channels.length === checkedChannels.length) {
+      return '全部'
+    } else {
+      return checkedChannels.map(channel => channel.name).join('、')
+    }
+  }
+
   render() {
-    console.log(this.getOption());
+    const {channels, checkedChannels} = this.state;
     return (
       <div className="dashboard-page base-layout">
+        <header className="header">
+          <div className="search-filter">
+            <span>月份选择:</span>
+            <MonthPicker onChange={(val) =>
+              this.setState({
+                startDate: val.startOf('month').format('YYYY-MM-DD'),
+                endDate: val.endOf('month').format('YYYY-MM-DD')
+              })}/>
+            <span>渠道筛选：</span>
+            <Popover content={(
+              <CheckboxGroup value={checkedChannels}
+                             onChange={(checkedChannels) => this.setState({checkedChannels})}>
+                {channels.map(channel => (
+                  <p key={channel.id}><Checkbox value={channel} data={channel}>{channel.name}</Checkbox></p>
+                ))}
+              </CheckboxGroup>
+            )}>
+              <span className="multi-filter-label">{this.getChannelLabel()}</span>
+            </Popover>
+          </div>
+          <div className="buttons"><Button onClick={() => this.getMonthlyRecord()}>查询</Button></div>
+        </header>
 
         <ReactEcharts option={this.getOption()} className="content" style={{height: '100%'}}/>
       </div>

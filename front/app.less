@@ -12,18 +12,35 @@
   height: 100%;
 }
 
+.multi-filter-label {
+  max-width: 150px;
+  overflow: hidden;
+  word-break: keep-all;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
 .base-layout {
   height: 100vh;
   display: flex;
   flex-direction: column;
   .header {
-    height: 45px;
+    min-height: 45px;
     line-height: 45px;
     display: flex;
     background-color: #fff;
     padding: 0 15px;
     .label {
       flex: 1;
+    }
+    .search-filter {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      & > * {
+        margin-right: 5px;
+      }
     }
   }
 }

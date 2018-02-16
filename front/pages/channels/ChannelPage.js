@@ -57,7 +57,6 @@ class ChannelPage extends Component {
   }
 
   async deleteChannel() {
-    console.log(this.state.selectedChannels.map(channel => channel.id));
     const {success} = await deleteChannel({ids: this.state.selectedChannels.map(channel => channel.id)});
     if (success) {
       message.success('删除用户成功');
@@ -85,7 +84,6 @@ class ChannelPage extends Component {
             pagination={false}
             rowSelection={{
               onChange: (selectedKeys, selectedChannels) => {
-                // console.log(a, b, c)
                 this.setState({selectedChannels})
               }
             }}/>

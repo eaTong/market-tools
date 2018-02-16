@@ -57,7 +57,6 @@ class UserPage extends Component {
   }
 
   async deleteUser() {
-    console.log(this.state.selectedUsers.map(user => user.id));
     const {success} = await deleteUser({ids: this.state.selectedUsers.map(user => user.id)});
     if (success) {
       message.success('删除用户成功');
@@ -85,7 +84,6 @@ class UserPage extends Component {
             pagination={false}
             rowSelection={{
               onChange: (selectedKeys, selectedUsers) => {
-                // console.log(a, b, c)
                 this.setState({selectedUsers})
               }
             }}/>

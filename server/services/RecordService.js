@@ -50,7 +50,7 @@ class RecordService extends BaseService {
     }
   }
 
-  static async getMonthlyReport({startDate, endDate}) {
+  static async getMonthlyReport({startDate, endDate, channels}) {
     return await Record.findAll({
       group: ['day'],
       attributes: [
@@ -60,7 +60,7 @@ class RecordService extends BaseService {
         [sequelize.fn('sum', sequelize.col('zztx')), 'zztx'],
         [sequelize.fn('sum', sequelize.col('consume')), 'consume'],
       ],
-      where: {date: {[Op.between]: [startDate, endDate]}},
+      where: {date: {[Op.between]: [startDate, endDate]}, channel_id: {[Op.in]: channels}},
 
     });
   }

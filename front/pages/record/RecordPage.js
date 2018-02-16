@@ -36,7 +36,6 @@ class RecordPage extends Component {
   }
 
   onPanelChange(nowDate, calendarType) {
-    console.log(nowDate.format('YYYY-MM-DD'));
     this.setState({nowDate, calendarType}, () => this.getRecords())
   }
 
