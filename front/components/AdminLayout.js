@@ -14,6 +14,7 @@ const AdminLayout = props => {
           theme="dark"
           selectedKeys={[window.location.pathname]}
           onClick={({key}) => {
+            window.localStorage.setItem('lastUrl', key);
             props.history.push(key);
           }}
         >

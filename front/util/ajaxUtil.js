@@ -28,6 +28,7 @@ export default async function ajax(config) {
       // history.push('/login')
       // window.history.pushState({}, '/login')
       // window.history.
+      window.localStorage.setItem('lastUrl', window.location.pathname);
       window.location.href = '/login'
     }
     console.log(ex.response.data.message || ex.message);
