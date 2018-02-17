@@ -1,6 +1,7 @@
 /**
  * Created by eatong on 18-2-8.
  */
+const {createReadStream} = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const koaBody = require('koa-body');
@@ -22,7 +23,7 @@ const app = new Koa();
 app.use(koaConnect(compression()));
 // app.use(koaLogger());
 app.use(cookie());
-app.use(serve('assets'), {
+app.use(serve('dist'), {
   maxAge: 365 * 24 * 60 * 60,
   gzip: true
 });
@@ -49,6 +50,10 @@ router.get('/admin*', async (ctx, next) => {
   }
 });
 
+router.get('/*', async (ctx, next) => {
+  ctx.type = 'html';
+  ctx.body = createReadStream('dist/index.html');
+});
 
 app.listen(port, (err) => {
   if (err) throw err;

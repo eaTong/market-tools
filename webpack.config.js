@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const autoPrefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const buildPath = path.resolve(__dirname, 'dist');
-const webContextRoot = '/static/';// 应用的实际访问路径，默认是'/'   可以试试/static/
+const webContextRoot = '/';// 应用的实际访问路径，默认是'/'   可以试试/static/
 const AppCachePlugin = require('appcache-webpack-plugin');
 
 const mainColor = '#45be89';

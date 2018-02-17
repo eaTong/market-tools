@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-front": "cross-env devServer"
+    "start": "cross-env NODE_ENV=production node index",
+    "start-front": "cross-env devServer",
+    "build": "webpack"
   },
   "author": "eaTong",
   "license": "ISC",
