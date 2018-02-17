@@ -21,7 +21,7 @@ module.exports.checkArguments = (args) => {
         }
       }
     }
-    await next();
+    return await next();
   }
 };
 
@@ -58,6 +58,7 @@ module.exports.insertLog = (type) => {
     const operator = ctx.session.loginUser ? ctx.session.loginUser.id : 0,
       url = ctx.originalUrl,
       req = JSON.stringify(ctx.request.body);
-    await LogService.insertLog({operator, req,  type, url})
+    await LogService.insertLog({operator, req, type, url});
+    await next();
   }
 };

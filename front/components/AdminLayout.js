@@ -19,7 +19,8 @@ const AdminLayout = props => {
           }}
         >
           <Menu.Item key="/admin/record"> <Icon type="download"/><span>数据录入</span></Menu.Item>
-          <Menu.Item key="/admin/dashboard"> <Icon type="dashboard"/><span>统计图表</span></Menu.Item>
+          <Menu.Item key="/admin/dashboard/monthly"> <Icon type="line-chart"/><span>月度统计</span></Menu.Item>
+          {/*<Menu.Item key="/admin/dashboard/conversion"> <Icon type="pie-chart"/><span>转单率分析</span></Menu.Item>*/}
           <Menu.Item key="/admin/channel"> <Icon type="share-alt"/><span>渠道管理</span></Menu.Item>
           <Menu.Item key="/admin/user"> <Icon type="user"/><span>用户管理</span></Menu.Item>
         </Menu>

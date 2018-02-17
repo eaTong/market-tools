@@ -11,7 +11,7 @@ const MonthPicker = DatePicker.MonthPicker;
 // const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
 
-class DashboardPage extends Component {
+class Monthly extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,10 +56,10 @@ class DashboardPage extends Component {
     };
     for (let record of monthlyRecord) {
       seriesData.days.push(record.day);
-      seriesData.clue.push(record.clue);
-      seriesData.yzz.push(record.yzz);
-      seriesData.zztx.push(record.zztx);
-      seriesData.consume.push(record.consume);
+      seriesData.clue.push(~~record.clue);
+      seriesData.yzz.push(~~record.yzz);
+      seriesData.zztx.push(~~record.zztx);
+      seriesData.consume.push(~~record.consume);
     }
     return {
       title: {
@@ -85,17 +85,16 @@ class DashboardPage extends Component {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        // data: ['周一']
         data: seriesData.days
       },
       yAxis: {
         type: 'value'
       },
       series: [
-        {name: '线索量', type: 'line', stack: '总量', data: seriesData.clue},
-        {name: '智装天下', type: 'line', stack: '总量', data: seriesData.zztx},
-        {name: '云智装', type: 'line', stack: '总量', data: seriesData.yzz},
-        {name: '消费', type: 'line', stack: '总量', data: seriesData.consume},
+        {name: '线索量', type: 'line',  data: seriesData.clue},
+        {name: '智装天下', type: 'line',  data: seriesData.zztx},
+        {name: '云智装', type: 'line',  data: seriesData.yzz},
+        {name: '消费', type: 'line',  data: seriesData.consume},
       ]
     };
   }
@@ -144,5 +143,5 @@ class DashboardPage extends Component {
   }
 }
 
-DashboardPage.propTypes = {};
-export default DashboardPage;
+Monthly.propTypes = {};
+export default Monthly;
