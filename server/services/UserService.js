@@ -42,7 +42,7 @@ module.exports = UserService;
 // UserService.updateUsers({name: 'eaTong', account: '18288757143', id: 5})
 // UserService.deleteUsers([21]);
 
-UserService.login({account: '123', password: '123'});
+// UserService.login({account: '123', password: '123'});
 
 /*
 (async () => {

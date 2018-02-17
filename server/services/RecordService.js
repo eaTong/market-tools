@@ -89,4 +89,4 @@ module.exports = RecordService;
   console.log(result);
 })();*/
 
-RecordService.getRecords({startDate: '2018-01-01', endDate: '2018-12-31', calendarType: 'year'});
+// RecordService.getRecords({startDate: '2018-01-01', endDate: '2018-12-31', calendarType: 'year'});

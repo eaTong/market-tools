@@ -3,6 +3,7 @@
  */
 
 const {ArgMissError, LogicError} = require('./errors');
+const LogService = require('../services/logService');
 
 module.exports.checkArguments = (args) => {
   return async (ctx, next) => {
@@ -49,5 +50,14 @@ module.exports.checkLogin = async (ctx, next) => {
       ctx.status = 500;
       ctx.body = {success: false, data: {}, message: ex.message};
     }
+  }
+};
+
+module.exports.insertLog = (type) => {
+  return async (ctx, next) => {
+    const operator = ctx.session.loginUser ? ctx.session.loginUser.id : 0,
+      url = ctx.originalUrl,
+      req = JSON.stringify(ctx.request.body);
+    await LogService.insertLog({operator, req,  type, url})
   }
 };
