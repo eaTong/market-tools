@@ -3,19 +3,27 @@
  */
 const md5 = require('crypto-js/md5');
 const {Op} = require('sequelize');
-
+const {LogicError} = require('../framework/errors');
 const BaseService = require('../framework/BaseService');
 const User = require('../models/UserModel');
 
 class UserService extends BaseService {
 
   static async addUser(user) {
+    const usr = User.findOne({account: user.account});
+    if (usr) {
+      throw new LogicError(`账号(${user.account})已存在`);
+    }
     user.password = md5(user.password).toString();
     user.enable = true;
     return await User.create(user);
   }
 
   static async updateUsers(data) {
+    const usr = User.findOne({account: data.account, id: {[Op.ne]: data.id}});
+    if (usr) {
+      throw new LogicError(`账号(${data.account})已存在`);
+    }
     // return await User.findAll();
     return await User.update(data, {where: {id: data.id}, fields: ['name', 'account']})
   }
@@ -30,8 +38,6 @@ class UserService extends BaseService {
 
   static async login({account, password}) {
     return await User.findOne({where: {account, enable: true, password: md5(password).toString()}});
-    // console.log(user.toJSON());
-    // return await User.findAll({where:{enable:true}});
   }
 }
 
