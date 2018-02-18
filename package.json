@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index",
     "start-front": "cross-env devServer",
-    "build": "webpack",
+    "build": "webpack --progress",
     "zip": "node bin/zipDist"
   },
   "author": "eaTong",

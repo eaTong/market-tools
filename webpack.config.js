@@ -21,7 +21,7 @@ module.exports = {
       'babel-polyfill',
       './front/index.js'
     ],
-    vendor: ['react', 'react-dom', 'react-router-dom', 'moment']
+    vendor: ['reqwest','echarts','react', 'react-dom', 'react-router','react-router-dom', 'moment']
   },
   output: {
     path: buildPath,
