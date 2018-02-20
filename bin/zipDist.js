@@ -6,9 +6,10 @@
  */
 const fs = require('fs');
 const archiver = require('archiver');
+const moment = require('moment');
 
 // create a file to stream archive data to.
-const output = fs.createWriteStream('build.zip');
+const output = fs.createWriteStream(`build/${moment().format('YYYY-MM-DD')}build.zip`);
 const archive = archiver('zip', {
   zlib: {level: 9} // Sets the compression level.
 });
