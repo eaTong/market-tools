@@ -8,7 +8,7 @@ const fs = require('fs');
 const archiver = require('archiver');
 
 // create a file to stream archive data to.
-const output = fs.createWriteStream('../build.zip');
+const output = fs.createWriteStream('build.zip');
 const archive = archiver('zip', {
   zlib: {level: 9} // Sets the compression level.
 });
@@ -42,12 +42,12 @@ archive.on('error', function (err) {
   throw err;
 });
 
-archive.directory('../bin/', 'bin');
-archive.directory('../dist/', 'dist');
-archive.directory('../server/', 'server');
-archive.file('../index.js');
-archive.file('../package.json');
-archive.file('../yarn.lock');
+archive.directory('bin/', 'bin');
+archive.directory('dist/', 'dist');
+archive.directory('server/', 'server');
+archive.file('index.js');
+archive.file('package.json');
+archive.file('yarn.lock');
 
 archive.pipe(output);
 

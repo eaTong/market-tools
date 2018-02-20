@@ -9,13 +9,15 @@ const DateCell = props => {
     clue: 0,
     yzz: 0,
     zztx: 0,
-    consume: 0
+    consume: 0,
+    contract: 0
   };
   for (let item of data) {
-    total.clue += item.clue;
-    total.yzz += item.yzz;
-    total.zztx += item.zztx;
-    total.consume += item.consume;
+    total.clue += item.clue || 0;
+    total.yzz += item.yzz || 0;
+    total.zztx += item.zztx || 0;
+    total.consume += item.consume || 0;
+    total.contract += item.contract || 0;
   }
   if (data.length > 0) {
     return (
@@ -24,6 +26,7 @@ const DateCell = props => {
         <span className="zztx">智装天下：{total.zztx}</span>
         <span className="yzz">云智装：{total.yzz}</span>
         <span className="consume">花费：{total.consume}</span>
+        <span className="contract">签单：{total.contract}</span>
       </div>
     )
 

@@ -52,7 +52,8 @@ class Monthly extends Component {
       clue: [],
       yzz: [],
       zztx: [],
-      consume: []
+      consume: [],
+      contract: [],
     };
     for (let record of monthlyRecord) {
       seriesData.days.push(record.day);
@@ -60,6 +61,7 @@ class Monthly extends Component {
       seriesData.yzz.push(~~record.yzz);
       seriesData.zztx.push(~~record.zztx);
       seriesData.consume.push(~~record.consume);
+      seriesData.contract.push(~~record.contract);
     }
     return {
       title: {
@@ -69,7 +71,7 @@ class Monthly extends Component {
         trigger: 'axis'
       },
       legend: {
-        data: ['线索量', '云智装', '智装天下', '消费',],
+        data: ['线索量', '云智装', '智装天下', '消费', '签单'],
       },
       grid: {
         left: '3%',
@@ -91,10 +93,11 @@ class Monthly extends Component {
         type: 'value'
       },
       series: [
-        {name: '线索量', type: 'line',  data: seriesData.clue},
-        {name: '智装天下', type: 'line',  data: seriesData.zztx},
-        {name: '云智装', type: 'line',  data: seriesData.yzz},
-        {name: '消费', type: 'line',  data: seriesData.consume},
+        {name: '线索量', type: 'line', data: seriesData.clue},
+        {name: '智装天下', type: 'line', data: seriesData.zztx},
+        {name: '云智装', type: 'line', data: seriesData.yzz},
+        {name: '消费', type: 'line', data: seriesData.consume},
+        {name: '签单', type: 'line', data: seriesData.contract},
       ]
     };
   }

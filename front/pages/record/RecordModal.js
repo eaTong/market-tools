@@ -90,6 +90,18 @@ class RecordModal extends Component {
             <Input type="number"/>
           )}
         </FormItem>
+        <FormItem
+          label="签单金额"
+          hasFeedback>
+          {getFieldDecorator(`contract${channel.id}`, {
+            rules: [{
+              required: true, message: `请填写花费金额(${channel.name})!`,
+            }],
+            initialValue: 0
+          })(
+            <Input type="number"/>
+          )}
+        </FormItem>
       </div>
     ))
   }

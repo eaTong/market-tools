@@ -24,7 +24,7 @@ class App extends React.Component {
       <LocaleProvider locale={zhCN}>
         <Router>
           <div className="main-body">
-            <Route exact path="/" component={HomePage}/>
+            <Route exact path="/" component={LoginPage}/>
             <Route exact path="/login" component={LoginPage}/>
             <Route path="/admin" component={(props) => (
               <AdminLayout {...props}>
