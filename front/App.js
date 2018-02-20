@@ -12,6 +12,7 @@ import './app.less';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/login/LoginPage';
 import UserPage from './pages/user/UserPage';
+import RolePage from './pages/role/RolePage';
 import ChannelPage from './pages/channels/ChannelPage';
 import RecordPage from './pages/record/RecordPage';
 import Monthly from './pages/dashboard/Monthly';
@@ -29,6 +30,7 @@ class App extends React.Component {
             <Route path="/admin" component={(props) => (
               <AdminLayout {...props}>
                 <Route path="/admin/user" component={UserPage}/>
+                <Route path="/admin/role" component={RolePage}/>
                 <Route path="/admin/channel" component={ChannelPage}/>
                 <Route path="/admin/record" component={RecordPage}/>
                 <Route path="/admin/dashboard/monthly" component={Monthly}/>

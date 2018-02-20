@@ -7,6 +7,7 @@ const {checkArguments, checkLogin, insertLog} = require('./framework/middleWare'
 const {ArgMissError, LogicError} = require('./framework/errors');
 
 const userApi = require('./apis/userApi');
+const roleApi = require('./apis/roleApi');
 const channelApi = require('./apis/channelApi');
 const recordApi = require('./apis/recordApi');
 const menuApi = require('./apis/menuApi');
@@ -16,6 +17,11 @@ const router = new Router();
 router.post('/api/*', checkLogin);
 
 router.post('/api/menu/get', menuApi.getMenus);
+
+router.post('/api/role/add', insertLog('add'), checkArguments(['name']), roleApi.addRole);
+router.post('/api/role/get', roleApi.getRoles);
+router.post('/api/role/update', insertLog('update'), checkArguments(['id', 'name']), roleApi.updateRoles);
+router.post('/api/role/delete', insertLog('delete'), checkArguments(['ids']), roleApi.deleteRoles);
 
 router.post('/api/user/add', insertLog('add'), checkArguments(['account', 'name']), userApi.addUser);
 router.post('/api/user/get', userApi.getUsers);

@@ -49,7 +49,7 @@ class UserPage extends Component {
     } else {
       const {success} = await updateUser({...data, id: selectedUsers[0].id});
       if (success) {
-        message.success('添加用户成功');
+        message.success('编辑用户成功');
         await this.getUsers();
         this.toggleUserModal();
       }
