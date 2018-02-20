@@ -10,7 +10,7 @@ const User = require('../models/UserModel');
 class UserService extends BaseService {
 
   static async addUser(user) {
-    const usr = User.findOne({account: user.account});
+    const usr = await User.findOne({where: {account: user.account}});
     if (usr) {
       throw new LogicError(`账号(${user.account})已存在`);
     }
@@ -20,7 +20,7 @@ class UserService extends BaseService {
   }
 
   static async updateUsers(data) {
-    const usr = User.findOne({account: data.account, id: {[Op.ne]: data.id}});
+    const usr = await User.findOne({where: {account: data.account, id: {[Op.ne]: data.id}}});
     if (usr) {
       throw new LogicError(`账号(${data.account})已存在`);
     }
