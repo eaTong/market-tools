@@ -9,10 +9,13 @@ const {ArgMissError, LogicError} = require('./framework/errors');
 const userApi = require('./apis/userApi');
 const channelApi = require('./apis/channelApi');
 const recordApi = require('./apis/recordApi');
+const menuApi = require('./apis/menuApi');
 
 const router = new Router();
 //define data structure for all API
 router.post('/api/*', checkLogin);
+
+router.post('/api/menu/get', menuApi.getMenus);
 
 router.post('/api/user/add', insertLog('add'), checkArguments(['account', 'name']), userApi.addUser);
 router.post('/api/user/get', userApi.getUsers);
