@@ -19,3 +19,11 @@ export async function updateRole(data) {
 export async function deleteRole(data) {
   return await ajax({data, url: '/api/role/delete'});
 }
+
+export async function getMenus() {
+  return await ajax({url: '/api/menu/get'});
+}
+
+export async function grantRoles(data) {
+  return await ajax({data, url: '/api/role/grant'});
+}

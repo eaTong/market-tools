@@ -22,6 +22,7 @@ router.post('/api/role/add', insertLog('add'), checkArguments(['name']), roleApi
 router.post('/api/role/get', roleApi.getRoles);
 router.post('/api/role/update', insertLog('update'), checkArguments(['id', 'name']), roleApi.updateRoles);
 router.post('/api/role/delete', insertLog('delete'), checkArguments(['ids']), roleApi.deleteRoles);
+router.post('/api/role/grant', insertLog('grant'), checkArguments(['roleId', 'menus']), roleApi.grantRole);
 
 router.post('/api/user/add', insertLog('add'), checkArguments(['account', 'name']), userApi.addUser);
 router.post('/api/user/get', userApi.getUsers);

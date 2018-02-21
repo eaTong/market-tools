@@ -6,6 +6,7 @@ const {Op} = require('sequelize');
 const {LogicError} = require('../framework/errors');
 const BaseService = require('../framework/BaseService');
 const Role = require('../models/RoleModel');
+const Menu = require('../models/MenuModel');
 
 class RoleService extends BaseService {
 
@@ -33,7 +34,16 @@ class RoleService extends BaseService {
   }
 
   static async getRoles() {
-    return await Role.findAll({where: {enable: true}});
+    const roles = await Role.findAll({where: {enable: true}, include: [{model: Menu, attributes: ['id']}]});
+    return JSON.parse(JSON.stringify(roles)).map(role => {
+      return {...role, menus: role.menus.map(menu => menu.id)}
+    })
+  }
+
+  static async grantRole(data) {
+    const role = await Role.findById(data.roleId);
+    role.setMenus(data.menus);
+    return await role.save();
   }
 }
 

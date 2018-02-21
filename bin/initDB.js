@@ -7,6 +7,7 @@ const Record = require('../server/models/RecordModel');
 const OperationLog = require('../server/models/OperationLogModel');
 const Menu = require('../server/models/MenuModel');
 const Role = require('../server/models/RoleModel');
+const RoleMenu = require('../server/models/RoleMenuModel');
 
 (async () => {
   await initialDatabaseStructure();
@@ -22,6 +23,7 @@ async function initialDatabaseStructure() {
   await OperationLog.sync({alter: true});
   await Menu.sync({alter: true});
   await Role.sync({alter: true});
+  await RoleMenu.sync({alter: true});
 }
 
 async function initialMenu() {
@@ -32,5 +34,5 @@ async function initialMenu() {
     {name: '用户管理', icon: 'user', path: '/admin/user', enable: true},
     {name: '角色管理', icon: 'team', path: '/admin/role', enable: true},
   ];
-  Menu.bulkCreate(menuList, {ignoreDuplicates: true, updateOnDuplicate: true});
+  Menu.bulkCreate(menuList, {updateOnDuplicate: ['path', 'name', 'icon', 'enable']});
 }

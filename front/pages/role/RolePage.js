@@ -3,8 +3,9 @@
  */
 import React, {Component} from 'react';
 import {Button, Table, message} from 'antd';
-import {getRole, addRole, deleteRole, updateRole} from './roleAction';
+import {getRole, addRole, deleteRole, updateRole, grantRoles} from './roleAction';
 import RoleModal from "./RoleModal";
+import GrantMenuModal from "./GrantMenuModal";
 
 const ButtonGroup = Button.Group;
 const columns = [
@@ -19,6 +20,7 @@ class RolePage extends Component {
       roles: [],
       selectedRoles: [],
       showRoleModal: false,
+      showGrantModal: false,
       operateType: 'add'
     };
   }
@@ -31,9 +33,25 @@ class RolePage extends Component {
     this.setState({operateType, showRoleModal: !this.state.showRoleModal});
   }
 
+  toggleGrantModal() {
+    this.setState({showGrantModal: !this.state.showGrantModal});
+  }
+
   async getRoles() {
     const {data, success} = await getRole();
     success && this.setState({roles: data});
+  }
+
+  async saveGrant(opts) {
+    // console.log(data);
+    const {success, data} = await grantRoles(opts);
+    if (success) {
+      this.setState({selectedRoles: []});
+      this.toggleGrantModal();
+      message.success('授权成功');
+      await this.getRoles();
+    }
+
   }
 
   async saveRole(data) {
@@ -65,7 +83,7 @@ class RolePage extends Component {
   }
 
   render() {
-    const {roles, showRoleModal, operateType, selectedRoles} = this.state;
+    const {roles, showRoleModal, showGrantModal, operateType, selectedRoles} = this.state;
     return (
       <div className="base-layout">
         <header className="header">
@@ -74,6 +92,8 @@ class RolePage extends Component {
             <Button onClick={() => this.toggleRoleModal('add')}>新建</Button>
             <Button onClick={() => this.toggleRoleModal('edit')} disabled={selectedRoles.length !== 1}>编辑</Button>
             <Button onClick={() => this.deleteRole()} disabled={selectedRoles.length === 0}>删除</Button>
+            <Button onClick={() => this.toggleGrantModal()} disabled={selectedRoles.length !== 1}>分配菜单</Button>
+
           </ButtonGroup>
         </header>
         <div className="content">
@@ -83,6 +103,7 @@ class RolePage extends Component {
             rowKey="id"
             pagination={false}
             rowSelection={{
+              selectedRowKeys: selectedRoles.map(role => role.id),
               onChange: (selectedKeys, selectedRoles) => {
                 this.setState({selectedRoles})
               }
@@ -93,6 +114,13 @@ class RolePage extends Component {
             onCancel={() => this.toggleRoleModal()}
             onOk={(data) => this.saveRole(data)}
             operateType={operateType}
+            formData={selectedRoles[0]}
+          />
+        )}
+        {showGrantModal && (
+          <GrantMenuModal
+            onCancel={() => this.toggleGrantModal()}
+            onOk={(data) => this.saveGrant(data)}
             formData={selectedRoles[0]}
           />
         )}
