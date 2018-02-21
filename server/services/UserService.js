@@ -34,10 +34,7 @@ class UserService extends BaseService {
   }
 
   static async getUsers() {
-    const users = await User.findAll({where: {enable: true}, include: [{model: Role, attributes: ['id']}]});
-    return JSON.parse(JSON.stringify(users)).map(user => {
-      return {...user, roles: user.roles.map(role => role.id)}
-    })
+    return await User.findAll({attributes:['name',account],where: {enable: true}, include: [{model: Role}]});
   }
 
   static async grantRole(data) {

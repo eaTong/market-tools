@@ -19,7 +19,7 @@ class GrantMenuModal extends Component {
   }
 
   async componentWillMount() {
-    this.state.grantedRoles = [...this.props.formData.roles || []];
+    this.state.grantedRoles = [...this.props.formData.roles || []].map(role => role.id);
     const {success, data} = await getRole();
     success && this.setState({roles: data})
   }

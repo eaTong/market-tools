@@ -11,6 +11,7 @@ const ButtonGroup = Button.Group;
 const columns = [
   {title: '姓名', dataIndex: 'name', key: 'name'},
   {title: '账号', dataIndex: 'account', key: 'account'},
+  {title: '角色', dataIndex: 'roles', key: 'roles', render: val => val.map(role => role.name).join('、')},
 ];
 
 class UserPage extends Component {
