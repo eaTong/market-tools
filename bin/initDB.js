@@ -8,6 +8,7 @@ const OperationLog = require('../server/models/OperationLogModel');
 const Menu = require('../server/models/MenuModel');
 const Role = require('../server/models/RoleModel');
 const RoleMenu = require('../server/models/RoleMenuModel');
+const UserRole = require('../server/models/UserRole');
 
 (async () => {
   await initialDatabaseStructure();
@@ -24,6 +25,7 @@ async function initialDatabaseStructure() {
   await Menu.sync({alter: true});
   await Role.sync({alter: true});
   await RoleMenu.sync({alter: true});
+  await UserRole.sync({alter: true});
 }
 
 async function initialMenu() {

@@ -19,3 +19,8 @@ export async function updateUser(data) {
 export async function deleteUser(data) {
   return await ajax({data, url: '/api/user/delete'});
 }
+
+
+export async function grantRoles(data) {
+  return await ajax({data, url: '/api/user/grant'});
+}

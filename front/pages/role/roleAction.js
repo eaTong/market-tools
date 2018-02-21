@@ -24,6 +24,6 @@ export async function getMenus() {
   return await ajax({url: '/api/menu/get'});
 }
 
-export async function grantRoles(data) {
+export async function grantMenus(data) {
   return await ajax({data, url: '/api/role/grant'});
 }

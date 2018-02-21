@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {Button, Table, message} from 'antd';
-import {getRole, addRole, deleteRole, updateRole, grantRoles} from './roleAction';
+import {getRole, addRole, deleteRole, updateRole, grantMenus} from './roleAction';
 import RoleModal from "./RoleModal";
 import GrantMenuModal from "./GrantMenuModal";
 
@@ -44,7 +44,7 @@ class RolePage extends Component {
 
   async saveGrant(opts) {
     // console.log(data);
-    const {success, data} = await grantRoles(opts);
+    const {success, data} = await grantMenus(opts);
     if (success) {
       this.setState({selectedRoles: []});
       this.toggleGrantModal();

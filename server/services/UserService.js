@@ -6,6 +6,7 @@ const {Op} = require('sequelize');
 const {LogicError} = require('../framework/errors');
 const BaseService = require('../framework/BaseService');
 const User = require('../models/UserModel');
+const Role = require('../models/RoleModel');
 
 class UserService extends BaseService {
 
@@ -33,7 +34,16 @@ class UserService extends BaseService {
   }
 
   static async getUsers() {
-    return await User.findAll({where: {enable: true}});
+    const users = await User.findAll({where: {enable: true}, include: [{model: Role, attributes: ['id']}]});
+    return JSON.parse(JSON.stringify(users)).map(user => {
+      return {...user, roles: user.roles.map(role => role.id)}
+    })
+  }
+
+  static async grantRole(data) {
+    const user = await User.findById(data.userId);
+    user.setRoles(data.roles);
+    return await user.save();
   }
 
   static async login({account, password}) {

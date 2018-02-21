@@ -3,8 +3,9 @@
  */
 import React, {Component} from 'react';
 import {Button, Table, message} from 'antd';
-import {getUser, addUser, deleteUser, updateUser} from './userAction';
+import {getUser, addUser, deleteUser, updateUser, grantRoles} from './userAction';
 import UserModal from "./UserModal";
+import GrantRoleModal from "./GrantRoleModal";
 
 const ButtonGroup = Button.Group;
 const columns = [
@@ -19,6 +20,7 @@ class UserPage extends Component {
       users: [],
       selectedUsers: [],
       showUserModal: false,
+      showGrantModal: false,
       operateType: 'add'
     };
   }
@@ -31,9 +33,23 @@ class UserPage extends Component {
     this.setState({operateType, showUserModal: !this.state.showUserModal});
   }
 
+  toggleGrantModal() {
+    this.setState({showGrantModal: !this.state.showGrantModal});
+  }
+
   async getUsers() {
     const {data, success} = await getUser();
     success && this.setState({users: data});
+  }
+
+  async grantRole(opts) {
+    const {success, data} = await grantRoles(opts);
+    if (success) {
+      this.setState({selectedUsers: []});
+      this.toggleGrantModal();
+      message.success('授权成功');
+      await this.getUsers();
+    }
   }
 
   async saveUser(data) {
@@ -65,7 +81,7 @@ class UserPage extends Component {
   }
 
   render() {
-    const {users, showUserModal, operateType, selectedUsers} = this.state;
+    const {users, showUserModal, operateType, selectedUsers, showGrantModal} = this.state;
     return (
       <div className="base-layout">
         <header className="header">
@@ -74,6 +90,7 @@ class UserPage extends Component {
             <Button onClick={() => this.toggleUserModal('add')}>新建</Button>
             <Button onClick={() => this.toggleUserModal('edit')} disabled={selectedUsers.length !== 1}>编辑</Button>
             <Button onClick={() => this.deleteUser()} disabled={selectedUsers.length === 0}>删除</Button>
+            <Button onClick={() => this.toggleGrantModal()} disabled={selectedUsers.length !== 1}>分配角色</Button>
           </ButtonGroup>
         </header>
         <div className="content">
@@ -83,6 +100,7 @@ class UserPage extends Component {
             rowKey="id"
             pagination={false}
             rowSelection={{
+              selectedRowKeys: selectedUsers.map(user => user.id),
               onChange: (selectedKeys, selectedUsers) => {
                 this.setState({selectedUsers})
               }
@@ -93,6 +111,13 @@ class UserPage extends Component {
             onCancel={() => this.toggleUserModal()}
             onOk={(data) => this.saveUser(data)}
             operateType={operateType}
+            formData={selectedUsers[0]}
+          />
+        )}
+        {showGrantModal && (
+          <GrantRoleModal
+            onCancel={() => this.toggleGrantModal()}
+            onOk={(data) => this.grantRole(data)}
             formData={selectedUsers[0]}
           />
         )}

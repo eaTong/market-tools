@@ -40,7 +40,7 @@ class RoleService extends BaseService {
     })
   }
 
-  static async grantRole(data) {
+  static async grantMenus(data) {
     const role = await Role.findById(data.roleId);
     role.setMenus(data.menus);
     return await role.save();

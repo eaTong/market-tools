@@ -23,8 +23,8 @@ class RoleApi extends BaseApi {
     return await RoleService.getRoles(ctx.request.body);
   }
 
-  static async grantRole(ctx) {
-    return await RoleService.grantRole(ctx.request.body);
+  static async grantMenus(ctx) {
+    return await RoleService.grantMenus(ctx.request.body);
   }
 }
 

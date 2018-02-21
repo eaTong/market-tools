@@ -22,6 +22,9 @@ class UserApi extends BaseApi {
   static async getUsers(ctx) {
     return await UserService.getUsers(ctx.request.body);
   }
+  static async grantRole(ctx) {
+    return await UserService.grantRole(ctx.request.body);
+  }
 
   static async login(ctx) {
     const user = await UserService.login(ctx.request.body);

@@ -3,6 +3,8 @@
  */
 const Sequelize = require('sequelize');
 const sequelize = require('../framework/database');
+const Role = require('./RoleModel');
+const UserRole = require('./UserRole');
 
 const User = sequelize.define('user', {
   account: {type: Sequelize.STRING, unique: true},
@@ -11,5 +13,7 @@ const User = sequelize.define('user', {
   enable: Sequelize.BOOLEAN,
 });
 
+User.belongsToMany(Role, {through: UserRole});
+Role.belongsToMany(User, {through: UserRole});
 
 module.exports = User;
