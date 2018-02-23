@@ -10,6 +10,11 @@ class MenuApi extends BaseApi {
   static async getMenus() {
     return await MenuService.getMenus();
   }
+
+  static async getAuthorisedMenu(ctx) {
+    // if(ctx.session.loginUser)
+    return await MenuService.getAuthorisedMenu(ctx.session.loginUser.id);
+  }
 }
 
 module.exports = MenuApi;

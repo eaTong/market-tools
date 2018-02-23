@@ -26,7 +26,7 @@ class UserService extends BaseService {
       throw new LogicError(`账号(${data.account})已存在`);
     }
     // return await User.findAll();
-    return await User.update(data, {where: {id: data.id}, fields: ['name', 'account']})
+    return await User.update(data, {where: {id: data.id}})
   }
 
   static async deleteUsers(ids) {
@@ -34,7 +34,7 @@ class UserService extends BaseService {
   }
 
   static async getUsers() {
-    return await User.findAll({attributes:['name',account],where: {enable: true}, include: [{model: Role}]});
+    return await User.findAll({attributes: ['id', 'name', 'account'], where: {enable: true}, include: [{model: Role}]});
   }
 
   static async grantRole(data) {
@@ -46,6 +46,8 @@ class UserService extends BaseService {
   static async login({account, password}) {
     return await User.findOne({where: {account, enable: true, password: md5(password).toString()}});
   }
+
+
 }
 
 module.exports = UserService;

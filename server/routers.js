@@ -17,6 +17,7 @@ const router = new Router();
 router.post('/api/*', checkLogin);
 
 router.post('/api/menu/get', menuApi.getMenus);
+router.post('/api/menu/authorised', menuApi.getAuthorisedMenu);
 
 router.post('/api/role/add', insertLog('add'), checkArguments(['name']), roleApi.addRole);
 router.post('/api/role/get', roleApi.getRoles);

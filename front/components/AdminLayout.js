@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {Layout, Menu, Icon} from 'antd'
 import ajax from '../util/ajaxUtil';
 
-const {Header, Content, Sider} = Layout;
+const { Content, Sider} = Layout;
 
 class AdminLayout extends Component {
   constructor(props) {
@@ -16,12 +16,11 @@ class AdminLayout extends Component {
   }
 
   async componentWillMount() {
-    const {success, data} = await ajax({url: '/api/menu/get'});
+    const {success, data} = await ajax({url: '/api/menu/authorised'});
     success && this.setState({menus: data})
   }
 
   onSelectMenu({key}) {
-    console.log(key);
     window.localStorage.setItem('lastUrl', key);
     this.props.history.push(key);
   }
