@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {Layout, Menu, Icon} from 'antd'
 import ajax from '../util/ajaxUtil';
 
-const { Content, Sider} = Layout;
+const {Content, Sider} = Layout;
 
 class AdminLayout extends Component {
   constructor(props) {
@@ -45,6 +45,10 @@ class AdminLayout extends Component {
           >
             {this.renderMenus()}
           </Menu>
+          <div className='personal-info'>
+            <span className="welcom">欢迎您：</span>
+            <span className="user">{}</span>
+          </div>
         </Sider>
         <Content>
           {this.props.children}

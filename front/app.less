@@ -10,6 +10,20 @@
 
 .ant-layout {
   height: 100%;
+  .ant-layout-sider {
+    .ant-layout-sider-children {
+      display: flex;
+      flex-direction: column;
+      .ant-menu {
+        flex: 1;
+      }
+      .personal-info {
+        height: 40px;
+        overflow: hidden;;
+        color: #fff;
+      }
+    }
+  }
 }
 
 .multi-filter-label {

@@ -22,7 +22,8 @@ class LoginPage extends Component {
       if (errors) {
         return;
       }
-      const {success} = await ajax({data: values, url: '/api/user/login'});
+      const {success, data} = await ajax({data: values, url: '/api/user/login'});
+      window.localStorage.setItem('loginUser', data);
       success && this.props.history.push(window.localStorage.getItem('lastUrl') || '/admin/record');
     });
   }

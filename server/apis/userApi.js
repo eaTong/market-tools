@@ -32,7 +32,7 @@ class UserApi extends BaseApi {
       throw new LogicError('用户名或密码错误！');
     } else {
       ctx.session.loginUser = user;
-      return {login: true};
+      return user;
     }
   }
 }

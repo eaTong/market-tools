@@ -33,7 +33,10 @@ module.exports.checkLogin = async (ctx, next) => {
       return;
     }
   }
-
+  return await next();
+};
+module.exports.structureData = async (ctx, next) => {
+  console.log(123123);
   try {
     const data = await next();
     ctx.body = {success: true, data, message: ''};

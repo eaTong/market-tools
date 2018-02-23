@@ -3,7 +3,7 @@
  */
 
 const Router = require('koa-router');
-const {checkArguments, checkLogin, insertLog} = require('./framework/middleWare');
+const {checkArguments, checkLogin, structureData, insertLog} = require('./framework/middleWare');
 const {ArgMissError, LogicError} = require('./framework/errors');
 
 const userApi = require('./apis/userApi');
@@ -15,6 +15,7 @@ const menuApi = require('./apis/menuApi');
 const router = new Router();
 //define data structure for all API
 router.post('/api/*', checkLogin);
+router.post('/api/*', structureData);
 
 router.post('/api/menu/get', menuApi.getMenus);
 router.post('/api/menu/authorised', menuApi.getAuthorisedMenu);
