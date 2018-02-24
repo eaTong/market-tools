@@ -7,6 +7,12 @@
 const fs = require('fs');
 const archiver = require('archiver');
 const moment = require('moment');
+const dir = 'build';
+
+//ensure path exists
+if (!fs.existsSync(dir)){
+  fs.mkdirSync(dir);
+}
 
 // create a file to stream archive data to.
 const output = fs.createWriteStream(`build/${moment().format('YYYY-MM-DD')}build.zip`);

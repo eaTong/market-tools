@@ -13,6 +13,7 @@ const UserRole = require('../server/models/UserRole');
 (async () => {
   await initialDatabaseStructure();
   await initialMenu();
+  await initRole();
 })();
 
 
@@ -36,5 +37,15 @@ async function initialMenu() {
     {name: '用户管理', icon: 'user', path: '/admin/user', enable: true},
     {name: '角色管理', icon: 'team', path: '/admin/role', enable: true},
   ];
-  Menu.bulkCreate(menuList, {updateOnDuplicate: ['path', 'name', 'icon', 'enable']});
+  await Menu.bulkCreate(menuList, {updateOnDuplicate: ['path', 'name', 'icon', 'enable']});
+}
+
+async function initRole() {
+  const role = await Role.findAll();
+  if (role.length === 0) {
+    const adminRole = await Role.create({name: '系统管理员', enable: true});
+    const menus = await Menu.findAll();
+    adminRole.setMenus(menus);
+    await adminRole.save();
+  }
 }

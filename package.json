@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index",
-    "start-front": "cross-env devServer",
-    "build": "webpack --progress",
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "start-front": "cross-env NODE_ENV=development node  devServer",
+    "start-server": "cross-env NODE_ENV=development node index.js",
     "zip": "node bin/zipDist"
   },
   "author": "eaTong",
