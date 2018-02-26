@@ -15,7 +15,7 @@ import UserPage from './pages/user/UserPage';
 import RolePage from './pages/role/RolePage';
 import ChannelPage from './pages/channels/ChannelPage';
 import RecordPage from './pages/record/RecordPage';
-import Monthly from './pages/dashboard/Monthly';
+import Line from './pages/dashboard/Line';
 import Conversion from './pages/dashboard/Conversion';
 
 class App extends React.Component {
@@ -33,7 +33,7 @@ class App extends React.Component {
                 <Route path="/admin/role" component={RolePage}/>
                 <Route path="/admin/channel" component={ChannelPage}/>
                 <Route path="/admin/record" component={RecordPage}/>
-                <Route path="/admin/dashboard/monthly" component={Monthly}/>
+                <Route path="/admin/dashboard/line" component={Line}/>
                 <Route path="/admin/dashboard/conversion" component={Conversion}/>
               </AdminLayout>
             )}>

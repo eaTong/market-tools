@@ -41,7 +41,7 @@ router.post('/api/channel/delete', insertLog('delete'), checkArguments(['ids']),
 router.post('/api/record/get', recordApi.getRecords);
 router.post('/api/record/update', insertLog('update'), recordApi.updateRecords);
 router.post('/api/record/delete', insertLog('delete'), recordApi.deleteRecords);
-router.post('/api/record/monthly', checkArguments(['startDate', 'endDate', 'channels']), recordApi.getMonthlyReport);
+router.post('/api/record/interval', checkArguments(['startDate', 'endDate', 'channels']), recordApi.getIntervalReport);
 
 router.post('/api/*', async ctx => {
   ctx.status = 404;

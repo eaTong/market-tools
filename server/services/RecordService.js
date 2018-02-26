@@ -50,11 +50,11 @@ class RecordService extends BaseService {
     }
   }
 
-  static async getMonthlyReport({startDate, endDate, channels}) {
+  static async getIntervalReport({startDate, endDate, channels}) {
     return await Record.findAll({
-      group: ['day'],
+      group: ['date'],
       attributes: [
-        'day',
+        'date',
         [sequelize.fn('sum', sequelize.col('clue')), 'clue'],
         [sequelize.fn('sum', sequelize.col('yzz')), 'yzz'],
         [sequelize.fn('sum', sequelize.col('zztx')), 'zztx'],

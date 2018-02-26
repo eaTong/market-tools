@@ -4,18 +4,19 @@
 import React, {Component} from 'react';
 import ReactEcharts from 'echarts-for-react';
 import moment from 'moment';
-import {getMonthlyRecord, getChannel} from './dashboardAction';
+import {getIntervalRecord, getChannel} from './dashboardAction';
 import {Button, DatePicker, Checkbox, Popover} from 'antd';
 
-const MonthPicker = DatePicker.MonthPicker;
+// const MonthPicker = DatePicker.MonthPicker;
+const RangePicker = DatePicker.RangePicker;
 // const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
 
-class Monthly extends Component {
+class Line extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      monthlyRecord: [],
+      intervalRecord: [],
       channels: [],
       checkedChannels: [],
       startDate: '',
@@ -31,22 +32,22 @@ class Monthly extends Component {
   async componentDidMount() {
     const {success, data} = await getChannel();
     success && this.setState({channels: data, checkedChannels: data});
-    await this.getMonthlyRecord();
+    await this.getIntervalRecord();
   }
 
-  async getMonthlyRecord() {
+  async getIntervalRecord() {
 
     const {startDate, endDate, checkedChannels} = this.state;
-    const {success, data} = await getMonthlyRecord({
+    const {success, data} = await getIntervalRecord({
       startDate,
       endDate,
       channels: checkedChannels.map(channel => channel.id)
     });
-    success && this.setState({monthlyRecord: data})
+    success && this.setState({intervalRecord: data})
   }
 
   getOption() {
-    const {monthlyRecord} = this.state;
+    const {intervalRecord} = this.state;
     const seriesData = {
       days: [],
       clue: [],
@@ -55,8 +56,8 @@ class Monthly extends Component {
       consume: [],
       contract: [],
     };
-    for (let record of monthlyRecord) {
-      seriesData.days.push(record.day);
+    for (let record of intervalRecord) {
+      seriesData.days.push(record.date);
       seriesData.clue.push(~~record.clue);
       seriesData.yzz.push(~~record.yzz);
       seriesData.zztx.push(~~record.zztx);
@@ -65,7 +66,7 @@ class Monthly extends Component {
     }
     return {
       title: {
-        text: `月度统计数据`
+        text: `折线统计图`
       },
       tooltip: {
         trigger: 'axis'
@@ -119,11 +120,11 @@ class Monthly extends Component {
       <div className="dashboard-page base-layout">
         <header className="header">
           <div className="search-filter">
-            <span>月份选择:</span>
-            <MonthPicker onChange={(val) =>
+            <span>日期选择:</span>
+            <RangePicker onChange={(val) =>
               this.setState({
-                startDate: val.startOf('month').format('YYYY-MM-DD'),
-                endDate: val.endOf('month').format('YYYY-MM-DD')
+                startDate: val[0].format('YYYY-MM-DD'),
+                endDate: val[1].format('YYYY-MM-DD')
               })}/>
             <span>渠道筛选：</span>
             <Popover content={(
@@ -137,7 +138,7 @@ class Monthly extends Component {
               <span className="multi-filter-label">{this.getChannelLabel()}</span>
             </Popover>
           </div>
-          <div className="buttons"><Button onClick={() => this.getMonthlyRecord()}>查询</Button></div>
+          <div className="buttons"><Button onClick={() => this.getIntervalRecord()}>查询</Button></div>
         </header>
 
         <ReactEcharts option={this.getOption()} className="content" style={{height: '100%'}}/>
@@ -146,5 +147,5 @@ class Monthly extends Component {
   }
 }
 
-Monthly.propTypes = {};
-export default Monthly;
+Line.propTypes = {};
+export default Line;

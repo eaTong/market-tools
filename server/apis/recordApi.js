@@ -15,15 +15,14 @@ class RecordApi extends BaseApi {
   }
 
   static async deleteRecords(ctx) {
-    console.log(ctx.request.body.ids);
     return await RecordService.deleteRecords(ctx.request.body.ids);
   }
 
   static async getRecords(ctx) {
     return await RecordService.getRecords(ctx.request.body);
   }
-  static async getMonthlyReport(ctx) {
-    return await RecordService.getMonthlyReport(ctx.request.body);
+  static async getIntervalReport(ctx) {
+    return await RecordService.getIntervalReport(ctx.request.body);
   }
 }
 

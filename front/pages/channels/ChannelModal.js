@@ -43,13 +43,13 @@ class ChannelModal extends Component {
       },
     };
     return (
-      <Modal title={(operateType === 'add' ? '新增' : '编辑') + '账号'}
+      <Modal title={(operateType === 'add' ? '新增' : '编辑') + '渠道'}
              maskClosable={false}
              visible={true} onOk={this.onSaveData.bind(this)} onCancel={this.props.onCancel}>
         <Form>
           <FormItem
             {...formItemLayout}
-            label="姓名"
+            label="渠道名称"
             hasFeedback>
             {getFieldDecorator('name', {
               rules: [{

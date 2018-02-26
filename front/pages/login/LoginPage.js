@@ -45,8 +45,7 @@ class LoginPage extends Component {
               {getFieldDecorator('password', {
                 rules: [{required: true, message: '没有密码不让进!'}],
               })(
-                <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="密码"
-                       placeholder="Password"/>
+                <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password" placeholder="密码"/>
               )}
             </FormItem>
             <FormItem>

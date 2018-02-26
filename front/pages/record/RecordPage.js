@@ -54,9 +54,9 @@ class RecordPage extends Component {
         this.setState({calendarRecords});
       } else {
         const monthSum = {};
-        for (let monthly of data) {
+        for (let interval of data) {
           // monthSum[record.month] = monthSum[record.month] ? monthSum[record.month] : [];
-          monthSum[monthly.month] = monthly;
+          monthSum[interval.month] = interval;
         }
         this.setState({monthSum});
       }
