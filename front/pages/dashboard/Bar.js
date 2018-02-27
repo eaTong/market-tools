@@ -4,7 +4,7 @@
 import React, {Component} from 'react';
 import ReactEcharts from 'echarts-for-react';
 import moment from 'moment';
-import {getGroupedIntervalReport, getChannel} from './dashboardAction';
+import {getIntervalRecord, getChannel} from './dashboardAction';
 import {Button, DatePicker, Checkbox, Popover} from 'antd';
 
 // const MonthPicker = DatePicker.MonthPicker;
@@ -12,7 +12,7 @@ const RangePicker = DatePicker.RangePicker;
 // const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
 
-class Line extends Component {
+class Bar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +38,7 @@ class Line extends Component {
   async getIntervalRecord() {
 
     const {startDate, endDate, checkedChannels} = this.state;
-    const {success, data} = await getGroupedIntervalReport({
+    const {success, data} = await getIntervalRecord({
       startDate,
       endDate,
       channels: checkedChannels.map(channel => channel.id)
@@ -49,7 +49,7 @@ class Line extends Component {
   getOption() {
     const {intervalRecord} = this.state;
     const seriesData = {
-      days: [],
+      date: [],
       clue: [],
       yzz: [],
       zztx: [],
@@ -57,13 +57,14 @@ class Line extends Component {
       contract: [],
     };
     for (let record of intervalRecord) {
-      seriesData.days.push(record.date);
+      seriesData.date.push(record.date);
       seriesData.clue.push(~~record.clue);
       seriesData.yzz.push(~~record.yzz);
       seriesData.zztx.push(~~record.zztx);
       seriesData.consume.push(~~record.consume);
       seriesData.contract.push(~~record.contract);
     }
+    console.log(seriesData);
     return {
       title: {
         text: `折线统计图`
@@ -75,9 +76,9 @@ class Line extends Component {
         data: ['线索量', '云智装', '智装天下', '消费', '签单'],
       },
       grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
+        left: '5%',
+        right: '1%',
+        bottom: '1%',
         containLabel: true
       },
       toolbox: {
@@ -88,17 +89,17 @@ class Line extends Component {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: seriesData.days
+        data: seriesData.date
       },
       yAxis: {
         type: 'value'
       },
       series: [
-        {name: '线索量', type: 'line', data: seriesData.clue},
-        {name: '智装天下', type: 'line', data: seriesData.zztx},
-        {name: '云智装', type: 'line', data: seriesData.yzz},
-        {name: '消费', type: 'line', data: seriesData.consume},
-        {name: '签单', type: 'line', data: seriesData.contract},
+        {name: '线索量', type: 'bar', data: seriesData.clue},
+        {name: '智装天下', type: 'bar', data: seriesData.zztx},
+        {name: '云智装', type: 'bar', data: seriesData.yzz},
+        {name: '消费', type: 'bar', data: seriesData.consume},
+        {name: '签单', type: 'bar', data: seriesData.contract},
       ]
     };
   }
@@ -147,5 +148,5 @@ class Line extends Component {
   }
 }
 
-Line.propTypes = {};
-export default Line;
+Bar.propTypes = {};
+export default Bar;

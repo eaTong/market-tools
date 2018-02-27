@@ -21,6 +21,9 @@ class RecordApi extends BaseApi {
   static async getRecords(ctx) {
     return await RecordService.getRecords(ctx.request.body);
   }
+  static async getGroupedIntervalReport(ctx) {
+    return await RecordService.getGroupedIntervalReport(ctx.request.body);
+  }
   static async getIntervalReport(ctx) {
     return await RecordService.getIntervalReport(ctx.request.body);
   }

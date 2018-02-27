@@ -68,7 +68,9 @@ class RecordPage extends Component {
   }
 
   async onSaveRecord(values) {
-    const date = this.state.selectedDate.format('YYYY-MM-DD');
+    const {selectedDate} = this.state;
+    const date = selectedDate.format('YYYY-MM-DD'),
+      weekday = selectedDate.weekday()+1, week = selectedDate.week();
     const formData = {};
     for (let key in values) {
       const id = key.match(/\d/)[0];
@@ -79,7 +81,8 @@ class RecordPage extends Component {
     for (let key in formData) {
       records.push({...formData[key], channel_id: key});
     }
-    const {success} = await updateRecord({records, date});
+    console.log(selectedDate, date, weekday, week);
+    const {success} = await updateRecord({records, date, weekday, week});
     if (success) {
       message.success('数据录入成功！');
       this.toggleRecordModal();

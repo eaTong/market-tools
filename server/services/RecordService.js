@@ -22,7 +22,15 @@ class RecordService extends BaseService {
     await Record.destroy({where: {date: {[Op.eq]: data.date}}});
     const records = [];
     for (let record of data.records) {
-      records.push({...record, date: data.date, year: date[0], month: date[1], day: date[2]});
+      records.push({
+        ...record,
+        date: data.date,
+        year: date[0],
+        month: date[1],
+        day: date[2],
+        week: data.week,
+        weekday: data.weekday
+      });
     }
     return await Record.bulkCreate(records);
   }
@@ -50,7 +58,7 @@ class RecordService extends BaseService {
     }
   }
 
-  static async getIntervalReport({startDate, endDate, channels}) {
+  static async getGroupedIntervalReport({startDate, endDate, channels}) {
     return await Record.findAll({
       group: ['date'],
       attributes: [
@@ -63,6 +71,18 @@ class RecordService extends BaseService {
       where: {date: {[Op.between]: [startDate, endDate]}, channel_id: {[Op.in]: channels}},
 
     });
+  }
+
+  static async getIntervalReport({startDate, endDate, channels}) {
+    const result = await Record.findAll({
+      attributes: ['date', 'clue', 'yzz', 'zztx', 'consume',],
+      where: {date: {[Op.between]: [startDate, endDate]}, channel_id: {[Op.in]: channels}},
+      include: {model: Channel, attributes: ['name']},
+      order: [['date']]
+    });
+    return JSON.parse(JSON.stringify(result)).map(item => {
+      return {...item, channel: item.channel.name}
+    })
   }
 }
 

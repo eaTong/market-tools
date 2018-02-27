@@ -16,6 +16,8 @@ const Record = sequelize.define('record', {
   contract: Sequelize.INTEGER,
   year: Sequelize.INTEGER,
   month: Sequelize.INTEGER,
+  week: Sequelize.INTEGER,
+  weekday: Sequelize.INTEGER,
   day: Sequelize.INTEGER,
 });
 
