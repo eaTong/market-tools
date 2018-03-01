@@ -32,12 +32,14 @@ async function initialDatabaseStructure() {
 async function initialMenu() {
   const menuList = [
     {name: '数据录入', icon: 'download', path: '/admin/record', enable: true},
-    // {name: '月度统计', icon: 'line-chart', path: '/admin/dashboard/monthly', enable: false},
     {name: '折线图', icon: 'line-chart', path: '/admin/dashboard/line', enable: true},
-    {name: '柱状图', icon: 'bar-chart', path: '/admin/dashboard/bar', enable: true},
     {name: '渠道管理', icon: 'share-alt', path: '/admin/channel', enable: true},
     {name: '用户管理', icon: 'user', path: '/admin/user', enable: true},
     {name: '角色管理', icon: 'team', path: '/admin/role', enable: true},
+
+    // deletion
+    {name: '月度统计', icon: 'line-chart', path: '/admin/dashboard/monthly', enable: false},
+    {name: '柱状图', icon: 'bar-chart', path: '/admin/dashboard/bar', enable: false},
   ];
   await Menu.bulkCreate(menuList, {updateOnDuplicate: ['path', 'name', 'icon', 'enable']});
 }

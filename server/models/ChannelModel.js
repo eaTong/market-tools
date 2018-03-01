@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../framework/database');
 
 const Channel = sequelize.define('channel', {
-  name: {type: Sequelize.STRING, unique: true},
+  name: {type: Sequelize.STRING},
   remark: Sequelize.STRING,
   enable: Sequelize.BOOLEAN,
 });
