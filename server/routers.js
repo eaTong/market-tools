@@ -11,11 +11,14 @@ const roleApi = require('./apis/roleApi');
 const channelApi = require('./apis/channelApi');
 const recordApi = require('./apis/recordApi');
 const menuApi = require('./apis/menuApi');
+const trialApi = require('./apis/trialApi');
 
 const router = new Router();
 //define data structure for all API
 router.post('/api/*', checkLogin);
 router.post('/api/*', structureData);
+
+router.post('/api/pub/trial', trialApi.addTrial);
 
 router.post('/api/menu/get', menuApi.getMenus);
 router.post('/api/menu/authorised', menuApi.getAuthorisedMenu);

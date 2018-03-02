@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>申请试用</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/trial.css">
+</head>
+<body>
+<ul class="form-list">
+  <li class="form-row float-input">
+    <input type="text" name="company"/>
+    <span class="label">企业名称（必填）</span>
+  </li>
+  <li class="form-row float-input">
+    <input type="text" name="telephone"/>
+    <span class="label">联系电话（必填）</span>
+  </li>
+  <li class="form-row float-input">
+    <input type="text" name="contact"/>
+    <span class="label">联系人</span>
+  </li>
+  <li class="form-row float-input">
+    <input type="text" name="email"/>
+    <span class="label">联系邮箱</span>
+  </li>
+  <li class="form-row float-input">
+    <input type="text" name="address"/>
+    <span class="label">公司地址</span>
+  </li>
+  <li class="form-row float-input">
+    <input type="text" name="count"/>
+    <span class="label">员工人数</span>
+  </li>
+  <li class="submit-row">
+    <span class="submit">提交</span>
+  </li>
+</ul>
+<div class="message">
+  <div class="shadow"></div>
+  <div class="text"></div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script>
+  (function () {
+    initEvents();
+
+    function initEvents() {
+      $('.submit').click(function () {
+        var company = $('input[name=company]').val();
+        var telephone = $('input[name=telephone]').val();
+        var contact = $('input[name=contact]').val();
+        var email = $('input[name=email]').val();
+        var address = $('input[name=address]').val();
+        var count = $('input[name=count]').val();
+
+        if (!company) {
+          showMessage('企业名称必填');
+          return;
+        }
+        if (!telephone) {
+          showMessage('联系电话必填');
+          return;
+        }
+
+        if (!isTelephone(telephone)) {
+          showMessage('请输入正确的联系电话！');
+          return;
+        }
+
+        $('.submit').hide();
+        saveTrial({
+          company: company,
+          telephone: telephone,
+          email: email,
+          contact: contact,
+          address: address,
+          count: count
+        }, function () {
+          $('.submit').show();
+        });
+      });
+      $('.float-input input').focusin(function () {
+        $(this).parent().addClass('active');
+      }).focusout(function () {
+        if ($(this).val()) {
+
+        } else {
+          $(this).parent().removeClass('active');
+        }
+      });
+      $('.float-input .label').click(function () {
+        $(this).parent().addClass('active');
+        $(this).parent().find('input').focus();
+      });
+
+    }
+
+    function showMessage(text, duration) {
+      $('.message .text').text(text);
+      $('.message').addClass('visible');
+      duration = duration ? duration : 1500;
+      setTimeout(function () {
+        $('.message').removeClass('visible')
+      }, duration)
+    }
+
+    function saveTrial(data, callback) {
+      $.ajax({
+        url: '/api/pub/trial',
+        method: 'post',
+        data: JSON.stringify(data),
+        success: function (result) {
+          if (result.success) {
+            showMessage('申请成功，我司将尽快与您联系！', 5000);
+            callback && callback();
+          } else {
+            showMessage(result.message);
+            callback && callback();
+          }
+        },
+        complete: function (xhr) {
+          if (xhr.status !== 200) {
+            showMessage(JSON.parse(xhr.responseText).msg)
+          }
+        }
+      })
+    }
+
+    function getUrlParam(_paraName) {
+      var reg = new RegExp("(^|&)" + _paraName + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+      if (r != null) return decodeURIComponent(r[2]);
+      return ""; //返回参数值
+    }
+
+    function isTelephone(tel) {
+      /**
+       * 手机号码段规则
+       * 13段：130、131、132、133、134、135、136、137、138、139
+       * 14段：145、147
+       * 15段：150、151、152、153、154、155、156、157、158、159
+       * 17段：170、171、172、173、175、176、177、178
+       * 18段：180、181、182、183、184、185、186、187、188、189
+       *
+       */
+      const pattern = /^1[3-9]\d{9}$/;
+      return pattern.test(tel);
+    }
+  })()
+</script>
+</body>
+</html>

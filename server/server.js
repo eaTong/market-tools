@@ -27,6 +27,10 @@ app.use(serve('dist'), {
   maxAge: 365 * 24 * 60 * 60,
   gzip: true
 });
+app.use(serve('assets'), {
+  maxAge: 365 * 24 * 60 * 60,
+  gzip: true
+});
 
 app.keys = ['key-for-eaTong'];
 app.use(session({

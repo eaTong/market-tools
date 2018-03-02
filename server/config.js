@@ -7,5 +7,13 @@ module.exports = {
     password: "market@AKS2018",
     database: "market",
     host: "127.0.0.1"
+  },
+  mail:{
+    host: 'smtp.exmail.qq.com',
+    port: 465,
+    auth: {
+      user: 'service@aikesi-soft.com',
+      pass: 'Fuzztx2012'
+    }
   }
 };

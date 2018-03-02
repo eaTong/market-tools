@@ -9,6 +9,7 @@ const Menu = require('../server/models/MenuModel');
 const Role = require('../server/models/RoleModel');
 const RoleMenu = require('../server/models/RoleMenuModel');
 const UserRole = require('../server/models/UserRole');
+const Trial = require('../server/models/TrialModel');
 
 (async () => {
   await initialDatabaseStructure();
@@ -27,6 +28,7 @@ async function initialDatabaseStructure() {
   await Role.sync({alter: true});
   await RoleMenu.sync({alter: true});
   await UserRole.sync({alter: true});
+  await Trial.sync({alter: true});
 }
 
 async function initialMenu() {
