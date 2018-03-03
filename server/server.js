@@ -17,6 +17,9 @@ const {mysql} = require('./config');
 
 const port = parseInt(process.env.PORT, 10) || 8001;
 const dev = process.env.NODE_ENV !== 'production';
+const shortUrlMapping = {
+  a: '/H5/zztx.html'
+};
 
 const app = new Koa();
 //use compression
@@ -44,7 +47,12 @@ app.use(session({
 app.use(koaBody({multipart: true}));
 //all routes just all API
 app.use(router.routes());
+//short site
 
+router.use('/s/*', async (ctx, next) => {
+  const key = ctx.originalUrl.replace('/s/', '');
+  ctx.redirect(shortUrlMapping[key]);
+});
 // /admin pages need to check login
 router.get('/admin*', async (ctx, next) => {
   if (!ctx.session.loginUser) {
