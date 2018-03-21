@@ -70,12 +70,12 @@ class RecordPage extends Component {
   async onSaveRecord(values) {
     const {selectedDate} = this.state;
     const date = selectedDate.format('YYYY-MM-DD'),
-      weekday = selectedDate.weekday()+1, week = selectedDate.week();
+      weekday = selectedDate.weekday() + 1, week = selectedDate.week();
     const formData = {};
     for (let key in values) {
-      const id = key.match(/\d/)[0];
-      formData[id] = formData[id] || {};
-      formData[id][key.replace(/\d/, '')] = values[key];
+      const id = key.match(/\d+/)[0];
+      formData[id + ''] = formData[id] || {};
+      formData[id + ''][key.replace(/\d+/, '')] = values[key];
     }
     const records = [];
     for (let key in formData) {
