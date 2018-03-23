@@ -11,6 +11,13 @@
 .ant-layout {
   height: 100%;
   .ant-layout-sider {
+    &.ant-layout-sider-collapsed {
+      .personal-info {
+        .welcome, .name {
+          display: none;
+        }
+      }
+    }
     .ant-layout-sider-children {
       display: flex;
       flex-direction: column;
@@ -21,6 +28,21 @@
         height: 40px;
         overflow: hidden;;
         color: #fff;
+        display: flex;
+        padding: 5px 10px;
+        align-items: center;
+        justify-content: center;
+        .name {
+          flex: 1;
+          padding-right: 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .anticon {
+          cursor: pointer;
+          color: @error-color;
+        }
+
       }
     }
   }

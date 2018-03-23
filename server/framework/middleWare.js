@@ -61,6 +61,6 @@ module.exports.insertLog = (type) => {
       url = ctx.originalUrl,
       req = JSON.stringify(ctx.request.body);
     await LogService.insertLog({operator, req, type, url});
-    await next();
+    return await next();
   }
 };

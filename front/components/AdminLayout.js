@@ -11,18 +11,24 @@ class AdminLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menus: []
+      menus: [],
+      loginUser: {}
     };
   }
 
   async componentWillMount() {
+    this.state.loginUser = JSON.parse(window.sessionStorage.getItem('loginUser') || '{}');
     const {success, data} = await ajax({url: '/api/menu/authorised'});
-    success && this.setState({menus: data})
+    success && this.setState({menus: data});
   }
 
   onSelectMenu({key}) {
     window.localStorage.setItem('lastUrl', key);
     this.props.history.push(key);
+  }
+
+  logout() {
+
   }
 
   renderMenus() {
@@ -35,6 +41,7 @@ class AdminLayout extends Component {
   }
 
   render() {
+    const {loginUser} = this.state;
     return (
       <Layout className="layout">
         <Sider breakpoint="lg">
@@ -46,8 +53,9 @@ class AdminLayout extends Component {
             {this.renderMenus()}
           </Menu>
           <div className='personal-info'>
-            <span className="welcom">欢迎您：</span>
-            <span className="user">{}</span>
+            <span className="welcome">欢迎您：</span>
+            <span className="name">{loginUser.name}</span>
+            <Icon type="poweroff" onClick={() => this.logout()}/>
           </div>
         </Sider>
         <Content>

@@ -44,7 +44,10 @@ class UserService extends BaseService {
   }
 
   static async login({account, password}) {
-    return await User.findOne({where: {account, enable: true, password: md5(password).toString()}});
+    return await User.findOne({
+      attributes: ['id', 'name', 'account'],
+      where: {account, enable: true, password: md5(password).toString()}
+    });
   }
 
 

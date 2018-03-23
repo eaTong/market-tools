@@ -23,7 +23,7 @@ class LoginPage extends Component {
         return;
       }
       const {success, data} = await ajax({data: values, url: '/api/user/login'});
-      window.localStorage.setItem('loginUser', data);
+      window.sessionStorage.setItem('loginUser', JSON.stringify(data));
       success && this.props.history.push(window.localStorage.getItem('lastUrl') || '/admin/record');
     });
   }
@@ -45,7 +45,8 @@ class LoginPage extends Component {
               {getFieldDecorator('password', {
                 rules: [{required: true, message: '没有密码不让进!'}],
               })(
-                <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password" placeholder="密码"/>
+                <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                       placeholder="密码"/>
               )}
             </FormItem>
             <FormItem>
