@@ -21,16 +21,12 @@
     <span class="label">联系电话（必填）</span>
   </li>
   <li class="form-row float-input">
+    <input type="text" name="address"/>
+    <span class="label">业务模式（半包、整装...）</span>
+  </li>
+  <li class="form-row float-input">
     <input type="text" name="contact"/>
     <span class="label">联系人</span>
-  </li>
-  <li class="form-row float-input">
-    <input type="text" name="email"/>
-    <span class="label">联系邮箱</span>
-  </li>
-  <li class="form-row float-input">
-    <input type="text" name="address"/>
-    <span class="label">公司地址</span>
   </li>
   <li class="form-row float-input">
     <input type="text" name="count"/>
@@ -65,6 +61,11 @@
         }
         if (!telephone) {
           showMessage('联系电话必填');
+          return;
+        }
+
+        if (!address) {
+          showMessage('业务模式必填');
           return;
         }
 
