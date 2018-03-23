@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {Modal, Form, Input, message, Divider} from 'antd';
 
 const FormItem = Form.Item;
+const InputGroup = Input.Group;
 
 class RecordModal extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class RecordModal extends Component {
         <Divider>{channel.name}</Divider>
         <FormItem
           label="线索量"
-          hasFeedback>
+        >
           {getFieldDecorator(`clue${channel.id}`, {
             rules: [{
               required: true, message: `请填写线索量(${channel.name})!`,
@@ -55,32 +56,56 @@ class RecordModal extends Component {
           )}
         </FormItem>
         <FormItem
-          label="转单-智装天下"
-          hasFeedback>
-          {getFieldDecorator(`zztx${channel.id}`, {
-            rules: [{
-              required: true, message: `请填写转单-智装天下(${channel.name})!`,
-            }],
-            initialValue: 0
-          })(
-            <Input type="number"/>
-          )}
+          label="智装天下-转单/金额"
+        >
+          <InputGroup compact>
+
+            {getFieldDecorator(`zztx${channel.id}`, {
+              rules: [{
+                required: true, message: `请填写转单-云智装(${channel.name})!`,
+              }],
+              initialValue: 0
+            })(
+              <Input type="number" style={{width: '50%'}}/>
+            )}
+
+            {getFieldDecorator(`contract_zztx${channel.id}`, {
+              rules: [{
+                required: true, message: `请填写转单金额-云智装(${channel.name})!`,
+              }],
+              initialValue: 0
+            })(
+              <Input type="number" style={{width: '50%'}}/>
+            )}
+          </InputGroup>
         </FormItem>
         <FormItem
-          label="转单-云智装"
-          hasFeedback>
-          {getFieldDecorator(`yzz${channel.id}`, {
-            rules: [{
-              required: true, message: `请填写转单-云智装(${channel.name})!`,
-            }],
-            initialValue: 0
-          })(
-            <Input type="number"/>
-          )}
+          label="云智装-转单/金额"
+        >
+          <InputGroup compact>
+
+            {getFieldDecorator(`yzz${channel.id}`, {
+              rules: [{
+                required: true, message: `请填写转单-云智装(${channel.name})!`,
+              }],
+              initialValue: 0
+            })(
+              <Input type="number" style={{width: '50%'}}/>
+            )}
+
+            {getFieldDecorator(`contract_yzz${channel.id}`, {
+              rules: [{
+                required: true, message: `请填写转单金额-云智装(${channel.name})!`,
+              }],
+              initialValue: 0
+            })(
+              <Input type="number" style={{width: '50%'}}/>
+            )}
+          </InputGroup>
         </FormItem>
         <FormItem
           label="花费金额"
-          hasFeedback>
+        >
           {getFieldDecorator(`consume${channel.id}`, {
             rules: [{
               required: true, message: `请填写花费金额(${channel.name})!`,
@@ -92,7 +117,7 @@ class RecordModal extends Component {
         </FormItem>
         <FormItem
           label="签单金额"
-          hasFeedback>
+        >
           {getFieldDecorator(`contract${channel.id}`, {
             rules: [{
               required: true, message: `请填写花费金额(${channel.name})!`,

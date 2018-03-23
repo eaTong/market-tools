@@ -55,6 +55,8 @@ class Line extends Component {
       zztx: [],
       consume: [],
       contract: [],
+      contract_yzz: [],
+      contract_zztx: [],
     };
     for (let record of intervalRecord) {
       seriesData.days.push(record.date);
@@ -63,6 +65,8 @@ class Line extends Component {
       seriesData.zztx.push(~~record.zztx);
       seriesData.consume.push(~~record.consume);
       seriesData.contract.push(~~record.contract);
+      seriesData.contract_yzz.push(~~record.contract_yzz);
+      seriesData.contract_zztx.push(~~record.contract_zztx);
     }
     return {
       title: {
@@ -72,7 +76,7 @@ class Line extends Component {
         trigger: 'axis'
       },
       legend: {
-        data: ['线索量', '云智装', '智装天下', '消费', '签单'],
+        data: ['线索量', '云智装', '智装天下', '消费', '签单', '签单-云智装', '签单-智装天下'],
       },
       grid: {
         left: '3%',
@@ -99,6 +103,8 @@ class Line extends Component {
         {name: '云智装', type: 'line', data: seriesData.yzz},
         {name: '消费', type: 'line', data: seriesData.consume},
         {name: '签单', type: 'line', data: seriesData.contract},
+        {name: '签单-云智装', type: 'line', data: seriesData.contract_yzz},
+        {name: '签单-智装天下', type: 'line', data: seriesData.contract_zztx},
       ]
     };
   }
