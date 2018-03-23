@@ -22,6 +22,7 @@ class UserApi extends BaseApi {
   static async getUsers(ctx) {
     return await UserService.getUsers(ctx.request.body);
   }
+
   static async grantRole(ctx) {
     return await UserService.grantRole(ctx.request.body);
   }
@@ -34,6 +35,11 @@ class UserApi extends BaseApi {
       ctx.session.loginUser = user;
       return user;
     }
+  }
+
+  static async logout(ctx) {
+    ctx.session.loginUser = null;
+    return void 0;
   }
 }
 

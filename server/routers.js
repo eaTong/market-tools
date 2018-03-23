@@ -34,6 +34,7 @@ router.post('/api/user/get', userApi.getUsers);
 router.post('/api/user/update', insertLog('update'), checkArguments(['id', 'account', 'name']), userApi.updateUsers);
 router.post('/api/user/delete', insertLog('delete'), checkArguments(['ids']), userApi.deleteUsers);
 router.post('/api/user/login', insertLog('login'), checkArguments(['account', 'password']), userApi.login);
+router.post('/api/user/logout', insertLog('login'), userApi.logout);
 router.post('/api/user/grant', insertLog('grant'), checkArguments(['userId', 'roles']), userApi.grantRole);
 
 router.post('/api/channel/add', insertLog('add'), checkArguments(['name']), channelApi.addChannel);

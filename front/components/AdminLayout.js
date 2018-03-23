@@ -2,7 +2,7 @@
  * Created by eatong on 18-2-11.
  */
 import React, {Component} from 'react';
-import {Layout, Menu, Icon} from 'antd'
+import {Layout, Menu, Icon, Tooltip} from 'antd'
 import ajax from '../util/ajaxUtil';
 
 const {Content, Sider} = Layout;
@@ -27,8 +27,9 @@ class AdminLayout extends Component {
     this.props.history.push(key);
   }
 
-  logout() {
-
+  async logout() {
+    await ajax({url: '/api/user/logout'});
+    this.props.history.push('/');
   }
 
   renderMenus() {
@@ -55,7 +56,9 @@ class AdminLayout extends Component {
           <div className='personal-info'>
             <span className="welcome">欢迎您：</span>
             <span className="name">{loginUser.name}</span>
-            <Icon type="poweroff" onClick={() => this.logout()}/>
+            <Tooltip title='退出'>
+              <Icon type="poweroff" onClick={() => this.logout()}/>
+            </Tooltip>
           </div>
         </Sider>
         <Content>
