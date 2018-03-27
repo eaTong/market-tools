@@ -57,6 +57,8 @@ class Line extends Component {
       contract: [],
       contract_yzz: [],
       contract_zztx: [],
+      contract_count_yzz: [],
+      contract_count_zztx: [],
     };
     for (let record of intervalRecord) {
       seriesData.days.push(record.date);
@@ -65,18 +67,17 @@ class Line extends Component {
       seriesData.zztx.push(~~record.zztx);
       seriesData.consume.push(~~record.consume);
       seriesData.contract.push(~~record.contract);
+      seriesData.contract_count_yzz.push(~~record.contract_count_yzz);
+      seriesData.contract_count_zztx.push(~~record.contract_count_zztx);
       seriesData.contract_yzz.push(~~record.contract_yzz);
       seriesData.contract_zztx.push(~~record.contract_zztx);
     }
     return {
-      title: {
-        text: `折线统计图`
-      },
       tooltip: {
         trigger: 'axis'
       },
       legend: {
-        data: ['线索量', '云智装', '智装天下', '消费', '签单', '签单-云智装', '签单-智装天下'],
+        data: ['线索量', '转单-云智装', '转单-智装天下', '消费', '签单金额-云智装', '签单金额-智装天下', '签单数-云智装', '签单数-智装天下'],
       },
       grid: {
         left: '3%',
@@ -99,12 +100,13 @@ class Line extends Component {
       },
       series: [
         {name: '线索量', type: 'line', data: seriesData.clue},
-        {name: '智装天下', type: 'line', data: seriesData.zztx},
-        {name: '云智装', type: 'line', data: seriesData.yzz},
+        {name: '转单-智装天下', type: 'line', data: seriesData.zztx},
+        {name: '转单-云智装', type: 'line', data: seriesData.yzz},
         {name: '消费', type: 'line', data: seriesData.consume},
-        {name: '签单', type: 'line', data: seriesData.contract},
-        {name: '签单-云智装', type: 'line', data: seriesData.contract_yzz},
-        {name: '签单-智装天下', type: 'line', data: seriesData.contract_zztx},
+        {name: '签单金额-云智装', type: 'line', data: seriesData.contract_yzz},
+        {name: '签单金额-智装天下', type: 'line', data: seriesData.contract_zztx},
+        {name: '签单数-云智装', type: 'line', data: seriesData.contract_count_yzz},
+        {name: '签单数-智装天下', type: 'line', data: seriesData.contract_count_zztx},
       ]
     };
   }

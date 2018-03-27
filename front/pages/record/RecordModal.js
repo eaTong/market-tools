@@ -56,31 +56,39 @@ class RecordModal extends Component {
           )}
         </FormItem>
         <FormItem
-          label="智装天下-转单/金额"
+          label="智装天下-转单量/签单数/签单金额"
         >
           <InputGroup compact>
 
             {getFieldDecorator(`zztx${channel.id}`, {
               rules: [{
-                required: true, message: `请填写转单-云智装(${channel.name})!`,
+                required: true, message: `请填写转单-智装天下(${channel.name})!`,
               }],
               initialValue: 0
             })(
-              <Input type="number" style={{width: '50%'}}/>
+              <Input type="number" style={{width: '33%'}}/>
+            )}
+            {getFieldDecorator(`contract_count_zztx${channel.id}`, {
+              rules: [{
+                required: true, message: `请填写签单数-智装天下(${channel.name})!`,
+              }],
+              initialValue: 0
+            })(
+              <Input type="number" style={{width: '33%'}}/>
             )}
 
             {getFieldDecorator(`contract_zztx${channel.id}`, {
               rules: [{
-                required: true, message: `请填写转单金额-云智装(${channel.name})!`,
+                required: true, message: `请填签单金额-智装天下(${channel.name})!`,
               }],
               initialValue: 0
             })(
-              <Input type="number" style={{width: '50%'}}/>
+              <Input type="number" style={{width: '33%'}}/>
             )}
           </InputGroup>
         </FormItem>
         <FormItem
-          label="云智装-转单/金额"
+          label="云智装-转单量/签单数/签单金额"
         >
           <InputGroup compact>
 
@@ -90,16 +98,24 @@ class RecordModal extends Component {
               }],
               initialValue: 0
             })(
-              <Input type="number" style={{width: '50%'}}/>
+              <Input type="number" style={{width: '33%'}}/>
             )}
 
-            {getFieldDecorator(`contract_yzz${channel.id}`, {
+            {getFieldDecorator(`contract_count_yzz${channel.id}`, {
               rules: [{
-                required: true, message: `请填写转单金额-云智装(${channel.name})!`,
+                required: true, message: `请填写签单数-云智装(${channel.name})!`,
               }],
               initialValue: 0
             })(
-              <Input type="number" style={{width: '50%'}}/>
+              <Input type="number" style={{width: '33%'}}/>
+            )}
+            {getFieldDecorator(`contract_yzz${channel.id}`, {
+              rules: [{
+                required: true, message: `请填写签单金额-云智装(${channel.name})!`,
+              }],
+              initialValue: 0
+            })(
+              <Input type="number" style={{width: '33%'}}/>
             )}
           </InputGroup>
         </FormItem>
