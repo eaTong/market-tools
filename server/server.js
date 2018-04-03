@@ -18,7 +18,8 @@ const {mysql} = require('./config');
 const port = parseInt(process.env.PORT, 10) || 8001;
 const dev = process.env.NODE_ENV !== 'production';
 const shortUrlMapping = {
-  a: '/H5/zztx.html'
+  a: '/H5/zztx.html',
+  c: '/H5/zztx_c.html',
 };
 
 const app = new Koa();

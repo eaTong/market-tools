@@ -80,3 +80,44 @@
     }
   }
 }
+
+.mt-table-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  background-color: @primary-color;
+  color: #fff;
+  .mt-table-item {
+    flex: 1;
+    text-align: center;
+    align-items: center;
+
+  }
+  .group-header {
+    flex-wrap: wrap;
+    display: flex;
+    .mt-table-header-item {
+      width: 100%;
+      text-align: center;
+      padding: 5px;
+      .mt-table-item {
+        flex: 1;
+      }
+    }
+  }
+}
+
+.mt-table-content-row {
+  width: 100%;
+  display: flex;
+  border-top: 1px solid @border-color-base;
+  height: 35px;
+  .mt-table-content-item {
+    flex: 1;
+    border-left: 1px solid @border-color-base;
+    .ant-input {
+      border: none;
+
+    }
+  }
+}
