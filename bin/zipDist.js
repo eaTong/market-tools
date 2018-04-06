@@ -53,6 +53,7 @@ archive.directory('bin/', 'bin');
 archive.directory('dist/', 'dist');
 archive.directory('assets/', 'assets');
 archive.directory('server/', 'server');
+archive.directory('public/', 'public');
 archive.file('index.js');
 archive.file('package.json');
 archive.file('yarn.lock');
