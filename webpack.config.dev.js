@@ -7,7 +7,7 @@ const mainColor = '#45be89';
 const buildPath = path.resolve(__dirname, 'static');
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname,  dir)
 }
 
 
@@ -24,27 +24,11 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/static/'
   },
-  /*  devServer: {
-      //host: '127.0.0.1',
-      port: 3000,
-      historyApiFallback: true,
-      proxy: {
-        "/api/!*": {
-          target: {'host': '139.129.33.188', 'port': 8081, 'protocol': 'http:'},
-          secure: false,
-          changeOrigin: true,
-        },
-        "/static/ueditor/!*": {
-          target: {'host': '139.129.33.188', 'port': 8081, 'protocol': 'http:'},
-          secure: false,
-          changeOrigin: true,
-        },
-      }
-    },*/
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
       '@': resolve('front'),
+      'public': resolve('public')
     }
   },
   plugins: [

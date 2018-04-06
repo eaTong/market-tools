@@ -11,7 +11,7 @@ const AppCachePlugin = require('appcache-webpack-plugin');
 const mainColor = '#45be89';
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname,  dir)
 }
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
       'babel-polyfill',
       './front/index.js'
     ],
-    vendor: ['reqwest','echarts','react', 'react-dom', 'react-router','react-router-dom', 'moment']
+    vendor: ['reqwest', 'echarts', 'react', 'react-dom', 'react-router', 'react-router-dom', 'moment']
   },
   output: {
     path: buildPath,
@@ -32,6 +32,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
       '@': resolve('front'),
+      'public': resolve('public')
     }
   },
   plugins: [

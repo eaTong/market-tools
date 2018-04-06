@@ -6,6 +6,7 @@ const sequelize = require('sequelize');
 const BaseService = require('../framework/BaseService');
 const Record = require('../models/RecordModel');
 const Channel = require('../models/ChannelModel');
+const {getFlatFields, recordFields} = require('../../public/recordConfig');
 
 const {Op} = sequelize;
 
@@ -44,19 +45,13 @@ class RecordService extends BaseService {
       return await Record.findAll({where: {date: {[Op.between]: [startDate, endDate]}}, include: {model: Channel}});
     } else {
       // return [];
+      const attributes = getFlatFields().map(field => [sequelize.fn('sum', sequelize.col(field.key)), field.key]);
+
       return await Record.findAll({
         group: ['month'],
         attributes: [
           'month',
-          [sequelize.fn('sum', sequelize.col('clue')), 'clue'],
-          [sequelize.fn('sum', sequelize.col('yzz')), 'yzz'],
-          [sequelize.fn('sum', sequelize.col('zztx')), 'zztx'],
-          [sequelize.fn('sum', sequelize.col('consume')), 'consume'],
-          [sequelize.fn('sum', sequelize.col('contract')), 'contract'],
-          [sequelize.fn('sum', sequelize.col('contract_yzz')), 'contract_yzz'],
-          [sequelize.fn('sum', sequelize.col('contract_zztx')), 'contract_zztx'],
-          [sequelize.fn('sum', sequelize.col('contract_zztx')), 'contract_count_zztx'],
-          [sequelize.fn('sum', sequelize.col('contract_zztx')), 'contract_count_yzz'],
+          ...attributes
         ],
         where: {date: {[Op.between]: [startDate, endDate]}}
       });
@@ -64,19 +59,12 @@ class RecordService extends BaseService {
   }
 
   static async getGroupedIntervalReport({startDate, endDate, channels}) {
+    const attributes = getFlatFields().map(field => [sequelize.fn('sum', sequelize.col(field.key)), field.key]);
     return await Record.findAll({
       group: ['date'],
       attributes: [
         'date',
-        [sequelize.fn('sum', sequelize.col('clue')), 'clue'],
-        [sequelize.fn('sum', sequelize.col('yzz')), 'yzz'],
-        [sequelize.fn('sum', sequelize.col('zztx')), 'zztx'],
-        [sequelize.fn('sum', sequelize.col('consume')), 'consume'],
-        [sequelize.fn('sum', sequelize.col('contract')), 'contract'],
-        [sequelize.fn('sum', sequelize.col('contract_yzz')), 'contract_yzz'],
-        [sequelize.fn('sum', sequelize.col('contract_zztx')), 'contract_zztx'],
-        [sequelize.fn('sum', sequelize.col('contract_zztx')), 'contract_count_zztx'],
-        [sequelize.fn('sum', sequelize.col('contract_zztx')), 'contract_count_yzz'],
+        ...attributes
       ],
       where: {date: {[Op.between]: [startDate, endDate]}, channel_id: {[Op.in]: channels}},
 
@@ -85,7 +73,7 @@ class RecordService extends BaseService {
 
   static async getIntervalReport({startDate, endDate, channels}) {
     const result = await Record.findAll({
-      attributes: ['date', 'clue', 'yzz', 'zztx', 'consume', 'contract', 'contract_yzz', 'contract_zztx', 'contract_count_yzz', 'contract_count_zztx'],
+      attributes: ['date', ...getFlatFields().map(field=>field.key)],
       where: {date: {[Op.between]: [startDate, endDate]}, channel_id: {[Op.in]: channels}},
       include: {model: Channel, attributes: ['name']},
       order: [['date']]

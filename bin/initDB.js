@@ -38,6 +38,7 @@ async function initialMenu() {
     {name: '渠道管理', icon: 'share-alt', path: '/admin/channel', enable: true},
     {name: '用户管理', icon: 'user', path: '/admin/user', enable: true},
     {name: '角色管理', icon: 'team', path: '/admin/role', enable: true},
+    {name: '数据映射', icon: 'search', path: '/admin/map', enable: true},
 
     // deletion
     {name: '月度统计', icon: 'line-chart', path: '/admin/dashboard/monthly', enable: false},
