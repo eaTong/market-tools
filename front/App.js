@@ -18,6 +18,7 @@ import RecordPage from './pages/record/RecordPage';
 import Line from './pages/dashboard/Line';
 import Bar from './pages/dashboard/Bar';
 import Conversion from './pages/dashboard/Conversion';
+import ZoomConfigPage from './pages/zoomConfig/ZoomConfigPage';
 
 class App extends React.Component {
 
@@ -37,6 +38,7 @@ class App extends React.Component {
                 <Route path="/admin/dashboard/line" component={Line}/>
                 <Route path="/admin/dashboard/bar" component={Bar}/>
                 <Route path="/admin/dashboard/conversion" component={Conversion}/>
+                <Route path="/admin/zoom" component={ZoomConfigPage}/>
               </AdminLayout>
             )}>
             </Route>

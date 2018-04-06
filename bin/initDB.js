@@ -10,11 +10,15 @@ const Role = require('../server/models/RoleModel');
 const RoleMenu = require('../server/models/RoleMenuModel');
 const UserRole = require('../server/models/UserRole');
 const Trial = require('../server/models/TrialModel');
+const ZoomConfig = require('../server/models/ZoomConfigModel');
+
+const {getFlatFields} = require('../public/recordConfig');
 
 (async () => {
   await initialDatabaseStructure();
   await initialMenu();
   await initRole();
+  await initZoomConfig();
 })();
 
 
@@ -29,6 +33,7 @@ async function initialDatabaseStructure() {
   await RoleMenu.sync({alter: true});
   await UserRole.sync({alter: true});
   await Trial.sync({alter: true});
+  await ZoomConfig.sync({alter: true});
 }
 
 async function initialMenu() {
@@ -55,4 +60,10 @@ async function initRole() {
     adminRole.setMenus(menus);
     await adminRole.save();
   }
+}
+
+async function initZoomConfig() {
+  const flatFields = getFlatFields();
+  const zoomConfigList = flatFields.map(field => ({key: field.key, zoom: 1}));
+  await ZoomConfig.bulkCreate(zoomConfigList, {updateOnDuplicate: ['key', 'zoom',]});
 }

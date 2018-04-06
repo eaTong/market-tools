@@ -12,6 +12,7 @@ const channelApi = require('./apis/channelApi');
 const recordApi = require('./apis/recordApi');
 const menuApi = require('./apis/menuApi');
 const trialApi = require('./apis/trialApi');
+const zoomConfigApi = require('./apis/zoomConfigApi');
 
 const router = new Router();
 //define data structure for all API
@@ -47,6 +48,10 @@ router.post('/api/record/update', insertLog('update'), recordApi.updateRecords);
 router.post('/api/record/delete', insertLog('delete'), recordApi.deleteRecords);
 router.post('/api/record/interval-group', checkArguments(['startDate', 'endDate', 'channels']), recordApi.getGroupedIntervalReport);
 router.post('/api/record/interval', checkArguments(['startDate', 'endDate', 'channels']), recordApi.getIntervalReport);
+
+
+router.post('/api/zoomConfig/get', zoomConfigApi.getZoomConfigs);
+router.post('/api/zoomConfig/update', insertLog('update'), zoomConfigApi.updateZoomConfigs);
 
 router.post('/api/*', async ctx => {
   ctx.status = 404;

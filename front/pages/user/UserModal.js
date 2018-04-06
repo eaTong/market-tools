@@ -6,6 +6,16 @@ import PropTypes from 'prop-types';
 import {Modal, Form, Input, message} from 'antd';
 
 const FormItem = Form.Item;
+const formItemLayout = {
+  labelCol: {
+    xs: {span: 24},
+    sm: {span: 6},
+  },
+  wrapperCol: {
+    xs: {span: 24},
+    sm: {span: 14},
+  },
+};
 
 class UserModal extends Component {
   constructor(props) {
@@ -31,16 +41,6 @@ class UserModal extends Component {
   render() {
     const {operateType} = this.props;
     const {getFieldDecorator} = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: {span: 24},
-        sm: {span: 6},
-      },
-      wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 14},
-      },
-    };
     return (
       <Modal title={(operateType === 'add' ? '新增' : '编辑') + '账号'}
              maskClosable={false}
