@@ -4,9 +4,9 @@
 import React, {Component} from 'react';
 import ReactEcharts from 'echarts-for-react';
 import moment from 'moment';
-import {getGroupedIntervalReport, getChannel} from './dashboardAction';
+import {getGroupedIntervalReport, getChannel, getZoomConfigs} from './dashboardAction';
 import {Button, DatePicker, Checkbox, Popover} from 'antd';
-import {recordFields, getFlatFields} from 'public/recordConfig';
+import {getFlatFields, getFieldsMapping} from 'public/recordConfig';
 
 const flatFields = getFlatFields(true);
 const RangePicker = DatePicker.RangePicker;
@@ -20,7 +20,8 @@ class Line extends Component {
       channels: [],
       checkedChannels: [],
       startDate: '',
-      endDate: ''
+      endDate: '',
+      zoomMapping: {}
     };
   }
 
@@ -32,13 +33,27 @@ class Line extends Component {
   async componentDidMount() {
     const {success, data} = await getChannel();
     success && this.setState({channels: data, checkedChannels: data});
+    await this.getZoomConfigs();
     await this.getIntervalRecord();
+  }
+
+  async getZoomConfigs() {
+
+    const {success, data} = await getZoomConfigs();
+    const fieldsMapping = getFieldsMapping();
+    const zoomMapping = {};
+    for (let zoomConfig of data) {
+      zoomMapping[fieldsMapping[zoomConfig.key].name] = zoomConfig.zoom;
+      zoomMapping[zoomConfig.key] = zoomConfig.zoom;
+    }
+    success && this.setState({zoomMapping})
   }
 
   async getIntervalRecord() {
 
     const {startDate, endDate, checkedChannels} = this.state;
     const {success, data} = await getGroupedIntervalReport({
+      autoZoom: false,
       startDate,
       endDate,
       channels: checkedChannels.map(channel => channel.id)
@@ -47,19 +62,30 @@ class Line extends Component {
   }
 
   getOption() {
-    const {intervalRecord} = this.state;
+    const {intervalRecord, zoomMapping} = this.state;
     const seriesData = {
       days: [],
     };
     for (let record of intervalRecord) {
       seriesData.days.push(record.date);
       for (let {key} of flatFields) {
-        seriesData[key] = seriesData[key] ? seriesData[key].concat(~~record[key]) : [~~record[key]];
+        const value = (~~record[key]) * (zoomMapping[key] || 1);
+        seriesData[key] = seriesData[key] ? seriesData[key].concat(value) : [value];
       }
     }
     return {
       tooltip: {
-        trigger: 'axis'
+        trigger: 'axis',
+        formatter: (series) => {
+          return `${series[0].name}<br/>\
+            ${series.map(item => {
+              const zoom = zoomMapping[item.seriesName];
+              return `${item.marker} ${item.seriesName}:${item.value}\
+                    ${zoom !== 1 && item.value !== 0 ? `<span style="font-size:10px;color:"#e5e5e5"">(${~~item.value / zoom} * ${zoom})</span>` : ''}`
+            }
+          ).join('<br/>')
+            }`;
+        }
       },
       legend: {
         data: flatFields.map(field => field.name),
@@ -83,7 +109,17 @@ class Line extends Component {
       yAxis: {
         type: 'value'
       },
-      series: flatFields.map(field => ({name: field.name, type: 'line', data: seriesData[field.key]}))
+      series: flatFields.map(field => ({
+        name: field.name,
+        type: 'line',
+        data: seriesData[field.key],
+        tooltip: {
+          formatter: (a, b, c) => {
+            console.log(a, b, c);
+            return 12;
+          }
+        }
+      }))
     };
   }
 

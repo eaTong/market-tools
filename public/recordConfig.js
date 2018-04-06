@@ -38,5 +38,13 @@ function getFlatFields(parentPrefix) {
   return flatFields;
 }
 
+function getFieldsMapping() {
+  const fieldsMapping = {};
+  const flatFields = getFlatFields(true);
+  for (let field of flatFields) {
+    fieldsMapping[field.key] = field;
+  }
+  return fieldsMapping;
+}
 
-module.exports = {recordFields, getFlatFields};
+module.exports = {recordFields, getFlatFields, getFieldsMapping};

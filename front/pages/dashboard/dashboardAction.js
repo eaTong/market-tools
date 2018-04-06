@@ -12,6 +12,9 @@ export async function getIntervalRecord(data) {
   return await ajax({data, url: '/api/record/interval'});
 }
 
+export async function getZoomConfigs(data) {
+  return await ajax({data, url: '/api/zoomConfig/get'});
+}
 
 export async function getChannel() {
   return await ajax({url: '/api/channel/get'});
