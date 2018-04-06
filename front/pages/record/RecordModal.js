@@ -19,10 +19,6 @@ class RecordModal extends Component {
       // this.props.form.setFieldsValue(this.props.formData);
       const initialValue = {};
       for (let record of this.props.formData) {
-        /*        initialValue[`clue${record.channel_id}`] = record.clue;
-                initialValue[`yzz${record.channel_id}`] = record.yzz;
-                initialValue[`zztx${record.channel_id}`] = record.zztx;
-                initialValue[`consume${record.channel_id}`] = record.consume;*/
 
         for (let field of flatFields) {
           initialValue[`${field.key}${record.channel_id}`] = record[field.key];

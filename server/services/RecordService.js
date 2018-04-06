@@ -9,6 +9,7 @@ const Channel = require('../models/ChannelModel');
 const {getFlatFields, recordFields} = require('../../public/recordConfig');
 
 const {Op} = sequelize;
+const flatFields = getFlatFields();
 
 class RecordService extends BaseService {
 
@@ -45,7 +46,7 @@ class RecordService extends BaseService {
       return await Record.findAll({where: {date: {[Op.between]: [startDate, endDate]}}, include: {model: Channel}});
     } else {
       // return [];
-      const attributes = getFlatFields().map(field => [sequelize.fn('sum', sequelize.col(field.key)), field.key]);
+      const attributes = flatFields.map(field => [sequelize.fn('sum', sequelize.col(field.key)), field.key]);
 
       return await Record.findAll({
         group: ['month'],
@@ -59,7 +60,7 @@ class RecordService extends BaseService {
   }
 
   static async getGroupedIntervalReport({startDate, endDate, channels}) {
-    const attributes = getFlatFields().map(field => [sequelize.fn('sum', sequelize.col(field.key)), field.key]);
+    const attributes = flatFields.map(field => [sequelize.fn('sum', sequelize.col(field.key)), field.key]);
     return await Record.findAll({
       group: ['date'],
       attributes: [
@@ -73,7 +74,7 @@ class RecordService extends BaseService {
 
   static async getIntervalReport({startDate, endDate, channels}) {
     const result = await Record.findAll({
-      attributes: ['date', ...getFlatFields().map(field=>field.key)],
+      attributes: ['date', ...flatFields.map(field => field.key)],
       where: {date: {[Op.between]: [startDate, endDate]}, channel_id: {[Op.in]: channels}},
       include: {model: Channel, attributes: ['name']},
       order: [['date']]

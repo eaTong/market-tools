@@ -6,10 +6,10 @@ import ReactEcharts from 'echarts-for-react';
 import moment from 'moment';
 import {getGroupedIntervalReport, getChannel} from './dashboardAction';
 import {Button, DatePicker, Checkbox, Popover} from 'antd';
+import {recordFields, getFlatFields} from 'public/recordConfig';
 
-// const MonthPicker = DatePicker.MonthPicker;
+const flatFields = getFlatFields(true);
 const RangePicker = DatePicker.RangePicker;
-// const Option = Select.Option;
 const CheckboxGroup = Checkbox.Group;
 
 class Line extends Component {
@@ -50,34 +50,19 @@ class Line extends Component {
     const {intervalRecord} = this.state;
     const seriesData = {
       days: [],
-      clue: [],
-      yzz: [],
-      zztx: [],
-      consume: [],
-      contract: [],
-      contract_yzz: [],
-      contract_zztx: [],
-      contract_count_yzz: [],
-      contract_count_zztx: [],
     };
     for (let record of intervalRecord) {
       seriesData.days.push(record.date);
-      seriesData.clue.push(~~record.clue);
-      seriesData.yzz.push(~~record.yzz);
-      seriesData.zztx.push(~~record.zztx);
-      seriesData.consume.push(~~record.consume);
-      seriesData.contract.push(~~record.contract);
-      seriesData.contract_count_yzz.push(~~record.contract_count_yzz);
-      seriesData.contract_count_zztx.push(~~record.contract_count_zztx);
-      seriesData.contract_yzz.push(~~record.contract_yzz);
-      seriesData.contract_zztx.push(~~record.contract_zztx);
+      for (let {key} of flatFields) {
+        seriesData[key] = seriesData[key] ? seriesData[key].concat(~~record[key]) : [~~record[key]];
+      }
     }
     return {
       tooltip: {
         trigger: 'axis'
       },
       legend: {
-        data: ['线索量', '转单-云智装', '转单-智装天下', '消费', '签单金额-云智装', '签单金额-智装天下', '签单数-云智装', '签单数-智装天下'],
+        data: flatFields.map(field => field.name),
       },
       grid: {
         left: '3%',
@@ -98,16 +83,7 @@ class Line extends Component {
       yAxis: {
         type: 'value'
       },
-      series: [
-        {name: '线索量', type: 'line', data: seriesData.clue},
-        {name: '转单-智装天下', type: 'line', data: seriesData.zztx},
-        {name: '转单-云智装', type: 'line', data: seriesData.yzz},
-        {name: '消费', type: 'line', data: seriesData.consume},
-        {name: '签单金额-云智装', type: 'line', data: seriesData.contract_yzz},
-        {name: '签单金额-智装天下', type: 'line', data: seriesData.contract_zztx},
-        {name: '签单数-云智装', type: 'line', data: seriesData.contract_count_yzz},
-        {name: '签单数-智装天下', type: 'line', data: seriesData.contract_count_zztx},
-      ]
+      series: flatFields.map(field => ({name: field.name, type: 'line', data: seriesData[field.key]}))
     };
   }
 

@@ -29,7 +29,7 @@ function getFlatFields(parentPrefix) {
 
   let flatFields = [];
   for (let field of recordFields) {
-    const children = parentPrefix ? field.children.map(child => ({
+    const children = parentPrefix && field.children ? field.children.map(child => ({
       ...child,
       name: `${field.name}-${child.name}`
     })) : field.children;
