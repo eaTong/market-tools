@@ -43,7 +43,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new AppCachePlugin({
       exclude: ["index.html"],
-      output: 'manifest.appcache'
+      output: '/manifest.appcache'
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor'],
