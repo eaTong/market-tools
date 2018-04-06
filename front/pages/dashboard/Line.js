@@ -80,8 +80,9 @@ class Line extends Component {
           return `${series[0].name}<br/>\
             ${series.map(item => {
               const zoom = zoomMapping[item.seriesName];
-              return `${item.marker} ${item.seriesName}:${item.value}\
-                    ${zoom !== 1 && item.value !== 0 ? `<span style="font-size:10px;color:"#e5e5e5"">(${~~item.value / zoom} * ${zoom})</span>` : ''}`
+            const actualCount = ~~item.value / zoom;
+            return `${item.marker} ${item.seriesName}:${actualCount}\
+                    ${zoom !== 1 && item.value !== 0 ? `<span style="font-size:10px;color:"#e5e5e5"">(系数:${zoom})</span>` : ''}`
             }
           ).join('<br/>')
             }`;
