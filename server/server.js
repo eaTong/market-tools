@@ -20,6 +20,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const shortUrlMapping = {
   a: '/H5/zztx.html',
   c: '/H5/zztx_c.html',
+  d: '/H5/zztx_d.html',
 };
 
 const app = new Koa();
