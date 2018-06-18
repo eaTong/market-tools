@@ -8,6 +8,11 @@ import zhCN from 'antd/lib/locale-provider/zh_CN';
 import PropTypes from 'prop-types';
 import AdminLayout from './components/AdminLayout';
 import './app.less';
+import {Provider} from 'mobx-react';
+import './app.less';
+import './ag-theme-antd.less';
+import "ag-grid/dist/styles/ag-grid.css";
+import stores from '~/stores';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/login/LoginPage';
@@ -19,31 +24,43 @@ import Line from './pages/dashboard/Line';
 import Bar from './pages/dashboard/Bar';
 import Conversion from './pages/dashboard/Conversion';
 import ZoomConfigPage from './pages/zoomConfig/ZoomConfigPage';
+//UPDATE_TAG:importPage
+
+const routes = [
+  {key: "/admin/user", component: UserPage},
+  {key: "/admin/role", component: RolePage},
+  {key: "/admin/channel", component: ChannelPage},
+  {key: "/admin/record", component: RecordPage},
+  {key: "/admin/dashboard/line", component: Line},
+  {key: "/admin/dashboard/bar", component: Bar},
+  {key: "/admin/dashboard/conversion", component: Conversion},
+  {key: "/admin/zoom", component: ZoomConfigPage},
+//UPDATE_TAG:addPageRoute
+];
+
+function renderRoute() {
+  return routes.map(item => <Route exact path={item.key} key={item.key} component={item.component}/>)
+}
 
 class App extends React.Component {
 
   render() {
     return (
       <LocaleProvider locale={zhCN}>
-        <Router>
-          <div className="main-body">
-            <Route exact path="/" component={LoginPage}/>
-            <Route exact path="/login" component={LoginPage}/>
-            <Route path="/admin" component={(props) => (
-              <AdminLayout {...props}>
-                <Route path="/admin/user" component={UserPage}/>
-                <Route path="/admin/role" component={RolePage}/>
-                <Route path="/admin/channel" component={ChannelPage}/>
-                <Route path="/admin/record" component={RecordPage}/>
-                <Route path="/admin/dashboard/line" component={Line}/>
-                <Route path="/admin/dashboard/bar" component={Bar}/>
-                <Route path="/admin/dashboard/conversion" component={Conversion}/>
-                <Route path="/admin/zoom" component={ZoomConfigPage}/>
-              </AdminLayout>
-            )}>
-            </Route>
-          </div>
-        </Router>
+        <Provider {...stores}>
+          <Router>
+            <div className="main-body">
+              <Route exact path="/" component={LoginPage}/>
+              <Route exact path="/login" component={LoginPage}/>
+              <Route path="/admin" component={(props) => (
+                <AdminLayout {...props}>
+                  {renderRoute()}
+                </AdminLayout>
+              )}>
+              </Route>
+            </div>
+          </Router>
+        </Provider>
       </LocaleProvider>
     )
   }

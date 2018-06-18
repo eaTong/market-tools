@@ -4,27 +4,21 @@
 import React, {Component} from 'react';
 import {Form, Input, Button, Icon} from 'antd';
 import './login.less';
-import ajax from '../../util/ajaxUtil';
+import ajax from '~/util/ajaxUtil';
+import {inject , observer} from 'mobx-react';
 
 const FormItem = Form.Item;
 
+@inject('app') @observer
 class LoginPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {
-  }
 
   login() {
     this.props.form.validateFields(async (errors, values) => {
       if (errors) {
         return;
       }
-      const {success, data} = await ajax({data: values, url: '/api/user/login'});
-      window.sessionStorage.setItem('loginUser', JSON.stringify(data));
-      success && this.props.history.push(window.localStorage.getItem('lastUrl') || '/admin/record');
+      const {success, data} = await this.props.app.login(values);
+      success && this.props.history.push(window.localStorage.getItem('lastUrl') || '/admin/base/member');
     });
   }
 

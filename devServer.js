@@ -5,7 +5,7 @@ const express = require('express');
 const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
 const proxy = require('proxy-middleware');
-const config = require('./webpack.config.dev');
+const config = require('./webpack.config');
 
 const app = express();
 const compiler = webpack(config);

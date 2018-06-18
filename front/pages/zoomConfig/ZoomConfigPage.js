@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {Button, Form, InputNumber, message} from 'antd';
-import ajax from "@/util/ajaxUtil";
+import ajax from "~/util/ajaxUtil";
 import {getFlatFields} from 'public/recordConfig';
 
 const FormItem = Form.Item;

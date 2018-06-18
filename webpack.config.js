@@ -1,147 +1,116 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const autoPrefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const buildPath = path.resolve(__dirname, 'dist');
-const webContextRoot = '/';// 应用的实际访问路径，默认是'/'   可以试试/static/
-const AppCachePlugin = require('appcache-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const mainColor = '#45be89';
+const buildPath = path.resolve(__dirname, 'static');
 
 function resolve(dir) {
   return path.join(__dirname,  dir)
 }
 
+
 module.exports = {
-  devtool: 'cheap-module',
-  entry: {
-    main: [
-      'babel-polyfill',
-      './front/index.js'
-    ],
-    vendor: ['reqwest', 'echarts', 'react', 'react-dom', 'react-router', 'react-router-dom', 'moment']
-  },
+  devtool: 'cheap-module-source-map',
+  entry: [
+    'babel-polyfill',
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client',
+    './front/index'
+  ],
   output: {
-    path: buildPath,
-    filename: 'js/[name]_[chunkhash:8].js',
-    publicPath: webContextRoot
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
-      '@': resolve('front'),
+      '~': resolve('front'),
       'public': resolve('public')
     }
   },
   plugins: [
-    new CleanWebpackPlugin(['dist', 'build']),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-ca|zh-cn/),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new AppCachePlugin({
-      exclude: ["index.html"],
-      output: '/manifest.appcache'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor'],
-      filename: 'js/vendor.[chunkhash].js',
+    new webpack.DefinePlugin({
+      DEBUG_ENV: JSON.stringify(process.env.DEBUG_ENV),
+      PUBLISH_TIME: new Date().getTime(),
+      URL_PREFIX: JSON.stringify('/api'),
+      MAIN_COLOR: JSON.stringify(mainColor),
+      process: {
+        env: {
+          // process.env.NODE_ENV==="production"
+          // 应用代码里，可凭此判断是否运行在生产环境
+          NODE_ENV: JSON.stringify('development')
+        }
+      }
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'index-production.html'),
+      template: path.join(__dirname, 'index.html'),
       path: buildPath,
       excludeChunks: ['base'],
       filename: 'index.html',
-      time: Date.now(),
+      inject: 'body',
       minify: {
         collapseWhitespace: true,
         collapseInlineTagWhitespace: true,
         removeComments: true,
         removeRedundantAttributes: true
-      },
-    }),
-    new webpack.DefinePlugin({
-      process: {
-        env: {
-          // process.env.NODE_ENV==="production"
-          // 应用代码里，可凭此判断是否运行在生产环境
-          NODE_ENV: JSON.stringify('production')
-        }
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-        drop_debugger: true,
-        drop_console: true
-      },
-      output: {
-        comments: false
-      }
-    }),
-    new webpack.HashedModuleIdsPlugin(),
-    new ExtractTextPlugin("styles-[contenthash].css"),
   ],
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              modules: false
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              plugins: [autoPrefixer]
+            }
+          }]
+      }, {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              modules: false
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              plugins: [autoPrefixer]
+            }
+          }, {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+              modules: false,
+              modifyVars: {"primary-color": mainColor}
+            }
+          }
+        ]
+      },
+      {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
         use: ['babel-loader']
-      }, {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true || {/* CSSNano Options */}
-              }
-            }, {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: [autoPrefixer]
-              }
-            }]
-        })
-      }, {
-        test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true || {/* CSSNano Options */}
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: [autoPrefixer]
-              }
-            }, {
-              loader: 'less-loader',
-              options: {
-                modifyVars: {"primary-color": mainColor}
-              }
-            }
-          ]
-        })
       }, {
         test: /\.(jpg|png|gif)$/,
         use: {
