@@ -25,7 +25,7 @@ const description = `
  */
 `;
 
-function getModel(form, module) {
+function getModel(form) {
   return `
 const Sequelize = require('sequelize');
 const sequelize = require('../framework/database');
@@ -39,7 +39,7 @@ module.exports = ${upperFirstLetter(form)};
 `;
 }
 
-function getApi(form, module) {
+function getApi(form) {
   return `
 const {LogicError} = require("../framework/errors");
 const ${upperFirstLetter(form)}Service = require('../services/${upperFirstLetter(form)}Service');
@@ -74,7 +74,7 @@ module.exports = ${upperFirstLetter(form)}Api;
   `;
 }
 
-function getService(form, module) {
+function getService(form) {
   return `
 const {Op} = require('sequelize');
 const sequelize = require('../framework/database');
@@ -116,11 +116,11 @@ module.exports = ${upperFirstLetter(form)}Service;
   `;
 }
 
-function getImportApi(form, module) {
+function getImportApi(form) {
   return `const ${upperFirstLetter(form)}Api = require('./apis/${upperFirstLetter(form)}Api');`
 }
 
-function getDefineRouter(form, module) {
+function getDefineRouter(form) {
   const moduleStr = module ? `/${module}` : '';
   return `
 router.post('/api${moduleStr}/${form}/add', insertLog('add'), checkArguments(['name']), ${upperFirstLetter(form)}Api.add${upperFirstLetter(form)});
@@ -131,19 +131,19 @@ router.post('/api${moduleStr}/${form}/detail',  checkArguments(['id']), ${upperF
 `
 }
 
-function getImportModel(form, module) {
+function getImportModel(form) {
   return `const ${upperFirstLetter(form)} = require('../server/models/${upperFirstLetter(form)}');`;
 }
 
-function getAsyncModel(form, module) {
+function getAsyncModel(form) {
   return `  await ${upperFirstLetter(form)}.sync({alter: true});`;
 }
 
-function getFrontFormPath(form, module) {
+function getFrontFormPath(form) {
   let finalPath = path.resolve(basePath, 'front', 'pages');
 
   if (module) {
-    finalPath = path.resolve(finalPath, module);
+    finalPath = path.resolve(finalPath);
     if (!fs.existsSync(finalPath)) {
       fs.mkdirSync(finalPath);
     }
@@ -155,7 +155,7 @@ function getFrontFormPath(form, module) {
   return finalPath;
 }
 
-function getPage(form, module) {
+function getPage(form) {
   return `
 import React, {Component} from 'react';
 import {Button, message} from 'antd';
@@ -215,7 +215,7 @@ export default ${upperFirstLetter(form)}Page;
   `;
 }
 
-function getModal(form, module) {
+function getModal(form) {
   return `
   import React, {Component} from 'react';
 import PropTypes from 'prop-types';
@@ -285,7 +285,7 @@ ${upperFirstLetter(form)}Modal = Form.create()(${upperFirstLetter(form)}Modal);
 export default ${upperFirstLetter(form)}Modal;`;
 }
 
-function getStore(form, module) {
+function getStore(form) {
   const moduleStr = module ? `/${module}` : '';
   return `
 import {observable, action} from 'mobx';
@@ -302,20 +302,20 @@ export default class ${upperFirstLetter(form)}Store extends BaseStore {
 }`;
 }
 
-function getImportStore(form, module) {
+function getImportStore(form) {
   return `import ${upperFirstLetter(form)}Store from './${upperFirstLetter(form)}Store';`;
 }
 
-function getRegisterStore(form, module) {
+function getRegisterStore(form) {
   return `${form}: new ${upperFirstLetter(form)}Store(),`;
 }
 
-function getImportPage(form, module) {
+function getImportPage(form) {
   const moduleStr = module ? `/${module}` : '';
   return `import ${upperFirstLetter(form)}Page from './pages${moduleStr}/${form}/${upperFirstLetter(form)}Page';`;
 }
 
-function getAddPageRoute(form, module) {
+function getAddPageRoute(form) {
   const moduleStr = module ? `/${module}` : '';
   return `  {key: '/admin${moduleStr}/${form}', component: ${upperFirstLetter(form)}Page},`;
 }
@@ -364,32 +364,30 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-rl.question('What\'s the module name ? ', (module) => {
-  rl.question('What\'s the form name ?', async form => {
+rl.question('What\'s the form name ?', async form => {
 // generate code of backend
-    await writeFile(path.resolve(modelPath, `${upperFirstLetter(form, module)}.js`), getModel(form, module));
-    await writeFile(path.resolve(apiPath, `${upperFirstLetter(form, module)}Api.js`), getApi(form, module));
-    await writeFile(path.resolve(servicePath, `${upperFirstLetter(form, module)}Service.js`), getService(form, module));
+  await writeFile(path.resolve(modelPath, `${upperFirstLetter(form)}.js`), getModel(form));
+  await writeFile(path.resolve(apiPath, `${upperFirstLetter(form)}Api.js`), getApi(form));
+  await writeFile(path.resolve(servicePath, `${upperFirstLetter(form)}Service.js`), getService(form));
 
-    await updateFile(routerPath, 'importApi', getImportApi(form, module));
-    await updateFile(routerPath, 'defineRouter', getDefineRouter(form, module));
+  await updateFile(routerPath, 'importApi', getImportApi(form));
+  await updateFile(routerPath, 'defineRouter', getDefineRouter(form));
 
-    await updateFile(initDbPath, 'importModel', getImportModel(form, module));
-    await updateFile(initDbPath, 'asyncModel', getAsyncModel(form, module));
+  await updateFile(initDbPath, 'importModel', getImportModel(form));
+  await updateFile(initDbPath, 'asyncModel', getAsyncModel(form));
 
 
 // generate code of frontend
-    const frontPath = getFrontFormPath(form, module);
-    await writeFile(path.resolve(frontPath, `${upperFirstLetter(form, module)}Modal.js`), getModal(form, module));
-    await writeFile(path.resolve(frontPath, `${upperFirstLetter(form, module)}Page.js`), getPage(form, module));
-    await writeFile(path.resolve(storePath, `${upperFirstLetter(form, module)}Store.js`), getStore(form, module));
-    await updateFile(storeIndexPath, 'importStore', getImportStore(form, module));
-    await updateFile(storeIndexPath, 'registerStore', getRegisterStore(form, module));
-    await updateFile(appPath, 'importPage', getImportPage(form, module));
-    await updateFile(appPath, 'addPageRoute', getAddPageRoute(form, module));
-    rl.close();
+  const frontPath = getFrontFormPath(form);
+  await writeFile(path.resolve(frontPath, `${upperFirstLetter(form)}Modal.js`), getModal(form));
+  await writeFile(path.resolve(frontPath, `${upperFirstLetter(form)}Page.js`), getPage(form));
+  await writeFile(path.resolve(storePath, `${upperFirstLetter(form)}Store.js`), getStore(form));
+  await updateFile(storeIndexPath, 'importStore', getImportStore(form));
+  await updateFile(storeIndexPath, 'registerStore', getRegisterStore(form));
+  await updateFile(appPath, 'importPage', getImportPage(form));
+  await updateFile(appPath, 'addPageRoute', getAddPageRoute(form));
+  rl.close();
 
-    process.exit();
-  });
+  process.exit();
 });
 

@@ -20,6 +20,7 @@ const {getFlatFields} = require('../public/recordConfig');
   await initialMenu();
   await initRole();
   await initZoomConfig();
+  process.exit();
 })();
 
 
