@@ -11,6 +11,7 @@ const RoleMenu = require('../server/models/RoleMenuModel');
 const UserRole = require('../server/models/UserRole');
 const Trial = require('../server/models/TrialModel');
 const ZoomConfig = require('../server/models/ZoomConfigModel');
+//UPDATE_TAG:importModel
 
 const {getFlatFields} = require('../public/recordConfig');
 
@@ -34,6 +35,7 @@ async function initialDatabaseStructure() {
   await UserRole.sync({alter: true});
   await Trial.sync({alter: true});
   await ZoomConfig.sync({alter: true});
+//UPDATE_TAG:asyncModel
 }
 
 async function initialMenu() {

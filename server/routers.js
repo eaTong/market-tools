@@ -13,6 +13,7 @@ const recordApi = require('./apis/recordApi');
 const menuApi = require('./apis/menuApi');
 const trialApi = require('./apis/trialApi');
 const zoomConfigApi = require('./apis/zoomConfigApi');
+//UPDATE_TAG:importApi
 
 const router = new Router();
 //define data structure for all API
@@ -52,6 +53,8 @@ router.post('/api/record/interval', checkArguments(['startDate', 'endDate', 'cha
 
 router.post('/api/zoomConfig/get', zoomConfigApi.getZoomConfigs);
 router.post('/api/zoomConfig/update', insertLog('update'), zoomConfigApi.updateZoomConfigs);
+
+//UPDATE_TAG:defineRouter
 
 router.post('/api/*', async ctx => {
   ctx.status = 404;
