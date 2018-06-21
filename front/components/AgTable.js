@@ -22,7 +22,9 @@ class AgTable extends Component {
     this.state = {
       columnDefs: [],
       showSortModal: false,
-      selectedCount: 0
+      selectedCount: 0,
+      showDetail: false,
+      detailIndex: -1
     };
     this.columnIndexMap = {};
     this.selectedKeys = [];
@@ -132,7 +134,7 @@ class AgTable extends Component {
           colId: column.key || column.field || column.colId || column.dataIndex,
           hide: column.hide,
           width: column.children ? undefined : (parseInt(column.width) || defaultColumn.width),
-          cellRendererFramework: AgTable.getCellRenderer.bind(this, column.render),
+          cellRendererFramework: AgTable.getCellRenderer.bind(this, column.render, column.checkDetail),
           children: !column.children ? undefined : column.children.map(child => {
             return {
               headerName: child.title,
@@ -141,7 +143,7 @@ class AgTable extends Component {
               pinned: child.pinned,
               width: child.width || defaultColumn.width,
               hide: column.hide,
-              cellRendererFramework: AgTable.getCellRenderer.bind(this, child.render)
+              cellRendererFramework: AgTable.getCellRenderer.bind(this, child.render, column.checkDetail)
             }
           })
         }
@@ -191,15 +193,29 @@ class AgTable extends Component {
 
   }
 
-  static getCellRenderer(func, item) {
+  static getCellRenderer(func, checkDetail, item) {
+    let result;
     if (func) {
-      let result = func(item.value, item.data, item.data.__index);
+      result = func(item.value, item.data, item.data.__index);
       result = result === 0 ? ('' + result) : result;
-      return typeof result === 'object' ? result : (<Tooltip title={result} trigger="click">{result}</Tooltip>)
+      result = typeof result === 'object' ? result : (<Tooltip title={result} trigger="click">{result}</Tooltip>)
     } else {
-      const result = (item.value === 0 ? item.value + '' : item.value) || '';
-      return (<Tooltip placement="topLeft" title={result} trigger="click">{result}</Tooltip>);
+      result = (item.value === 0 ? item.value + '' : item.value) || '';
+
     }
+
+    return (
+      <Tooltip placement="topLeft" title={result} trigger={checkDetail ? "hover" : "click"}>
+        <span
+          className={checkDetail ? 'check-detail' : ''}
+          onClick={checkDetail ? () => {
+            const isCurrent = item.data.__index === this.state.detailIndex;
+            this.toggleDetail(!isCurrent, isCurrent ? -1 : item.data.__index);
+          } : null}
+        >
+          {result}
+          </span>
+      </Tooltip>);
   }
 
   onGridReady(params) {
@@ -210,6 +226,9 @@ class AgTable extends Component {
       const config = window.localStorage.getItem(this.props.tableId + 'table-config');
       this.updateColumns(config ? JSON.parse(config) : undefined);
     }
+  }
+  toggleDetail(value, detailIndex) {
+    this.setState({detailIndex, showDetail: typeof value === 'undefined' ? !this.state.showDetail : value});
   }
 
   onSelectionChange(item, event) {
@@ -338,12 +357,44 @@ class AgTable extends Component {
   }
 
   render() {
-    const pagination = this.props.pagination;
-    const rowSelection = this.props.rowSelection;
+    const {pagination, rowSelection, detailContainerWidth, renderDetail, renderAdditionalTool} = this.props;
+    const {showDetail, detailIndex, selectedCount, showSortModal, columnDefs} = this.state;
     const dataSource = this.getDataSource();
+    const containerWidth = showDetail ? (detailContainerWidth || 300) : 0;
 
+    const currentDetail = dataSource[detailIndex];
     return (
-      <div className="content ag-grid-container ag-antd ">
+      <div className="content ag-grid-container ag-antd " style={this.props.style || {}}>
+        {!!renderDetail && showDetail && (
+          <Icon
+            type="caret-right"
+            className="toggle-detail"
+            style={{right: Math.max(containerWidth, 12) - 12}}
+            onClick={() => this.toggleDetail()}/>
+        )}
+        <div className={`detail-container `} style={{width: containerWidth}}>
+          {renderDetail && renderDetail(currentDetail, detailIndex,)}
+          {currentDetail && (
+            <div className="toolbar">
+              <Button
+                icon="arrow-left"
+                shape="circle"
+                size="small"
+                disabled={detailIndex === 0}
+                onClick={() => this.toggleDetail(true, detailIndex - 1)}/>
+
+              {renderAdditionalTool && renderAdditionalTool(currentDetail, detailIndex)}
+
+              <Button
+                icon="arrow-right"
+                shape="circle"
+                size="small"
+                disabled={detailIndex === dataSource.length - 1}
+                onClick={() => this.toggleDetail(true, detailIndex + 1)}/>
+            </div>
+          )}
+
+        </div>
         <div className="ag-grid">
           <AgGridReact
             ref={grid => this.grid = grid}
@@ -367,35 +418,35 @@ class AgTable extends Component {
             style={{width: '100%', height: '100%', maxWidth: '100%', maxHeight: '100%'}}
           />
         </div>
-        <div className="header-setting" >
+        <div className="header-setting">
           <Button icon="setting" type="primary" onClick={this.toggleSortModal.bind(this)}/>
         </div>
         {!!rowSelection && rowSelection.onChange && rowSelection.type !== 'radio' && (
           <div className="select-all">
             <Checkbox
               onClick={this.selectAll.bind(this)}
-              checked={this.state.selectedCount === dataSource.length && dataSource.length !== 0}
+              checked={selectedCount === dataSource.length && dataSource.length !== 0}
               indeterminate={this.selectedKeys.length > 0 && this.selectedKeys.length !== dataSource.length}
             />
           </div>
         )}
-        {!!this.props.pagination && (
+        {!!pagination && (
           <Pagination
             className="ag-pagination"
             {...pagination}
             onChange={(a, b, c) => {
               //切换页码的时候清除所有选中信息
               this.selectedKeys = [];
-              this.props.rowSelection && this.props.rowSelection.onSelect && this.props.rowSelection.onSelect([], []);
-              this.props.rowSelection && this.props.rowSelection.onChange && this.props.rowSelection.onChange([], []);
+              rowSelection && rowSelection.onSelect && rowSelection.onSelect([], []);
+              rowSelection && rowSelection.onChange && rowSelection.onChange([], []);
 
               pagination.onChange && pagination.onChange(a, b, c);
             }}
           />
         )}
-        {this.state.showSortModal && (
+        {showSortModal && (
           <SortModal
-            columns={this.state.columnDefs}
+            columns={columnDefs}
             onChangeSort={this.onChangeSort.bind(this)}
             onCancel={this.toggleSortModal.bind(this)}
           />
@@ -407,12 +458,14 @@ class AgTable extends Component {
 
 
 AgTable.propTypes = {
-  showSort: PropTypes.bool,
   dataSource: PropTypes.array.isRequired,
-  disabledKeys: PropTypes.array,
   columns: PropTypes.array,
+  disabledKeys: PropTypes.array,
   tableId: PropTypes.string,
-  rowSelection: PropTypes.object
+  rowSelection: PropTypes.object,
+  detailContainerWidth: PropTypes.number,
+  renderDetail: PropTypes.func,
+  renderAdditionalTool: PropTypes.func,
 };
 export default AgTable;
 

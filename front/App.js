@@ -7,10 +7,10 @@ import {LocaleProvider} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import PropTypes from 'prop-types';
 import AdminLayout from './components/AdminLayout';
-import './app.less';
+import './styles/app.less';
 import {Provider} from 'mobx-react';
-import './app.less';
-import './ag-theme-antd.less';
+import './styles/app.less';
+import './styles/ag-theme-antd.less';
 import "ag-grid/dist/styles/ag-grid.css";
 import stores from '~/stores';
 
