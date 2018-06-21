@@ -3,7 +3,7 @@
  */
 import axios from 'axios';
 import {message, notification} from 'antd';
-import store from '../stores';
+import store from '~/stores';
 
 export default async function ajax(config) {
   const {url, data, headers} = config;

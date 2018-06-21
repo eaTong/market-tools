@@ -121,13 +121,12 @@ function getImportApi(form) {
 }
 
 function getDefineRouter(form) {
-  const moduleStr = module ? `/${module}` : '';
   return `
-router.post('/api${moduleStr}/${form}/add', insertLog('add'), checkArguments(['name']), ${upperFirstLetter(form)}Api.add${upperFirstLetter(form)});
-router.post('/api${moduleStr}/${form}/get', ${upperFirstLetter(form)}Api.get${upperFirstLetter(form)}s);
-router.post('/api${moduleStr}/${form}/update', insertLog('update'), checkArguments(['id', 'name']), ${upperFirstLetter(form)}Api.update${upperFirstLetter(form)}s);
-router.post('/api${moduleStr}/${form}/delete', insertLog('delete'), checkArguments(['ids']), ${upperFirstLetter(form)}Api.delete${upperFirstLetter(form)}s);  
-router.post('/api${moduleStr}/${form}/detail',  checkArguments(['id']), ${upperFirstLetter(form)}Api.delete${upperFirstLetter(form)}s); \
+router.post('/api/${form}/add', insertLog('add'), checkArguments(['name']), ${upperFirstLetter(form)}Api.add${upperFirstLetter(form)});
+router.post('/api/${form}/get', ${upperFirstLetter(form)}Api.get${upperFirstLetter(form)}s);
+router.post('/api/${form}/update', insertLog('update'), checkArguments(['id', 'name']), ${upperFirstLetter(form)}Api.update${upperFirstLetter(form)}s);
+router.post('/api/${form}/delete', insertLog('delete'), checkArguments(['ids']), ${upperFirstLetter(form)}Api.delete${upperFirstLetter(form)}s);  
+router.post('/api/${form}/detail',  checkArguments(['id']), ${upperFirstLetter(form)}Api.get${upperFirstLetter(form)}Detail); \
 `
 }
 
@@ -158,7 +157,7 @@ function getFrontFormPath(form) {
 function getPage(form) {
   return `
 import React, {Component} from 'react';
-import {Button, message} from 'antd';
+import {Button, message ,Input} from 'antd';
 import AgTable from '~/components/AgTable';
 import ${upperFirstLetter(form)}Modal from "./${upperFirstLetter(form)}Modal";
 import {inject, observer} from "mobx-react";
@@ -293,18 +292,17 @@ export default ${upperFirstLetter(form)}Modal;`;
 }
 
 function getStore(form) {
-  const moduleStr = module ? `/${module}` : '';
   return `
 import {observable, action} from 'mobx';
 import ajax from "~/util/ajaxUtil";
 import BaseStore from '~/stores/BaseStore'
 
 export default class ${upperFirstLetter(form)}Store extends BaseStore {
-  listApi = '/api${moduleStr}/${form}/get';
-  addApi = '/api${moduleStr}/${form}/add';
-  updateApi = '/api${moduleStr}/${form}/update';
-  deleteApi = '/api${moduleStr}/${form}/delete';
-  detailApi = '/api${moduleStr}/${form}/detail';
+  listApi = '/api/${form}/get';
+  addApi = '/api/${form}/add';
+  updateApi = '/api/${form}/update';
+  deleteApi = '/api/${form}/delete';
+  detailApi = '/api/${form}/detail';
   
   @action
   async searchData(keywords) {
@@ -324,13 +322,11 @@ function getRegisterStore(form) {
 }
 
 function getImportPage(form) {
-  const moduleStr = module ? `/${module}` : '';
-  return `import ${upperFirstLetter(form)}Page from './pages${moduleStr}/${form}/${upperFirstLetter(form)}Page';`;
+  return `import ${upperFirstLetter(form)}Page from './pages/${form}/${upperFirstLetter(form)}Page';`;
 }
 
 function getAddPageRoute(form) {
-  const moduleStr = module ? `/${module}` : '';
-  return `  {key: '/admin${moduleStr}/${form}', component: ${upperFirstLetter(form)}Page},`;
+  return `  {key: '/admin/${form}', component: ${upperFirstLetter(form)}Page},`;
 }
 
 function upperFirstLetter(word) {

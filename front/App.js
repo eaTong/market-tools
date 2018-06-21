@@ -7,7 +7,6 @@ import {LocaleProvider} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import PropTypes from 'prop-types';
 import AdminLayout from './components/AdminLayout';
-import './styles/app.less';
 import {Provider} from 'mobx-react';
 import './styles/app.less';
 import './styles/ag-theme-antd.less';
@@ -24,6 +23,7 @@ import Line from './pages/dashboard/Line';
 import Bar from './pages/dashboard/Bar';
 import Conversion from './pages/dashboard/Conversion';
 import ZoomConfigPage from './pages/zoomConfig/ZoomConfigPage';
+import DemandPage from './pages/demand/DemandPage';
 //UPDATE_TAG:importPage
 
 const routes = [
@@ -35,6 +35,7 @@ const routes = [
   {key: "/admin/dashboard/bar", component: Bar},
   {key: "/admin/dashboard/conversion", component: Conversion},
   {key: "/admin/zoom", component: ZoomConfigPage},
+  {key: '/admin/demand', component: DemandPage},
 //UPDATE_TAG:addPageRoute
 ];
 
