@@ -1,18 +1,25 @@
-
 /**
  * Created by eaTong on 2018-21-06 .
  * Description: auto generated in  2018-21-06
  */
 
 import React, {Component} from 'react';
-import {Button, message , Input} from 'antd';
+import {Button, message, Input} from 'antd';
 import AgTable from '~/components/AgTable';
 import DemandModal from "./DemandModal";
 import {inject, observer} from "mobx-react";
 
 const ButtonGroup = Button.Group;
 const columns = [
-  {title: '名称', dataIndex: 'name', key: 'name'},
+  {title: '提出人', dataIndex: 'demander'},
+  {title: '需求类型', dataIndex: 'type'},
+  {title: '提出部门', dataIndex: 'department'},
+  {title: '所属客户', dataIndex: 'customerName'},
+  {title: '需求内容', dataIndex: 'content'},
+  {title: '需求背景', dataIndex: 'why'},
+  {title: '提出时间', dataIndex: 'date'},
+  {title: '需求状态', dataIndex: 'status'},
+  {title: '预计发布日期', dataIndex: 'publishDate'},
 ];
 
 @inject('demand') @observer
