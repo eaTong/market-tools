@@ -179,7 +179,14 @@ class ${upperFirstLetter(form)}Page extends Component {
     return (
       <div className="base-layout">
         <header className="header">
-          <div className="label">用户管理</div>
+          <div className="label">
+            用户管理
+            <Input.Search
+              className={'search'}
+              placeholder={'输入关键字搜索'}
+              onSearch={(val) => this.props.${form}.searchData(val)}
+            />
+          </div>
           <ButtonGroup className="buttons">
             <Button onClick={() => this.props.${form}.toggleModal('add')}>新建</Button>
             <Button onClick={() => this.props.${form}.toggleModal('edit')}
@@ -298,7 +305,13 @@ export default class ${upperFirstLetter(form)}Store extends BaseStore {
   updateApi = '/api${moduleStr}/${form}/update';
   deleteApi = '/api${moduleStr}/${form}/delete';
   detailApi = '/api${moduleStr}/${form}/detail';
-
+  
+  @action
+  async searchData(keywords) {
+    this.queryOption = {keywords};
+    this.pageIndex = 0;
+    await this.getDataList();
+  }
 }`;
 }
 
