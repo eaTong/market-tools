@@ -47,7 +47,7 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor'],
-      filename: 'js/vendor.[chunkhash].js',
+      filename: 'vendor.[chunkhash].js',
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'index-production.html'),
