@@ -9,7 +9,7 @@
     "start-front": "cross-env NODE_ENV=development node  devServer",
     "start-server": "cross-env NODE_ENV=development node index.js",
     "zip": "node bin/zipDist",
-    "auto-publish": "yarn build && yarn zip"
+    "auto-publish": "npm run  build && npm run zip"
   },
   "author": "eaTong",
   "license": "ISC",
