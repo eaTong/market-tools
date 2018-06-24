@@ -5,7 +5,8 @@
 
 import {observable, action} from 'mobx';
 import ajax from "~/util/ajaxUtil";
-import BaseStore from '~/stores/BaseStore'
+import BaseStore from '~/stores/BaseStore';
+import {message} from 'antd';
 
 export default class DemandStore extends BaseStore {
   listApi = '/api/demand/get';
@@ -28,6 +29,7 @@ export default class DemandStore extends BaseStore {
 
   @action onChangeDetail(detail) {
     this.detail = {...detail};
+    console.log(detail)
   }
 
   @action toggleRefuseModal() {
@@ -42,11 +44,21 @@ export default class DemandStore extends BaseStore {
 
   @action
   async agree(data) {
-    console.log(data);
+    const {success} = await ajax({data: {...data, id: this.detail.id}, url: '/api/demand/agree'});
+    if (success) {
+      message.success('操作成功');
+      this.toggleAgreeModal();
+      this.detail = {...this.detail, ...data, status: 1}
+    }
   }
 
   @action
   async refuse(data) {
-    console.log(data);
+    const {success} = await ajax({data: {...data, id: this.detail.id}, url: '/api/demand/refuse'});
+    if (success) {
+      message.success('操作成功');
+      this.toggleRefuseModal();
+      this.detail = {...this.detail, ...data, status: 2}
+    }
   }
 }

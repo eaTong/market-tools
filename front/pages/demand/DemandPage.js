@@ -45,7 +45,8 @@ class DemandPage extends Component {
     await this.props.demand.getDataList();
   }
 
-  renderDetail(demand, index) {
+  renderDetail() {
+    const demand = this.props.demand.detail;
     return (
       <DataGrid>
         <DataRow label="提出人">{demand.demander}</DataRow>

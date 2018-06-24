@@ -1,4 +1,3 @@
-
 /**
  * Created by eaTong on 2018-21-06 .
  * Description: auto generated in  2018-21-06
@@ -23,15 +22,22 @@ class DemandApi extends BaseApi {
   }
 
   static async getDemands(ctx) {
-    const {pageIndex = 0, pageSize = 20} = ctx.request.body;
-    return await DemandService.getDemands(pageIndex, pageSize);
+    const {pageIndex = 0, pageSize = 20, status = -1, keywords} = ctx.request.body;
+    return await DemandService.getDemands(pageIndex, pageSize, status, keywords);
   }
 
   static async getDemandDetail(ctx) {
     return await DemandService.getDemandDetail(ctx.request.body);
   }
 
+  static async agree(ctx) {
+    return await DemandService.agree(ctx.request.body);
+  }
+
+  static async refuse(ctx) {
+    return await DemandService.refuse(ctx.request.body);
+  }
+
 }
 
 module.exports = DemandApi;
-  

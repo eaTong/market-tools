@@ -230,7 +230,7 @@ class AgTable extends Component {
 
   onChangeDetail(value, detailIndex) {
     this.setState({detailIndex, showDetail: typeof value === 'undefined' ? !this.state.showDetail : value});
-    this.props.onChangeDetail && this.props.onChangeDetail(value, detailIndex);
+    this.props.onChangeDetail && this.props.onChangeDetail(this.getDataSource()[detailIndex], detailIndex);
   }
 
   onSelectionChange(item, event) {
