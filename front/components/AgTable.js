@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Pagination, Button, Modal, Switch, Checkbox, Tooltip, Radio} from 'antd';
+import {Pagination, Button, Modal, Switch, Checkbox, Tooltip, Radio, Icon} from 'antd';
 import {AgGridReact} from "ag-grid-react";
 import {sortable} from 'react-sortable';
 import {v4} from 'uuid';
@@ -150,7 +150,7 @@ class AgTable extends Component {
       });
       columnDefs = this.getRowColumns(props, columns);
     }
-    this.setState({columnDefs} , this.initMap);
+    this.setState({columnDefs}, this.initMap);
   }
 
   getRowColumns(props, columns) {
@@ -210,7 +210,7 @@ class AgTable extends Component {
           className={checkDetail ? 'check-detail' : ''}
           onClick={checkDetail ? () => {
             const isCurrent = item.data.__index === this.state.detailIndex;
-            this.toggleDetail(!isCurrent, isCurrent ? -1 : item.data.__index);
+            this.onChangeDetail(!isCurrent, isCurrent ? -1 : item.data.__index);
           } : null}
         >
           {result}
@@ -222,13 +222,15 @@ class AgTable extends Component {
     this.gridApi = params.api;
     this.columnApi = params.columnApi;
     this.props.onGridReady && this.props.onGridReady(params);
-    if ( this.props.tableId) {
+    if (this.props.tableId) {
       const config = window.localStorage.getItem(this.props.tableId + 'table-config');
       this.updateColumns(config ? JSON.parse(config) : undefined);
     }
   }
-  toggleDetail(value, detailIndex) {
+
+  onChangeDetail(value, detailIndex) {
     this.setState({detailIndex, showDetail: typeof value === 'undefined' ? !this.state.showDetail : value});
+    this.props.onChangeDetail && this.props.onChangeDetail(value, detailIndex);
   }
 
   onSelectionChange(item, event) {
@@ -370,10 +372,10 @@ class AgTable extends Component {
             type="caret-right"
             className="toggle-detail"
             style={{right: Math.max(containerWidth, 12) - 12}}
-            onClick={() => this.toggleDetail()}/>
+            onClick={() => this.onChangeDetail()}/>
         )}
         <div className={`detail-container `} style={{width: containerWidth}}>
-          {renderDetail && renderDetail(currentDetail, detailIndex,)}
+          {renderDetail && showDetail && currentDetail && renderDetail(currentDetail, detailIndex,)}
           {currentDetail && (
             <div className="toolbar">
               <Button
@@ -381,7 +383,7 @@ class AgTable extends Component {
                 shape="circle"
                 size="small"
                 disabled={detailIndex === 0}
-                onClick={() => this.toggleDetail(true, detailIndex - 1)}/>
+                onClick={() => this.onChangeDetail(true, detailIndex - 1)}/>
 
               {renderAdditionalTool && renderAdditionalTool(currentDetail, detailIndex)}
 
@@ -390,7 +392,7 @@ class AgTable extends Component {
                 shape="circle"
                 size="small"
                 disabled={detailIndex === dataSource.length - 1}
-                onClick={() => this.toggleDetail(true, detailIndex + 1)}/>
+                onClick={() => this.onChangeDetail(true, detailIndex + 1)}/>
             </div>
           )}
 
@@ -466,6 +468,7 @@ AgTable.propTypes = {
   detailContainerWidth: PropTypes.number,
   renderDetail: PropTypes.func,
   renderAdditionalTool: PropTypes.func,
+  onChangeDetail: PropTypes.func,
 };
 export default AgTable;
 

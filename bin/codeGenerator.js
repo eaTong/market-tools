@@ -176,7 +176,7 @@ class ${upperFirstLetter(form)}Page extends Component {
   render() {
     const {dataList, operateType, showModal, selectedKeys, rowSelection, firstSelected} = this.props.${form};
     return (
-      <div className="base-layout">
+      <div className="base-layout ${form}-page">
         <header className="header">
           <div className="label">
             用户管理
