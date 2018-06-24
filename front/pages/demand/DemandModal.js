@@ -108,7 +108,7 @@ class DemandModal extends Component {
             label="需求背景"
           >
             {getFieldDecorator('why')(
-              <Input.TextArea/>
+              <Input.TextArea  autosize={{minRows:3}}/>
             )}
           </FormItem>
           <FormItem
@@ -116,7 +116,7 @@ class DemandModal extends Component {
             label="需求内容"
           >
             {getFieldDecorator('content')(
-              <Input.TextArea/>
+              <Input.TextArea  autosize={{minRows:3}}/>
             )}
           </FormItem>
         </Form>

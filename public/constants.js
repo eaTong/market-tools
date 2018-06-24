@@ -10,5 +10,5 @@ export const demandType = [
 ];
 
 export function getDemandType(val) {
-  return demandType.filter(item => item.vlaue === val)[0];
+  return demandType.filter(item => item.value === val)[0];
 }

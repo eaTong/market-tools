@@ -15,8 +15,9 @@ const Demand = sequelize.define('demand', {
   content: Sequelize.STRING,
   why: Sequelize.STRING,
   date: Sequelize.DATEONLY,
-  status: Sequelize.INTEGER,
-  publishDate: Sequelize.DATEONLY
+  status: {type: Sequelize.INTEGER, defaultValue: 0, comment: 'aaa'},
+  publishDate: Sequelize.DATEONLY,
+  refuseReason: Sequelize.STRING
 
 });
 

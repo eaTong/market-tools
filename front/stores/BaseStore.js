@@ -8,6 +8,7 @@ import {message} from 'antd';
 
 const PAGE_SIZE = 20;
 export default class BaseStore {
+
   @observable dataList = [];
   @observable operateType = 'add';
   @observable showModal = false;
@@ -21,8 +22,6 @@ export default class BaseStore {
   deleteApi = '';
   detailApi = '';
   keyMap = {};
-  queryOption = {};
-
 
   @computed get selectedRows() {
     return this.selectedKeys.map(key => this.keyMap[key + '']);
@@ -44,12 +43,18 @@ export default class BaseStore {
     }
   }
 
-  @action clearData(){
+  @action clearData() {
     this.dataList = [];
-    this.pageIndex =0;
+    this.pageIndex = 0;
     this.total = 0;
-    this.keyMap={};
-    this.showModal=false;
+    this.keyMap = {};
+    this.showModal = false;
+  }
+
+  @action onChangeQueryOption(field, value) {
+    const queryOption = this.queryOption ||{};
+    queryOption[field] = value;
+    this.queryOption = queryOption;
   }
 
   @action toggleModal(operateType) {
@@ -74,7 +79,7 @@ export default class BaseStore {
       data: {pageSize: PAGE_SIZE, pageIndex: this.pageIndex, ...this.queryOption}
     });
     if (success) {
-      this.dataList =[];
+      this.dataList = [];
       this.total = data.total;
       const dataList = data.list ? data.list : data;
       this.dataList = dataList;

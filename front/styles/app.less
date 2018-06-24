@@ -1,6 +1,8 @@
 @import '~antd/lib/style/themes/default';
 @import "~antd/dist/antd.less";
 
+@import "variable";
+
 #root {
   height: 100%;
   .main-body {
@@ -68,19 +70,20 @@
     background-color: #fff;
     padding: 0 15px;
     .label {
-      flex: 1;
-      .search{
-        display: inline-block;
-        width: 200px;
-        margin-left: 15px;
-      }
+      white-space: nowrap;
     }
     .search-filter {
+      padding-left: 10px;
       flex: 1;
       display: flex;
       align-items: center;
+      text-align: left;
       & > * {
         margin-right: 5px;
+        width: 200px;
+      }
+      &>.search{
+        width: unset;
       }
     }
   }
@@ -140,4 +143,39 @@
 .mt-title {
   padding: 10px;
   text-align: center;
+}
+.text-button{
+  margin-left: 5px;
+  &:nth-child(1){
+    margin-left: 0;
+  }
+}
+
+.data-grid{
+  list-style: none;
+  padding-left: 0;
+  .data-row{
+    display: flex;
+    padding:10px;
+    .label{
+      min-width: 6em;
+      color:@darkTextColor;
+    }
+    .value{
+      color:@textColor;
+      flex:1;
+    }
+  }
+}
+
+.success-text {
+  color: @successColor;
+}
+
+.error-text {
+  color: @errorColor;
+}
+
+.warn-text {
+  color: @textColor;
 }
