@@ -18,7 +18,7 @@ class LoginPage extends Component {
         return;
       }
       const {success, data} = await this.props.app.login(values);
-      success && this.props.history.push(window.localStorage.getItem('lastUrl') || '/admin/base/member');
+      success && this.props.history.push(window.localStorage.getItem('lastUrl') || '/admin/member');
     });
   }
 

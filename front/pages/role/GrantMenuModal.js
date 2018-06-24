@@ -4,8 +4,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, message, Checkbox} from 'antd';
-import {getMenus} from './roleAction';
-import ajax from "../../util/ajaxUtil";
+import ajax from "~/util/ajaxUtil";
 
 const CheckboxGroup = Checkbox.Group;
 

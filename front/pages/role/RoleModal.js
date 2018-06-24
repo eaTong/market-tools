@@ -1,18 +1,26 @@
+
 /**
- * Created by eatong on 18-2-11.
+ * Created by eaTong on 2018-23-06 .
+ * Description: auto generated in  2018-23-06
  */
-import React, {Component} from 'react';
+
+  import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, Form, Input, message} from 'antd';
 
 const FormItem = Form.Item;
+const formItemLayout = {
+  labelCol: {
+    xs: {span: 24},
+    sm: {span: 6},
+  },
+  wrapperCol: {
+    xs: {span: 24},
+    sm: {span: 14},
+  },
+};
 
 class RoleModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentDidMount() {
     if (this.props.operateType === 'edit') {
       this.props.form.setFieldsValue(this.props.formData);
@@ -31,16 +39,6 @@ class RoleModal extends Component {
   render() {
     const {operateType} = this.props;
     const {getFieldDecorator} = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: {span: 24},
-        sm: {span: 6},
-      },
-      wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 14},
-      },
-    };
     return (
       <Modal title={(operateType === 'add' ? '新增' : '编辑') + '角色'}
              maskClosable={false}

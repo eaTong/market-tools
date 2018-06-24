@@ -4,8 +4,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Modal, message, Checkbox} from 'antd';
-import {getRole} from '../role/roleAction';
-import ajax from "../../util/ajaxUtil";
+import ajax from "~/util/ajaxUtil";
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -20,7 +19,7 @@ class GrantMenuModal extends Component {
 
   async componentWillMount() {
     this.state.grantedRoles = [...this.props.formData.roles || []].map(role => role.id);
-    const {success, data} = await getRole();
+    const {success, data} = await ajax({url: '/api/role/get'});
     success && this.setState({roles: data})
   }
 

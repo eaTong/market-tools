@@ -44,6 +44,14 @@ export default class BaseStore {
     }
   }
 
+  @action clearData(){
+    this.dataList = [];
+    this.pageIndex =0;
+    this.total = 0;
+    this.keyMap={};
+    this.showModal=false;
+  }
+
   @action toggleModal(operateType) {
     this.operateType = operateType;
     this.showModal = !this.showModal;
@@ -55,7 +63,6 @@ export default class BaseStore {
 
   @action
   async onChangePage(current) {
-    // console.log(a, b, c);
     this.pageIndex = current - 1;
     await this.getDataList();
   }
@@ -67,6 +74,7 @@ export default class BaseStore {
       data: {pageSize: PAGE_SIZE, pageIndex: this.pageIndex, ...this.queryOption}
     });
     if (success) {
+      this.dataList =[];
       this.total = data.total;
       const dataList = data.list ? data.list : data;
       this.dataList = dataList;
@@ -109,6 +117,9 @@ export default class BaseStore {
     const {success, data} = await ajax({url: this.deleteApi, data: {ids: this.selectedKeys}});
     if (success) {
       message.success('删除成功');
+      if (this.pageIndex * PAGE_SIZE + this.selectedKeys.length === this.total) {
+        this.pageIndex = this.pageIndex - 1;
+      }
       await this.getDataList();
       this.selectedKeys = [];
     }
