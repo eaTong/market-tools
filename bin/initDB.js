@@ -37,7 +37,6 @@ async function initialDatabaseStructure() {
   await UserRole.sync({alter: true});
   await Trial.sync({alter: true});
   await ZoomConfig.sync({alter: true});
-  await Demand.sync({alter: true});
 //UPDATE_TAG:asyncModel
 }
 
@@ -66,10 +65,4 @@ async function initRole() {
     adminRole.setMenus(menus);
     await adminRole.save();
   }
-}
-
-async function initZoomConfig() {
-  const flatFields = getFlatFields();
-  const zoomConfigList = flatFields.map(field => ({key: field.key, zoom: 1}));
-  await ZoomConfig.bulkCreate(zoomConfigList, {updateOnDuplicate: ['key', 'zoom',]});
 }
