@@ -13,11 +13,13 @@ class DemandService extends BaseService {
 
   static async addDemand(demand) {
     demand.enable = true;
+    demand.images = JSON.stringify(demand.images ||[]);
     return await Demand.create(demand);
   }
 
-  static async updateDemands(data) {
-    return await Demand.update(data, {where: {id: data.id}})
+  static async updateDemands(demand) {
+    demand.images = JSON.stringify(demand.images ||[]);
+    return await Demand.update(demand, {where: {id: demand.id}})
   }
 
   static async deleteDemands(ids) {

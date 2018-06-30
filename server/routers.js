@@ -6,6 +6,7 @@ const Router = require('koa-router');
 const {checkArguments, checkLogin, structureData, insertLog} = require('./framework/middleWare');
 const {ArgMissError, LogicError} = require('./framework/errors');
 
+const FileApi = require('./apis/FileApi');
 const userApi = require('./apis/userApi');
 const roleApi = require('./apis/roleApi');
 const channelApi = require('./apis/channelApi');
@@ -22,6 +23,8 @@ router.post('/api/*', checkLogin);
 router.post('/api/*', structureData);
 
 router.post('/api/pub/trial', trialApi.addTrial);
+
+router.post('/api/image/upload', FileApi.uploadImage);
 
 router.post('/api/menu/get', menuApi.getMenus);
 router.post('/api/menu/authorised', menuApi.getAuthorisedMenu);

@@ -5,9 +5,10 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Modal, Form, Input, message, DatePicker, Select} from 'antd';
+import {Modal, Form, Input, message, DatePicker, Select, Upload} from 'antd';
 import {demandType} from 'public/constants';
 import moment from 'moment';
+import ImageUploader from "~/components/ImageUploader";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -108,7 +109,7 @@ class DemandModal extends Component {
             label="需求背景"
           >
             {getFieldDecorator('why')(
-              <Input.TextArea  autosize={{minRows:3}}/>
+              <Input.TextArea autosize={{minRows: 3}}/>
             )}
           </FormItem>
           <FormItem
@@ -116,7 +117,15 @@ class DemandModal extends Component {
             label="需求内容"
           >
             {getFieldDecorator('content')(
-              <Input.TextArea  autosize={{minRows:3}}/>
+              <Input.TextArea autosize={{minRows: 3}}/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="图片上传"
+          >
+            {getFieldDecorator('images')(
+              <ImageUploader/>
             )}
           </FormItem>
         </Form>

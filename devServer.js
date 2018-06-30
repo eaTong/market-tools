@@ -19,6 +19,7 @@ app.use(devMiddleware(compiler, {
 const SERVER_PATH = 'http://127.0.0.1:8001'; //beta
 
 app.use('/api', proxy(url.parse(SERVER_PATH + '/api')));
+app.use('/upload', proxy(url.parse(SERVER_PATH + '/upload')));
 
 app.use(hotMiddleware(compiler));
 

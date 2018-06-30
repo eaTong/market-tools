@@ -17,8 +17,8 @@ const Demand = sequelize.define('demand', {
   date: Sequelize.DATEONLY,
   status: {type: Sequelize.INTEGER, defaultValue: 0, comment: 'aaa'},
   publishDate: Sequelize.DATEONLY,
-  refuseReason: Sequelize.STRING
-
+  refuseReason: Sequelize.STRING,
+  images: Sequelize.TEXT
 });
 
 module.exports = Demand;

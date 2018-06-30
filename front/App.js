@@ -9,11 +9,13 @@ import PropTypes from 'prop-types';
 import AdminLayout from './components/AdminLayout';
 import {Provider} from 'mobx-react';
 import './styles/app.less';
+import 'm-preview-image/dist/preview-image.css';
 import './styles/ag-theme-antd.less';
 import "ag-grid/dist/styles/ag-grid.css";
 import stores from '~/stores';
 
 import HomePage from './pages/HomePage';
+import TestPage from './pages/test/TestPage';
 import LoginPage from './pages/login/LoginPage';
 import UserPage from './pages/user/UserPage';
 import RolePage from './pages/role/RolePage';
@@ -53,6 +55,7 @@ class App extends React.Component {
             <div className="main-body">
               <Route exact path="/" component={LoginPage}/>
               <Route exact path="/login" component={LoginPage}/>
+              <Route exact path="/test" component={TestPage}/>
               <Route path="/admin" component={(props) => (
                 <AdminLayout {...props}>
                   {renderRoute()}

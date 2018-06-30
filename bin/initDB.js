@@ -20,7 +20,7 @@ const {getFlatFields} = require('../public/recordConfig');
   await initialDatabaseStructure();
   await initialMenu();
   await initRole();
-  await initZoomConfig();
+  // await initZoomConfig();
   process.exit();
 })();
 
@@ -37,6 +37,7 @@ async function initialDatabaseStructure() {
   await UserRole.sync({alter: true});
   await Trial.sync({alter: true});
   await ZoomConfig.sync({alter: true});
+  await Demand.sync({alter: true});
 //UPDATE_TAG:asyncModel
 }
 

@@ -5,13 +5,14 @@
 
 import React, {Component} from 'react';
 import {Button, message, Input, Select} from 'antd';
-import {AgTable, DataRow, DataGrid} from '~/components';
+import {AgTable, DataRow, DataGrid , PicList} from '~/components';
 import DemandModal from "./DemandModal";
 import {inject, observer} from "mobx-react";
 import {getDemandType, demandType} from 'public/constants';
 import './demand.less'
 import AgreeModal from "~/pages/demand/AgreeModal";
 import RefuseModal from "~/pages/demand/RefuseModal";
+import {getUrlList} from "~/util/util";
 
 const ButtonGroup = Button.Group;
 const Option = Select.Option;
@@ -56,6 +57,9 @@ class DemandPage extends Component {
         <DataRow label="需求内容">{demand.content}</DataRow>
         <DataRow label="需求背景">{demand.why}</DataRow>
         <DataRow label="提出时间">{demand.date}</DataRow>
+        <DataRow label="相关照片">
+          <PicList urlList={getUrlList(demand.images)}/>
+        </DataRow>
       </DataGrid>
     )
   }
