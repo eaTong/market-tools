@@ -62,10 +62,14 @@ class DemandPage extends Component {
         </DataRow>
         <DataRow label='状态'>
           {demand.status === 0 && <span className="info-text">待决定</span>}
-          {demand.status === 1 && <span>
-            <span className="success-text">已同意</span>
-            <span className="info-text">{`(预计发布：${demand.publishDate})`}</span>
-          </span>}
+          {demand.status === 1 && <div>
+            <p className="status">
+
+              <span className="success-text">已同意</span>
+              <span className="info-text">{`(预计发布：${demand.expectedPublish})`}</span>
+            </p>
+            <p>{`备注：${demand.comments}`}</p>
+          </div>}
           {demand.status === 2 && <span>
             <span className="error-text">已拒绝</span>
             <span className="info-text">{`(拒绝原因：${demand.refuseReason})`}</span>

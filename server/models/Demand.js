@@ -12,11 +12,13 @@ const Demand = sequelize.define('demand', {
   demander: Sequelize.STRING,
   department: Sequelize.STRING,
   customerName: Sequelize.STRING,
-  content: {type: Sequelize.STRING, defaultValue: '', comment: 'aaa'},
-  why: {type: Sequelize.STRING, defaultValue: '', comment: 'aaa'},
+  content: {type: Sequelize.STRING, defaultValue: ''},
+  why: {type: Sequelize.STRING, defaultValue: ''},
   date: Sequelize.DATEONLY,
-  status: {type: Sequelize.INTEGER, defaultValue: 0, comment: 'aaa'},
-  publishDate: Sequelize.DATEONLY,
+  status: {type: Sequelize.INTEGER, defaultValue: 0},
+  expectedPublish: Sequelize.DATEONLY,
+  comments: {type: Sequelize.STRING, defaultValue: ''},
+  actualPublish: Sequelize.DATEONLY,
   refuseReason: Sequelize.STRING,
   images: Sequelize.TEXT
 });

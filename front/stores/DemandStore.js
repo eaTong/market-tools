@@ -46,7 +46,7 @@ export default class DemandStore extends BaseStore {
     const {success} = await ajax({data: {...data, id: this.detail.id}, url: '/api/demand/agree'});
     if (success) {
 
-      this.detail = {...this.detail, publishDate: data.publishDate.format('YYYY-MM-DD'), status: 1};
+      this.detail = {...this.detail, expectedPublish: data.expectedPublish.format('YYYY-MM-DD'), status: 1};
       message.success('操作成功');
       this.toggleAgreeModal();
 

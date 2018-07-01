@@ -19,7 +19,7 @@ const formItemLayout = {
   },
 };
 
-class PublishModal extends Component {
+class AgreeModal extends Component {
 
   componentDidMount() {
     this.props.form.setFieldsValue({expectedPublish: moment()})
@@ -37,7 +37,7 @@ class PublishModal extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
     return (<Modal
-      title="请选择实际发布日期"
+      title="请选择预计发布日期"
       maskClosable={false}
       visible={true}
       onOk={this.onSaveData.bind(this)}
@@ -45,10 +45,18 @@ class PublishModal extends Component {
     >
       <FormItem
         {...formItemLayout}
-        label="实际发布日期"
+        label="预计发布日期"
       >
-        {getFieldDecorator('actualPublish')(
+        {getFieldDecorator('expectedPublish')(
           <DatePicker/>
+        )}
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="备注"
+      >
+        {getFieldDecorator('comments')(
+          <Input.TextArea autosize={{minRows: 3}}/>
         )}
       </FormItem>
 
@@ -56,11 +64,11 @@ class PublishModal extends Component {
   }
 }
 
-PublishModal.propTypes = {
+AgreeModal.propTypes = {
   operateType: PropTypes.string,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
   formData: PropTypes.object
 };
-PublishModal = Form.create()(PublishModal);
-export default PublishModal;
+AgreeModal = Form.create()(AgreeModal);
+export default AgreeModal;

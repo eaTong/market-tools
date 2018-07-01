@@ -13,12 +13,12 @@ class DemandService extends BaseService {
 
   static async addDemand(demand) {
     demand.enable = true;
-    demand.images = JSON.stringify(demand.images ||[]);
+    demand.images = JSON.stringify(demand.images || []);
     return await Demand.create(demand);
   }
 
   static async updateDemands(demand) {
-    demand.images = JSON.stringify(demand.images ||[]);
+    demand.images = JSON.stringify(demand.images || []);
     return await Demand.update(demand, {where: {id: demand.id}})
   }
 
@@ -48,8 +48,8 @@ class DemandService extends BaseService {
     return await Demand.findOne({where: {id}});
   }
 
-  static async agree({id, publishDate}) {
-    return Demand.update({status: 1, publishDate}, {where: {id}});
+  static async agree({id, expectedPublish, comments}) {
+    return Demand.update({status: 1, expectedPublish, comments}, {where: {id}});
   }
 
   static async refuse({id, refuseReason}) {
