@@ -52,7 +52,7 @@ export default class BaseStore {
   }
 
   @action onChangeQueryOption(field, value) {
-    const queryOption = this.queryOption ||{};
+    const queryOption = this.queryOption || {};
     queryOption[field] = value;
     this.queryOption = queryOption;
   }
@@ -108,7 +108,7 @@ export default class BaseStore {
         await this.getDataList();
       }
     } else {
-      const {success} = await ajax({url: this.updateApi, data: {...this.firstSelected, ...formData}});
+      const {success} = await ajax({url: this.updateApi, data: {id: this.getKey(this.firstSelected), ...formData}});
       if (success) {
         message.success('编辑成功');
         this.toggleModal();

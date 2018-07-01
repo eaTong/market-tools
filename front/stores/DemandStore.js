@@ -29,7 +29,6 @@ export default class DemandStore extends BaseStore {
 
   @action onChangeDetail(detail) {
     this.detail = {...detail};
-    console.log(detail)
   }
 
   @action toggleRefuseModal() {
@@ -46,9 +45,11 @@ export default class DemandStore extends BaseStore {
   async agree(data) {
     const {success} = await ajax({data: {...data, id: this.detail.id}, url: '/api/demand/agree'});
     if (success) {
+
+      this.detail = {...this.detail, publishDate: data.publishDate.format('YYYY-MM-DD'), status: 1};
       message.success('操作成功');
       this.toggleAgreeModal();
-      this.detail = {...this.detail, ...data, status: 1}
+
     }
   }
 
@@ -56,9 +57,9 @@ export default class DemandStore extends BaseStore {
   async refuse(data) {
     const {success} = await ajax({data: {...data, id: this.detail.id}, url: '/api/demand/refuse'});
     if (success) {
+      this.detail = {...this.detail, ...data, status: 2}
       message.success('操作成功');
       this.toggleRefuseModal();
-      this.detail = {...this.detail, ...data, status: 2}
     }
   }
 }

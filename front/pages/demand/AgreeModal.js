@@ -22,7 +22,7 @@ const formItemLayout = {
 class AgreeModal extends Component {
 
   componentDidMount() {
-    this.props.form.setFieldsValue({date: moment()})
+    this.props.form.setFieldsValue({publishDate: moment()})
   }
 
   onSaveData() {
@@ -47,7 +47,7 @@ class AgreeModal extends Component {
         {...formItemLayout}
         label="预计发布日期"
       >
-        {getFieldDecorator('date')(
+        {getFieldDecorator('publishDate')(
           <DatePicker/>
         )}
       </FormItem>

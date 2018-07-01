@@ -79,7 +79,7 @@ class PicList extends Component {
 
     const showImages = urlList.slice(0, length - 1);
 
-    console.log(count, 100 / count - 2 + '%');
+
 
 
     return (

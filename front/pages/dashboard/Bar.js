@@ -64,7 +64,7 @@ class Bar extends Component {
       seriesData.consume.push(~~record.consume);
       seriesData.contract.push(~~record.contract);
     }
-    console.log(seriesData);
+
     return {
       title: {
         text: `折线统计图`

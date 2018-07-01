@@ -61,7 +61,7 @@ router.post('/api/zoomConfig/update', insertLog('update'), zoomConfigApi.updateZ
 
 router.post('/api/demand/add', insertLog('add'), checkArguments(['type', 'demander', 'department', 'customerName', 'date']), DemandApi.addDemand);
 router.post('/api/demand/get', DemandApi.getDemands);
-router.post('/api/demand/update', insertLog('update'), checkArguments(['id', 'name']), DemandApi.updateDemands);
+router.post('/api/demand/update', insertLog('update'), checkArguments(['id', 'type', 'demander', 'department', 'customerName', 'date']), DemandApi.updateDemands);
 router.post('/api/demand/delete', insertLog('delete'), checkArguments(['ids']), DemandApi.deleteDemands);
 router.post('/api/demand/detail', checkArguments(['id']), DemandApi.getDemandDetail);
 router.post('/api/demand/agree', checkArguments(['id']), DemandApi.agree);

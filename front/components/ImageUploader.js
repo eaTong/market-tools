@@ -11,7 +11,7 @@ class ImageUploader extends Component {
   };
 
   handleChange(info, a, b, c) {
-    console.log(info, a, b, c);
+
     const status = info.file.status;
     switch (status) {
       case 'uploading':
@@ -31,12 +31,12 @@ class ImageUploader extends Component {
   render() {
     const {value} = this.props;
     const fileList = (value || []).map(item => (
-      {uid: item, name: item, status: 'done', url: `/upload/img${item}`}
+      {uid: item, name: item, status: 'done', url: `/upload/img/${item}`}
     ));
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'}/>
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">上传图片</div>
       </div>
     );
     return (
@@ -44,6 +44,7 @@ class ImageUploader extends Component {
         <Upload
           action="/api/image/upload"
           listType="picture-card"
+          defaultFileList={fileList}
           onChange={this.handleChange.bind(this)}
         >
           {uploadButton}

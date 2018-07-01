@@ -116,7 +116,7 @@ class Line extends Component {
         data: seriesData[field.key],
         tooltip: {
           formatter: (a, b, c) => {
-            console.log(a, b, c);
+
             return 12;
           }
         }

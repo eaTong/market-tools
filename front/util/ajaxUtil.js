@@ -18,14 +18,14 @@ export default async function ajax(config) {
     }
     return JSON.parse(JSON.stringify(result.data).replace(/:null/g, ':""'));
   } catch (ex) {
-    console.log(ex.response.status);
+
     store.app.ajaxEnd(url);
     const status = ex.response.status;
     if (status === 401) {
       window.localStorage.setItem('lastUrl', window.location.pathname);
       window.location.href = '/login'
     }
-    console.log(ex.response.data.message || ex.message);
+
     notification.error({message: ex.response.data.message || ex.message});
     return {success: false, data: {}, message: ex.response.data.message}
   }

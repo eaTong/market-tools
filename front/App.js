@@ -8,6 +8,8 @@ import zhCN from 'antd/lib/locale-provider/zh_CN';
 import PropTypes from 'prop-types';
 import AdminLayout from './components/AdminLayout';
 import {Provider} from 'mobx-react';
+
+import '~/util/prototype';
 import './styles/app.less';
 import 'm-preview-image/dist/preview-image.css';
 import './styles/ag-theme-antd.less';

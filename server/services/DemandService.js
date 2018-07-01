@@ -48,8 +48,8 @@ class DemandService extends BaseService {
     return await Demand.findOne({where: {id}});
   }
 
-  static async agree({id, date}) {
-    return Demand.update({status: 1, date}, {where: {id}});
+  static async agree({id, publishDate}) {
+    return Demand.update({status: 1, publishDate}, {where: {id}});
   }
 
   static async refuse({id, refuseReason}) {

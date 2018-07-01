@@ -81,7 +81,7 @@ class RecordPage extends Component {
     for (let key in formData) {
       records.push({...formData[key], channel_id: key});
     }
-    console.log(selectedDate, date, weekday, week);
+
     const {success} = await updateRecord({records, date, weekday, week});
     if (success) {
       message.success('数据录入成功！');

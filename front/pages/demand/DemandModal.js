@@ -9,6 +9,7 @@ import {Modal, Form, Input, message, DatePicker, Select, Upload} from 'antd';
 import {demandType} from 'public/constants';
 import moment from 'moment';
 import ImageUploader from "~/components/ImageUploader";
+import {getUrlList} from "~/util/util";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -27,7 +28,12 @@ class DemandModal extends Component {
   componentDidMount() {
     if (this.props.operateType === 'edit') {
       const data = this.props.formData;
-      this.props.form.setFieldsValue({...data, date: moment(data.date), type: '' + data.type});
+      this.props.form.setFieldsValue({
+        ...data,
+        date: moment(data.date),
+        type: '' + data.type,
+        images: JSON.parse(data.images || '[]')
+      });
     }
   }
 
@@ -100,8 +106,24 @@ class DemandModal extends Component {
             {...formItemLayout}
             label="提出日期"
           >
-            {getFieldDecorator('date')(
+            {getFieldDecorator('date', {
+              rules: [{
+                required: true, message: '请填写所属客户!', type: 'object'
+              }]
+            })(
               <DatePicker/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="需求内容"
+          >
+            {getFieldDecorator('content', {
+              rules: [{
+                required: true, message: '请填写需求内容!',
+              }],
+            })(
+              <Input.TextArea autosize={{minRows: 3}}/>
             )}
           </FormItem>
           <FormItem
@@ -109,14 +131,6 @@ class DemandModal extends Component {
             label="需求背景"
           >
             {getFieldDecorator('why')(
-              <Input.TextArea autosize={{minRows: 3}}/>
-            )}
-          </FormItem>
-          <FormItem
-            {...formItemLayout}
-            label="需求内容"
-          >
-            {getFieldDecorator('content')(
               <Input.TextArea autosize={{minRows: 3}}/>
             )}
           </FormItem>

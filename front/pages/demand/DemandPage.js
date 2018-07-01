@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import {Button, message, Input, Select} from 'antd';
-import {AgTable, DataRow, DataGrid , PicList} from '~/components';
+import {AgTable, DataRow, DataGrid, PicList} from '~/components';
 import DemandModal from "./DemandModal";
 import {inject, observer} from "mobx-react";
 import {getDemandType, demandType} from 'public/constants';
@@ -60,11 +60,24 @@ class DemandPage extends Component {
         <DataRow label="相关照片">
           <PicList urlList={getUrlList(demand.images)}/>
         </DataRow>
+        <DataRow label='状态'>
+          {demand.status === 0 && <span className="info-text">待决定</span>}
+          {demand.status === 1 && <span>
+            <span className="success-text">已同意</span>
+            <span className="info-text">{`(预计发布：${demand.publishDate})`}</span>
+          </span>}
+          {demand.status === 2 && <span>
+            <span className="error-text">已拒绝</span>
+            <span className="info-text">{`(拒绝原因：${demand.refuseReason})`}</span>
+          </span>}
+        </DataRow>
       </DataGrid>
     )
   }
 
-  renderAdditionalTool(demand, index) {
+  renderAdditionalTool() {
+    const demand = this.props.demand.detail;
+
     if (demand.status === 0) {
 
       return [(
