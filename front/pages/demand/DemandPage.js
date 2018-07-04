@@ -73,7 +73,13 @@ class DemandPage extends Component {
           {demand.status === 2 && <span>
             <span className="error-text">已拒绝</span>
             <span className="info-text">{`(拒绝原因：${demand.refuseReason})`}</span>
-          </span>}
+          </span>
+          }
+          {demand.status === 3 && <span>
+            <span className="error-text">已发布</span>
+            <span className="info-text">{`(发布日期：${demand.actualPublish})`}</span>
+          </span>
+          }
         </DataRow>
       </DataGrid>
     )
