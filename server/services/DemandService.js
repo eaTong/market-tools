@@ -2,8 +2,6 @@
  * Created by eaTong on 2018-21-06 .
  * Description: auto generated in  2018-21-06
  */
-import {getDemandStatus} from "public/constants";
-
 const fs = require('fs');
 const {Duplex, Transform} = require('stream');
 const moment = require('moment');
@@ -15,6 +13,7 @@ const sequelize = require('../framework/database');
 const {LogicError} = require('../framework/errors');
 const BaseService = require('../framework/BaseService');
 const Demand = require('../models/Demand');
+const {getDemandStatus} = require('../../public/constants');
 
 class DemandService extends BaseService {
 
