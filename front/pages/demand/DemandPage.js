@@ -8,7 +8,7 @@ import {Button, message, Input, Select} from 'antd';
 import {AgTable, DataRow, DataGrid, PicList} from '~/components';
 import DemandModal from "./DemandModal";
 import {inject, observer} from "mobx-react";
-import {getDemandType, demandType} from 'public/constants';
+import {getDemandType, demandType, getDemandStatus} from 'public/constants';
 import './demand.less'
 import AgreeModal from "~/pages/demand/AgreeModal";
 import RefuseModal from "~/pages/demand/RefuseModal";
@@ -27,15 +27,8 @@ const columns = [
   {title: '提出时间', dataIndex: 'date'},
   {
     title: '需求状态', dataIndex: 'status', render: (text, data) => {
-      switch (text) {
-        case 0:
-          return (<span className="status-cell initial">待处理</span>
-          );
-        case 1:
-          return <span className="status-cell agree">同意</span>;
-        case 2:
-          return <span className="status-cell refuse">拒绝</span>;
-      }
+      const status = getDemandStatus(text);
+      return <span className={`status-cell ${status.key}`}>{status.label}</span>;
     }
   }
 ];
@@ -61,22 +54,22 @@ class DemandPage extends Component {
           <PicList urlList={getUrlList(demand.images)}/>
         </DataRow>
         <DataRow label='状态'>
-          {demand.status === 0 && <span className="info-text">待决定</span>}
+          {demand.status === 0 && <span className="info-text">{getDemandStatus(demand.status).label}</span>}
           {demand.status === 1 && <div>
             <p className="status">
 
-              <span className="success-text">已同意</span>
+              <span className="success-text">{getDemandStatus(demand.status).label}</span>
               <span className="info-text">{`(预计发布：${demand.expectedPublish})`}</span>
             </p>
             <p>{`备注：${demand.comments}`}</p>
           </div>}
           {demand.status === 2 && <span>
-            <span className="error-text">已拒绝</span>
+            <span className="error-text">{getDemandStatus(demand.status).label}</span>
             <span className="info-text">{`(拒绝原因：${demand.refuseReason})`}</span>
           </span>
           }
           {demand.status === 3 && <span>
-            <span className="error-text">已发布</span>
+            <span className="error-text">{getDemandStatus(demand.status).label}</span>
             <span className="info-text">{`(发布日期：${demand.actualPublish})`}</span>
           </span>
           }

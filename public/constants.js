@@ -3,23 +3,27 @@
  * Description:
  */
 
-export const demandType = [
+const demandType = [
   {value: 0, label: 'Bug'},
   {value: 1, label: '需求'},
   {value: 2, label: '优化'},
 ];
 
-export function getDemandType(val) {
+function getDemandType(val) {
   return demandType.find(item => item.value === val);
 }
 
-export const demandStatus = [
-  {value: 0, label: '待处理'},
-  {value: 1, label: '已同意'},
-  {value: 2, label: '已拒绝'},
-  {value: 3, label: '已发布'},
+const demandStatus = [
+  {value: 0, label: '待处理', key: 'initial'},
+  {value: 1, label: '已同意', key: 'agree'},
+  {value: 2, label: '已拒绝', key: 'refuse'},
+  {value: 3, label: '已发布', key: 'published'},
 ];
 
-export function getDemandStatus(val){
+function getDemandStatus(val) {
   return demandStatus.find(item => item.value === val);
 }
+
+module.exports = {
+  demandType, getDemandType, demandStatus, getDemandStatus
+};
