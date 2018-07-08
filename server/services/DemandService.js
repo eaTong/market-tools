@@ -2,12 +2,14 @@
  * Created by eaTong on 2018-21-06 .
  * Description: auto generated in  2018-21-06
  */
+import {getDemandStatus} from "public/constants";
+
 const fs = require('fs');
 const {Duplex, Transform} = require('stream');
 const moment = require('moment');
 const nodemailer = require('nodemailer');
 const Excel = require('exceljs');
-const {mail} = require('../config');
+const {zhu} = require('../config');
 const {Op} = require('sequelize');
 const sequelize = require('../framework/database');
 const {LogicError} = require('../framework/errors');
@@ -122,7 +124,7 @@ class DemandService extends BaseService {
 
     allDemandResult.forEach(item => {
       const demand = item.dataValues;
-      worksheet.addRow({...demand, status: getStatus(demand.status)}).commit();
+      worksheet.addRow({...demand, status: getDemandStatus(demand.status).label}).commit();
     });
 
     const demandStream = new Transform({
@@ -146,13 +148,14 @@ class DemandService extends BaseService {
 </div>
     `;
 
-    const transporter = nodemailer.createTransport(mail);
+    const transporter = nodemailer.createTransport(zhu);
     const mailObj = {
-      from: '智装天下需求统计 <service@aikesi-soft.com>',
+      from: `智装天下需求统计 <${zhu.auth.user}>`,
       // 主题
       subject: '智装天下需求统计',
       // 收件人
-      to: 'zhouyidong@aikesi-soft.com',
+      // to: 'qinyangdong@aikesi-soft.com,liuyajun@aikesi-soft.com,liuyingbing@aikesi-soft.com,liqiao@aikesi-soft.com,pengyin@aikesi-soft.com',
+      to:'zhouyidong@aikesi-soft.com',
       // 邮件内容，HTML格式
       html: mailContent,
       attachments: [{filename: '需求统计表.xlsx', content: demandStream}]
@@ -161,17 +164,6 @@ class DemandService extends BaseService {
   }
 }
 
-function getStatus(status) {
-  switch (status) {
-    case 0:
-      return '待处理';
-    case 1:
-      return '已同意';
-    case 2:
-      return '已拒绝';
-    case 3:
-      return '已发布';
-  }
-}
-
 module.exports = DemandService;
+
+// DemandService.statics();

@@ -18,7 +18,7 @@ const {mysql} = require('./config');
 require('./framework/schedule');
 
 const port = parseInt(process.env.PORT, 10) || 8001;
-const dev = process.env.NODE_ENV !== 'production';
+
 const shortUrlMapping = {
   a: '/H5/zztx.html',
   c: '/H5/zztx_c.html',
