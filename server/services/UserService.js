@@ -56,7 +56,7 @@ class UserService extends BaseService {
 module.exports = UserService;
 
 
-// UserService.addUser({name: 'eaTong', account: '15284412582', password: 'eatong123'})
+UserService.addUser({name: 'eaTong', account: '18288756143', password: 'eatong123'})
 // UserService.updateUsers({name: 'eaTong', account: '18288757143', id: 5})
 // UserService.deleteUsers([21]);
 

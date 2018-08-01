@@ -12,6 +12,7 @@ const UserRole = require('../server/models/UserRole');
 const Trial = require('../server/models/TrialModel');
 const ZoomConfig = require('../server/models/ZoomConfigModel');
 const Demand = require('../server/models/Demand');
+const Opinion = require('../server/models/Opinion');
 //UPDATE_TAG:importModel
 
 const {getFlatFields} = require('../public/recordConfig');
@@ -38,6 +39,7 @@ async function initialDatabaseStructure() {
   await Trial.sync({alter: true});
   await ZoomConfig.sync({alter: true});
   await Demand.sync({alter: true});
+  await Opinion.sync({alter: true});
 //UPDATE_TAG:asyncModel
 }
 
@@ -50,6 +52,7 @@ async function initialMenu() {
     {name: '角色管理', icon: 'team', path: '/admin/role', enable: true},
     {name: '数据映射', icon: 'search', path: '/admin/zoom', enable: true},
     {name: '需求管理', icon: 'customer-service', path: '/admin/demand', enable: true},
+    {name: '意见管理', icon: 'customer-service', path: '/admin/opinion', enable: true},
 
     // deletion
     {name: '月度统计', icon: 'line-chart', path: '/admin/dashboard/monthly', enable: false},

@@ -15,6 +15,7 @@ const menuApi = require('./apis/menuApi');
 const trialApi = require('./apis/trialApi');
 const zoomConfigApi = require('./apis/zoomConfigApi');
 const DemandApi = require('./apis/DemandApi');
+const OpinionApi = require('./apis/OpinionApi');
 //UPDATE_TAG:importApi
 
 const router = new Router();
@@ -23,6 +24,8 @@ router.post('/api/*', checkLogin);
 router.post('/api/*', structureData);
 
 router.post('/api/pub/trial', trialApi.addTrial);
+router.post('/api/pub/opinion/add', checkArguments(['name']), OpinionApi.addOpinion);
+
 
 router.post('/api/image/upload', FileApi.uploadImage);
 
@@ -66,6 +69,12 @@ router.post('/api/demand/delete', insertLog('delete'), checkArguments(['ids']), 
 router.post('/api/demand/detail', checkArguments(['id']), DemandApi.getDemandDetail);
 router.post('/api/demand/agree', checkArguments(['id']), DemandApi.agree);
 router.post('/api/demand/refuse', checkArguments(['id']), DemandApi.refuse);
+
+router.post('/api/opinion/add', insertLog('add'), checkArguments(['name']), OpinionApi.addOpinion);
+router.post('/api/opinion/get', OpinionApi.getOpinions);
+router.post('/api/opinion/update', insertLog('update'), checkArguments(['id', 'name']), OpinionApi.updateOpinions);
+router.post('/api/opinion/delete', insertLog('delete'), checkArguments(['ids']), OpinionApi.deleteOpinions);
+router.post('/api/opinion/detail', checkArguments(['id']), OpinionApi.getOpinionDetail);
 //UPDATE_TAG:defineRouter
 
 router.post('/api/*', async ctx => {

@@ -28,6 +28,7 @@ import Bar from './pages/dashboard/Bar';
 import Conversion from './pages/dashboard/Conversion';
 import ZoomConfigPage from './pages/zoomConfig/ZoomConfigPage';
 import DemandPage from './pages/demand/DemandPage';
+import OpinionPage from './pages/opinion/OpinionPage';
 //UPDATE_TAG:importPage
 
 const routes = [
@@ -40,6 +41,7 @@ const routes = [
   {key: "/admin/dashboard/conversion", component: Conversion},
   {key: "/admin/zoom", component: ZoomConfigPage},
   {key: '/admin/demand', component: DemandPage},
+  {key: '/admin/opinion', component: OpinionPage},
 //UPDATE_TAG:addPageRoute
 ];
 
