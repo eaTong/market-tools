@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+input, button, select, textarea {
+  outline: none
+}
+
+.barrage-container {
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+}
+
+.barrage-container .barrage-item {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  width: 100%;
+  -webkit-animation: barrage 4s 0ms 1;
+  animation: barrage 8s 0ms 1;
+  position: absolute;
+  left: 0;
+}
+
+@keyframes barrage {
+  from {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  to {
+
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+
+}
+
+.info {
+  padding: 10px;
+  color: #666;
+  min-height: 80px;
+}
+
+.submit-container {
+  flex: 1;
+  -webkit-flex: 1;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+}
+
+.submit-container textarea {
+  flex: 1;
+  -webkit-flex: 1;
+  border: none;
+
+  padding: 10px;
+  height: 100%;
+  color: #555;
+
+}
+
+.submit-container textarea:active, .submit-container textarea:focus {
+  border: none;
+}
+
+.submit-container .submit-button {
+  width: 70px;
+  text-align: center;
+  padding: 30px 0;
+  color: #45be89;
+}
+
+.message {
+  position: absolute;
+  height: 50px;
+  top: -50px;
+  width: 80%;
+  left: 10%;
+  border-radius: 5px;
+  padding: 12px 0;
+  transition: all 200ms;
+  -webkit-transition: all 200ms;
+}
+
+.message .shadow {
+  position: absolute;
+  background-color: #000;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.message .text {
+  color: #fff;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.message.visible {
+  top: 200px;
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>我对智装有话说</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/opinion.css">
+</head>
+<body>
+
+<div class="barrage-container"></div>
+<div class="info"></div>
+<div class="submit-container">
+  <textarea class="submit-text"></textarea>
+  <div class="submit-button">发送</div>
+</div>
+<div class="message">
+  <div class="shadow"></div>
+  <div class="text"></div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script>
+  (function (window) {
+    var opinions = [];
+    var lineCount = 5;
+    var barrageCount = 1;
+    var info = '在智装天下陪伴您的这么久以来,你是否有过什么想对智装说的话?无论是吐槽,或者是建议,有或者有什么帮到您的场景?小智期待您的悄悄话哦!';
+    init();
+
+
+    function init() {
+      getOpinions();
+      initEvents();
+      initInfo()
+    }
+
+    function initInfo() {
+      var count = 0;
+      var timer = setInterval(function () {
+        $('.info').text(info.slice(0, ++count));
+        if (count === info.length) {
+          clearInterval(timer);
+        }
+      }, 200);
+    }
+
+    function addBarrage(content, index) {
+      var color = 'rgba(' + parseInt(Math.random() * 255) + ',' + parseInt(Math.random() * 255) + ',' + parseInt(Math.random() * 255) + ',1)';
+      var top = (index % lineCount) * 30 + Math.random() * 20;
+
+      var item = $('<div class="barrage-item" style="color:' + color + ';top:' + top + 'px;">' + content + '</div>').appendTo($('.barrage-container'))
+      setTimeout(function () {
+        item.remove();
+      }, 8000)
+    }
+
+    function initBarrage() {
+      if (opinions.length === 0) {
+        addBarrage('暂时没有人说话哦,来说点什么吧.')
+      } else {
+        addBarrage(opinions[0].name, 0);
+        setInterval(function () {
+          addBarrage(opinions[barrageCount++].name, barrageCount);
+          if (barrageCount === opinions.length) {
+            barrageCount = 0;
+          }
+        }, 1000);
+      }
+    }
+
+    function getOpinions() {
+      $.ajax({
+        url: '/api/pub/opinion/get',
+        method: 'post',
+        success: function (result) {
+          if (result.success) {
+            opinions = result.data.list;
+            initBarrage();
+          } else {
+            showMessage('初始化失败!')
+          }
+        }
+      })
+    }
+
+    function addOpinion(value) {
+      $.ajax({
+        url: '/api/pub/opinion/add',
+        method: 'post',
+        data: JSON.stringify({name: value}),
+        success: function (result) {
+          if (result.success) {
+            opinions.push(result.data);
+            $('.submit-text').val(' ');
+          } else {
+            showMessage('初始化失败!')
+          }
+        }
+      })
+    }
+
+    function initEvents() {
+      $('.submit-button').click(function () {
+        var opinion = $('.submit-text').val();
+        if (!opinion) {
+          showMessage('亲,还是说点东西再发送吧.')
+        } else {
+          addOpinion(opinion);
+        }
+      });
+    }
+
+    function showMessage(text, duration) {
+      $('.message .text').text(text);
+      $('.message').addClass('visible');
+      duration = duration ? duration : 1500;
+      setTimeout(function () {
+        $('.message').removeClass('visible')
+      }, duration)
+    }
+  })(window)
+</script>
+</body>
+</html>

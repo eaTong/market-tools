@@ -1,24 +1,32 @@
 body, html {
-  height: 100%; }
+  height: 100%;
+}
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 input:focus {
-  outline: none; }
+  outline: none;
+}
 
 body {
-  background-color: #2D66BA; }
+  background-color: #2D66BA;
+}
 
 .form-list {
-  padding-top: 50px; }
+  padding-top: 50px;
+}
+
 .form-list .submit-row {
   list-style-type: none;
   width: 70%;
   margin: 30px auto;
-  text-align: center; }
+  text-align: center;
+}
+
 .form-list .form-row {
   list-style-type: none;
   width: 70%;
@@ -27,14 +35,20 @@ body {
   position: relative;
   padding-top: 0;
   transition: all 200ms;
-  -webkit-transition: all 200ms; }
+  -webkit-transition: all 200ms;
+}
+
 .form-list .form-row.active {
   padding-top: 20px;
-  margin-top: 10px; }
+  margin-top: 10px;
+}
+
 .form-list .form-row.active .label {
   color: #fff;
   top: 0;
-  font-size: 10px; }
+  font-size: 10px;
+}
+
 .form-list .form-row input {
   height: 40px;
   width: 100%;
@@ -43,7 +57,9 @@ body {
   background-color: #2D66BA;
   padding-left: 15px;
   color: #fff;
-  font-size: 16px; }
+  font-size: 16px;
+}
+
 .form-list .form-row .label {
   color: #d9d9d9;
   transition: all 200ms;
@@ -51,7 +67,9 @@ body {
   position: absolute;
   left: 10px;
   top: 7px;
-  font-size: 16px; }
+  font-size: 16px;
+}
+
 .form-list .submit {
   padding: 0.15em 0.8em;
   cursor: pointer;
@@ -61,9 +79,12 @@ body {
   color: #2D66BA;
   background-color: #fff;
   border-radius: 16px;
-  border: 1px solid #fff; }
+  border: 1px solid #fff;
+}
+
 .form-list .submit:active {
-  background-color: #e6e6e6; }
+  background-color: #e6e6e6;
+}
 
 .message {
   position: absolute;
@@ -74,7 +95,9 @@ body {
   border-radius: 5px;
   padding: 12px 0;
   transition: all 200ms;
-  -webkit-transition: all 200ms; }
+  -webkit-transition: all 200ms;
+}
+
 .message .shadow {
   position: absolute;
   background-color: #000;
@@ -83,11 +106,16 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1; }
+  z-index: 1;
+}
+
 .message .text {
   color: #fff;
   position: relative;
   z-index: 2;
-  text-align: center; }
+  text-align: center;
+}
+
 .message.visible {
-  top: 200px; }
+  top: 200px;
+}

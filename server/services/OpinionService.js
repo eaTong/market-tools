@@ -1,4 +1,3 @@
-
 /**
  * Created by eaTong on 2018-01-08 .
  * Description: auto generated in  2018-01-08
@@ -25,13 +24,17 @@ class OpinionService extends BaseService {
     return await Opinion.update({enable: false}, {where: {id: {[Op.in]: ids}}});
   }
 
-  static async getOpinions(pageIndex = 0, pageSize = 20) {
+  static async getOpinions(pageIndex = 0, pageSize = 50) {
     const option = {where: {enable: true}};
     const {dataValues: {total}} = await Opinion.findOne({
       ...option,
       attributes: [[sequelize.fn('COUNT', '*'), 'total']]
     });
-    const list = await Opinion.findAll({offset: pageIndex * pageSize, limit: pageSize, ...option});
+    const list = await Opinion.findAll({
+      offset: pageIndex * pageSize,
+      limit: pageSize, ...option,
+      order: [['createdAt', 'DESC']]
+    });
     return {total, list}
   }
 
@@ -41,4 +44,3 @@ class OpinionService extends BaseService {
 }
 
 module.exports = OpinionService;
-  

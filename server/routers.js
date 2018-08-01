@@ -25,6 +25,7 @@ router.post('/api/*', structureData);
 
 router.post('/api/pub/trial', trialApi.addTrial);
 router.post('/api/pub/opinion/add', checkArguments(['name']), OpinionApi.addOpinion);
+router.post('/api/pub/opinion/get', OpinionApi.getOpinions);
 
 
 router.post('/api/image/upload', FileApi.uploadImage);
