@@ -15,5 +15,13 @@ module.exports = {
       user: 'service@aikesi-soft.com',
       pass: 'Fuzztx2012'
     }
+  },
+  zhu:{
+    host: 'smtp.exmail.qq.com',
+    port: 465,
+    auth: {
+      user: 'zhuyanmei@aikesi-soft.com',
+      pass: 'ZHU15925239672zhu'
+    }
   }
 };
