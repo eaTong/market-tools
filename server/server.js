@@ -15,7 +15,7 @@ const MysqlStore = require('koa-mysql-session');
 const router = require('./routers');
 const {mysql} = require('./config');
 //register schedule
-require('./framework/schedule');
+// require('./framework/schedule');
 
 const port = parseInt(process.env.PORT, 10) || 8001;
 

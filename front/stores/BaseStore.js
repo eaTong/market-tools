@@ -6,7 +6,7 @@ import {observable, action, computed, toJS} from 'mobx';
 import ajax from "~/util/ajaxUtil";
 import {message} from 'antd';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 50;
 export default class BaseStore {
 
   @observable dataList = [];
